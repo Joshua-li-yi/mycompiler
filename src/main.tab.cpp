@@ -1251,7 +1251,7 @@ yyreduce:
     node->addChild((yyvsp[-3]));
     node->addChild((yyvsp[-2]));
     node->addChild((yyvsp[0]));
-    (yyval) = node;   
+    (yyval) = node;
 }
 #line 1257 "src/main.tab.cpp" /* yacc.c:1646  */
     break;

@@ -25,6 +25,7 @@ enum OperatorType
 enum StmtType {
     STMT_SKIP,
     STMT_DECL,
+    STMT_IF,
 }
 ;
 
@@ -40,7 +41,7 @@ public:
     void addChild(TreeNode*);
     void addSibling(TreeNode*);
     
-    void printNodeInfo();
+    void printNodeInfo(TreeNode*);
     void printChildrenId();
 
     void printAST(); // 先输出自己 + 孩子们的id；再依次让每个孩子输出AST。

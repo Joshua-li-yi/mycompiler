@@ -38,7 +38,7 @@ declaration
     node->addChild($1);
     node->addChild($2);
     node->addChild($4);
-    $$ = node;   
+    $$ = node;
 } 
 | T IDENTIFIER {
     TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
