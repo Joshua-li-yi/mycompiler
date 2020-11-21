@@ -17,7 +17,7 @@ enum NodeType
 
 enum OperatorType
 {
-    OP_EQ,  // ==
+    OP_EQU,  // ==
     OP_PLUS,
     OP_MINUS,
 };
@@ -66,5 +66,5 @@ public:
 public:
     TreeNode(int lineno, NodeType type);
 };
-
+TreeNode *expNode(int, TreeNode*, TreeNode *, TreeNode *);
 #endif

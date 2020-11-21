@@ -2,18 +2,33 @@
 static int globalNodeId = 0;
 void TreeNode::addChild(TreeNode *child)
 {
-    this->child = child;
+    if (this->child == nullptr)
+        this->child = child;
+    else
+    {
+        this->child->addSibling(child);
+    }
 }
 
 void TreeNode::addSibling(TreeNode *sibling)
 {
-    this->sibling = sibling;
+    if (this->sibling == nullptr)
+        this->sibling = sibling;
+    else
+    {
+        TreeNode *tmp = this->sibling->sibling;
+        while (tmp != nullptr)
+            tmp = tmp->sibling;
+        tmp = sibling;
+        this->sibling->sibling = tmp;
+    }
 }
 
 TreeNode::TreeNode(int lineno, NodeType type)
 {
-    this->lineno=lineno;
-    this->nodeType=type;
+    this->lineno = lineno;
+    this->nodeType = type;
+    genNodeId();
 }
 
 void TreeNode::genNodeId()
@@ -34,9 +49,10 @@ void TreeNode::printNodeInfo(TreeNode *t)
     }
     else if (t->nodeType == NODE_EXPR)
     {
+        type = opType2String(t->optype);
     }
-    cout << "lno@" << t->lineno << "  "
-         << "@" << t->nodeID << "  " << type << "  " << detail << "  children:[";
+
+    cout << "@" << t->nodeID << "  " << type << "  " << detail << "  children:[";
     printChildrenId();
     cout << "]" << endl;
     // string t = "";
@@ -61,7 +77,7 @@ void TreeNode::printAST()
 {
     TreeNode *t = this;
     printNodeInfo(t);
-    if (this->child != nullptr)
+    if (t->child != nullptr)
     {
         t = t->child;
         printNodeInfo(t);
@@ -100,9 +116,12 @@ string TreeNode::sType2String(StmtType type)
     {
     case STMT_SKIP:
         return "STMT SKIP";
-        break;
-
+    case STMT_DECL:
+        return "STMT DECL";
+    case STMT_IF:
+        return "STMT IF";
     default:
+        return "???";
         break;
     }
     return displayStype;
@@ -114,7 +133,42 @@ string TreeNode::nodeType2String(NodeType type)
     {
     case NODE_STMT:
         return "NODE STMT";
+    case NODE_EXPR:
+        return "NODE EXPR";
+    case NODE_PROG:
+        return "NODE PROG";
+    case NODE_TYPE:
+        return "NODE TYPE";
+    case NODE_VAR:
+        return "NODE VAR";
     default:
-        return;
+        return "???";
+        break;
     }
+}
+
+string TreeNode::opType2String(OperatorType type)
+{
+    switch (type)
+    {
+    case OP_EQU:
+        return "=";
+        break;
+    case OP_PLUS:
+        return "+";
+    case OP_MINUS:
+        return "-";
+    default:
+        return "???";
+        break;
+    }
+}
+
+TreeNode *expNode(int lno, TreeNode *op, TreeNode *operand1, TreeNode *operand2)
+{
+    TreeNode *opt = op;
+    // opt->optype = op;
+    opt->addChild(operand1);
+    opt->addChild(operand2);
+    return opt;
 }

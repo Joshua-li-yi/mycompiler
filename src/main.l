@@ -27,10 +27,28 @@ IDENTIFIER [[:alpha:]_][[:alpha:][:digit:]_]*
 "int" return T_INT;
 "bool" return T_BOOL;
 "char" return T_CHAR;
-
 "=" return LOP_ASSIGN;
+"==" {
+    TreeNode* node = new TreeNode(lineno, NODE_EXPR);
+    node->optype = OP_EQU;
+    yylval = node;
+    return EQU;
+    };
 
 ";" return  SEMICOLON;
+"," return COMMA;
+"+" {
+    TreeNode* node = new TreeNode(lineno, NODE_EXPR);
+    node->optype = OP_PLUS;
+    yylval = node;
+    return PLUS;
+    }
+"-" {    
+    TreeNode* node = new TreeNode(lineno, NODE_EXPR);
+    node->optype = OP_MINUS;
+    yylval = node;
+    return MINUS;
+    }
 
 {INTEGER} {
     TreeNode* node = new TreeNode(lineno, NODE_CONST);
