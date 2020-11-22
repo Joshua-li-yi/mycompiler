@@ -42,7 +42,7 @@ public:
     void addSibling(TreeNode*);
     
     void printNodeInfo(TreeNode*);
-    void printChildrenId();
+    void printChildrenId(TreeNode*);
 
     void printAST(); // 先输出自己 + 孩子们的id；再依次让每个孩子输出AST。
     void printSpecialInfo();
@@ -51,7 +51,7 @@ public:
 
 public:
     OperatorType optype;  // 如果是表达式
-    Type* type;  // 变量、类型、表达式结点，有类型。
+    Type *type;  // 变量、类型、表达式结点，有类型。
     StmtType stype;
     int int_val;
     char ch_val;
@@ -66,5 +66,5 @@ public:
 public:
     TreeNode(int lineno, NodeType type);
 };
-TreeNode *expNode(int, TreeNode*, TreeNode *, TreeNode *);
+TreeNode *expNode(TreeNode*, TreeNode *, TreeNode *);
 #endif

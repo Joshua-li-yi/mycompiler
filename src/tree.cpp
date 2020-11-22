@@ -1,5 +1,6 @@
 #include "tree.h"
 static int globalNodeId = 0;
+
 void TreeNode::addChild(TreeNode *child)
 {
     if (this->child == nullptr)
@@ -42,29 +43,37 @@ void TreeNode::printNodeInfo(TreeNode *t)
     string type = "";
     string detail = "";
     string childNodeID = "Children: ";
-
+    int int_val;
+    bool bool_val;
+    string string_val;
     if (t->nodeType == NODE_STMT)
     {
-        type = sType2String(t->stype);
+        detail = sType2String(t->stype);
     }
     else if (t->nodeType == NODE_EXPR)
     {
-        type = opType2String(t->optype);
+        detail = opType2String(t->optype);
     }
+    else if (t->nodeType == NODE_CONST){
+        if(t->type==TYPE_INT){
+            detail = fmt("TYPE INT%d"%(t->int_val));
+        }
+    }
+    type = nodeType2String(t->nodeType);
 
-    cout << "@" << t->nodeID << "  " << type << "  " << detail << "  children:[";
-    printChildrenId();
+    cout <<"lno@"<<t->lineno<<"  "<< "@" << t->nodeID << "  " << type << "  " << detail << "  children:[";
+    printChildrenId(t);
     cout << "]" << endl;
     // string t = "";
     // cout << "  " << setw(10) << t << endl;
 }
 
-void TreeNode::printChildrenId()
+void TreeNode::printChildrenId(TreeNode *t)
 {
-    if (this->child != nullptr)
+    if (t->child != nullptr)
     {
-        cout << "@" << this->child->nodeID << " ";
-        TreeNode *tmp = this;
+        cout << "@" << t->child->nodeID << " ";
+        TreeNode *tmp = t;
         while (tmp->sibling != nullptr)
         {
             cout << "@" << tmp->child->nodeID << " ";
@@ -77,7 +86,7 @@ void TreeNode::printAST()
 {
     TreeNode *t = this;
     printNodeInfo(t);
-    if (t->child != nullptr)
+    while(t->child != nullptr)
     {
         t = t->child;
         printNodeInfo(t);
@@ -141,6 +150,8 @@ string TreeNode::nodeType2String(NodeType type)
         return "NODE TYPE";
     case NODE_VAR:
         return "NODE VAR";
+    case NODE_CONST:
+        return "NODE CONST";
     default:
         return "???";
         break;
@@ -163,11 +174,9 @@ string TreeNode::opType2String(OperatorType type)
         break;
     }
 }
-
-TreeNode *expNode(int lno, TreeNode *op, TreeNode *operand1, TreeNode *operand2)
+TreeNode *expNode(TreeNode *op, TreeNode *operand1, TreeNode *operand2)
 {
     TreeNode *opt = op;
-    // opt->optype = op;
     opt->addChild(operand1);
     opt->addChild(operand2);
     return opt;
