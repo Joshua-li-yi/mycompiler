@@ -28,13 +28,14 @@ LOGICAL_AND &&
 LOGICAL_OR \|\|
 LOGICAL_NOT !
 WHILE while
-MAIN main
 %%
 
 {BLOCKCOMMENT}  /* do nothing */
 {LINECOMMENT}  /* do nothing */
 
-
+"if" return IF;
+"else" return ELSE;
+"main" return MAIN;
 "=" return LOP_ASSIGN;
 "int" {return T_INT;}
 "bool" {return T_BOOL;}
@@ -150,12 +151,10 @@ MAIN main
     yylval = node;
     return IDENTIFIER;
 }
-
 {LB}        { return LB; }
 {RB}        { return RB; }
 {LP}        { return LP; }
 {RP}        { return RP; }
-{MAIN}      { return MAIN; }
 {WHILTESPACE} /* do nothing */
 
 {EOL} lineno++;

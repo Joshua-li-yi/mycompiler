@@ -18,7 +18,7 @@
 
 %token GTR LSS GEQ LEQ NEQ LOGICAL_AND LOGICAL_OR LOGICAL_NOT UMINUS 
 
-%token FOR INPUT OUTPUT ELSE DO MAIN IF WHILE 
+%token FOR INPUT OUTPUT DO MAIN IF ELSE WHILE
 %token EOL
 
 %left LOP_EQ
@@ -42,17 +42,34 @@ program
 
 statements
 :  statement {$$=$1;}
-|  statements statement   {$$=$1; $1->addSibling($2);}
+|  statement statements {$$=$1; $1->addSibling($2);}
 |  LB statements RB {$$=$1;}
 ;
 
 statement
 : MAIN LP RP statements { $$ = $4; }
 | while_stmt {$$=$1;}
+| if_stmt {$$=$1;}
 | declaration SEMICOLON {$$ = $1;}
 | SEMICOLON  {$$ = new TreeNode(lineno, NODE_STMT); $$->stype = STMT_SKIP;}
 ;
 
+if_stmt
+: IF LP expr RP statement {
+    TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
+    node->stype = STMT_IF;
+    node->addChild($3);
+    node->addChild($5);
+    $$ = node;
+}
+| IF LP expr RP LB statements RB {
+    TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
+    node->stype = STMT_IF;
+    node->addChild($3);
+    node->addChild($6);
+    $$ = node;
+}
+;
 while_stmt
 :WHILE LP expr RP statements {
     TreeNode* node = new TreeNode($1->lineno, NODE_STMT);

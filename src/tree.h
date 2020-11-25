@@ -34,6 +34,7 @@ enum StmtType {
     STMT_DECL,
     STMT_IF,
     STMT_WHILE,
+    STMT_ELSE,
 }
 ;
 
@@ -75,5 +76,5 @@ public:
     TreeNode(int lineno, NodeType type);
 };
 TreeNode *expNode(TreeNode*, TreeNode *, TreeNode *);
-void printAST(TreeNode *);
+TreeNode *newIfStmtNode(int kind, TreeNode *expr, TreeNode *stmt);
 #endif

@@ -5,8 +5,9 @@ void TreeNode::addChild(TreeNode *child)
 {
     if (this->child == nullptr)
         this->child = child;
-    else
+    else{
         this->child->addSibling(child);
+    }
 }
 
 void TreeNode::addSibling(TreeNode *sibling)
@@ -19,7 +20,6 @@ void TreeNode::addSibling(TreeNode *sibling)
         while (tmp->sibling != nullptr)
             tmp = tmp->sibling;
         tmp->sibling = sibling;
-        
     }
 }
 
@@ -94,7 +94,7 @@ void TreeNode::printChildrenId(TreeNode *t)
     if (t->child != nullptr)
     {
         cout << "@" << t->child->nodeID << " ";
-        TreeNode *tmp = t->sibling;
+        TreeNode *tmp = t->child->sibling;
         while (tmp!= nullptr)
         {
             cout << "@" << tmp->nodeID << " ";
@@ -145,6 +145,8 @@ string TreeNode::sType2String(StmtType type)
         return "STMT IF";
     case STMT_WHILE:
         return "STMT WHILE";
+    case STMT_ELSE:
+        return "STMT ELSE";
     default:
         return "???";
         break;

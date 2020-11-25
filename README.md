@@ -3,10 +3,10 @@
 + complish the basic tree and type code
 + add expression (+ - =)
 + add idlist
++ multi lines
 ## problem
-+ multi-line code while occurs bugs
++ if else
 ## todo
-+ multi-line code
 + if, else ,while etc. stmt
 + scanf, printf
 + function
