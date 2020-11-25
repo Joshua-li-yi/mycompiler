@@ -6,9 +6,7 @@ void TreeNode::addChild(TreeNode *child)
     if (this->child == nullptr)
         this->child = child;
     else
-    {
         this->child->addSibling(child);
-    }
 }
 
 void TreeNode::addSibling(TreeNode *sibling)
@@ -21,6 +19,7 @@ void TreeNode::addSibling(TreeNode *sibling)
         while (tmp->sibling != nullptr)
             tmp = tmp->sibling;
         tmp->sibling = sibling;
+        
     }
 }
 
@@ -39,6 +38,7 @@ void TreeNode::genNodeId()
 
 void TreeNode::printNodeInfo(TreeNode *t)
 {
+    // t->genNodeId();
     string print_type = "";
     string detail = "";
     string childNodeID = "Children: ";
@@ -50,14 +50,12 @@ void TreeNode::printNodeInfo(TreeNode *t)
     {
         detail = "OP: " + opType2String(t->optype);
     }
-    // TODO 类型识别有问题
     else if (t->nodeType == NODE_TYPE){
         detail = t->type->getTypeInfo();
     }
     else if (t->nodeType == NODE_VAR){
         detail = "var name: " + t->var_name;
     }
-    // TODO 类型识别有问题
     else if(t->nodeType == NODE_CONST){
         string t_type_str = t->type->getTypeInfo();
         if(t_type_str=="int"){
@@ -96,24 +94,22 @@ void TreeNode::printChildrenId(TreeNode *t)
     if (t->child != nullptr)
     {
         cout << "@" << t->child->nodeID << " ";
-        TreeNode *tmp = t;
-        while (tmp->sibling != nullptr)
+        TreeNode *tmp = t->sibling;
+        while (tmp!= nullptr)
         {
-            cout << "@" << tmp->child->nodeID << " ";
+            cout << "@" << tmp->nodeID << " ";
             tmp = tmp->sibling;
         }
     }
 }
-
+// 先根递归遍历
 void TreeNode::printAST(TreeNode *root)
 {
     if(!root)
         return;
     printNodeInfo(root);
     for (TreeNode *t = root->child; t; t = t->sibling)
-    {
         printAST(t);
-    }
 }
 
 // You can output more info...
