@@ -40,28 +40,52 @@ void TreeNode::genNodeId()
 
 void TreeNode::printNodeInfo(TreeNode *t)
 {
-    string type = "";
+    string print_type = "";
     string detail = "";
     string childNodeID = "Children: ";
-    int int_val;
-    bool bool_val;
-    string string_val;
     if (t->nodeType == NODE_STMT)
     {
         detail = sType2String(t->stype);
     }
     else if (t->nodeType == NODE_EXPR)
     {
-        detail = opType2String(t->optype);
+        detail = "OP: " + opType2String(t->optype);
     }
-    else if (t->nodeType == NODE_CONST){
-        if(t->type==TYPE_INT){
-            detail = fmt("TYPE INT%d"%(t->int_val));
+    // TODO 类型识别有问题
+    else if (t->nodeType == NODE_TYPE){
+        detail = t->type->getTypeInfo();
+    }
+    else if (t->nodeType == NODE_VAR){
+        detail = "var name: " + t->var_name;
+    }
+    // TODO 类型识别有问题
+    else if(t->nodeType == NODE_CONST){
+        string t_type_str = t->type->getTypeInfo();
+        if(t_type_str=="int"){
+            detail = to_string(t->int_val);
         }
+        else if (t_type_str == "string")
+        {
+            detail = str_val;
+        }
+        else if (t_type_str == "bool")
+        {
+            detail = to_string(t->b_val);
+        }
+        else if (t_type_str == "double")
+        {
+            detail = to_string(t->d_val);
+        }
+        else if(t_type_str == "char"){
+            detail = to_string(t->ch_val);
+        }
+       detail = t_type_str+": "+detail;
     }
-    type = nodeType2String(t->nodeType);
 
-    cout <<"lno@"<<t->lineno<<"  "<< "@" << t->nodeID << "  " << type << "  " << detail << "  children:[";
+    print_type = nodeType2String(t->nodeType);
+
+    cout << "lno@" << t->lineno << "  "
+         << "@" << t->nodeID << "  " << print_type << "  " << detail << "  children:[";
     printChildrenId(t);
     cout << "]" << endl;
     // string t = "";
@@ -129,6 +153,8 @@ string TreeNode::sType2String(StmtType type)
         return "STMT DECL";
     case STMT_IF:
         return "STMT IF";
+    case STMT_WHILE:
+        return "STMT WHILE";
     default:
         return "???";
         break;
@@ -163,17 +189,34 @@ string TreeNode::opType2String(OperatorType type)
     switch (type)
     {
     case OP_EQU:
-        return "=";
+        return "==";
         break;
     case OP_PLUS:
         return "+";
     case OP_MINUS:
         return "-";
+    case OP_NEQ: 
+        return "!=";
+    case OP_GTR:
+        return ">";
+    case OP_LSS:
+        return "<";
+    case OP_GEQ:
+        return ">=";
+    case OP_LEQ:
+        return "<=";
+    case OP_LOGICAL_NOT:
+        return "!";
+    case OP_LOGICAL_AND:
+        return "&&";
+    case OP_LOGICAL_OR:
+        return "||";
     default:
         return "???";
         break;
     }
 }
+
 TreeNode *expNode(TreeNode *op, TreeNode *operand1, TreeNode *operand2)
 {
     TreeNode *opt = op;

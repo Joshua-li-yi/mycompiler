@@ -10,33 +10,98 @@ EOL	(\r\n|\r|\n)
 WHILTESPACE [[:blank:]]
 
 INTEGER [0-9]+
-
+NUMBER [0-9]+(\.[0-9]+)?
 CHAR \'.?\'
 STRING \".+\"
-
+LB \{
+RB \}
+LP \(
+RP \) 
 IDENTIFIER [[:alpha:]_][[:alpha:][:digit:]_]*
-
-
-
+EQU ==
+GTR \>
+LSS \< 
+GEQ \>= 
+LEQ \<=
+NEQ !=
+LOGICAL_AND &&
+LOGICAL_OR \|\|
+LOGICAL_NOT !
+WHILE while
+MAIN main
 %%
 
 {BLOCKCOMMENT}  /* do nothing */
 {LINECOMMENT}  /* do nothing */
 
 
-"int" return T_INT;
-"bool" return T_BOOL;
-"char" return T_CHAR;
 "=" return LOP_ASSIGN;
-"==" {
+"int" {return T_INT;}
+"bool" {return T_BOOL;}
+"char" {return T_CHAR;}
+"double" {return T_DOUBLE;}
+"void" { return T_VOID;}
+";" return  SEMICOLON;
+"," return COMMA;
+
+{WHILE} {return WHILE;}
+
+{EQU} {
     TreeNode* node = new TreeNode(lineno, NODE_EXPR);
     node->optype = OP_EQU;
     yylval = node;
     return EQU;
-    };
+    }
+{GTR} {
+    TreeNode* node = new TreeNode(lineno, NODE_EXPR);
+    node->optype = OP_GTR;
+    yylval = node;
+    return GTR;
+}
+{LSS} {
+    TreeNode* node = new TreeNode(lineno, NODE_EXPR);
+    node->optype = OP_LSS;
+    yylval = node;
+    return LSS;
+}
+{GEQ} {
+    TreeNode* node = new TreeNode(lineno, NODE_EXPR);
+    node->optype = OP_GEQ;
+    yylval = node;
+    return GEQ;
+}
+{LEQ} {
+    TreeNode* node = new TreeNode(lineno, NODE_EXPR);
+    node->optype = OP_LEQ;
+    yylval = node;
+    return LEQ;
+}
+{NEQ} {
+    TreeNode* node = new TreeNode(lineno, NODE_EXPR);
+    node->optype = OP_NEQ;
+    yylval = node;
+    return NEQ;
+}
+{LOGICAL_AND} {
+    TreeNode* node = new TreeNode(lineno, NODE_EXPR);
+    node->optype = OP_LOGICAL_AND;
+    yylval = node;
+    return LOGICAL_AND;
+}
+{LOGICAL_OR} {
+    TreeNode* node = new TreeNode(lineno, NODE_EXPR);
+    node->optype = OP_LOGICAL_OR;
+    yylval = node;
+    return LOGICAL_OR;
+}
+{LOGICAL_NOT} {
+    TreeNode* node = new TreeNode(lineno, NODE_EXPR);
+    node->optype = OP_LOGICAL_NOT;
+    yylval = node;
+    return LOGICAL_NOT;
+}
 
-";" return  SEMICOLON;
-"," return COMMA;
+
 "+" {
     TreeNode* node = new TreeNode(lineno, NODE_EXPR);
     node->optype = OP_PLUS;
@@ -58,7 +123,13 @@ IDENTIFIER [[:alpha:]_][[:alpha:][:digit:]_]*
     yylval = node;
     return INTEGER;
 }
-
+{STRING} {
+    TreeNode* node = new TreeNode(lineno, NODE_CONST);
+    node->type = TYPE_STRING;
+    node->str_val = string(yytext);
+    yylval = node;
+    return STRING;
+}
 {CHAR} {
     TreeNode* node = new TreeNode(lineno, NODE_CONST);
     node->type = TYPE_CHAR;
@@ -66,7 +137,13 @@ IDENTIFIER [[:alpha:]_][[:alpha:][:digit:]_]*
     yylval = node;
     return CHAR;
 }
-
+{NUMBER} {
+    TreeNode* node = new TreeNode(lineno, NODE_CONST);
+    node->type = TYPE_DOUBLE;
+    node->d_val = atof(yytext);
+    yylval = node;
+    return NUMBER;
+}
 {IDENTIFIER} {
     TreeNode* node = new TreeNode(lineno, NODE_VAR);
     node->var_name = string(yytext);
@@ -74,6 +151,11 @@ IDENTIFIER [[:alpha:]_][[:alpha:][:digit:]_]*
     return IDENTIFIER;
 }
 
+{LB}        { return LB; }
+{RB}        { return RB; }
+{LP}        { return LP; }
+{RP}        { return RP; }
+{MAIN}      { return MAIN; }
 {WHILTESPACE} /* do nothing */
 
 {EOL} lineno++;

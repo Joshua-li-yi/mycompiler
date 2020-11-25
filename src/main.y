@@ -6,13 +6,13 @@
     int yylex();
     int yyerror( char const * );
 %}
-%token T_CHAR T_INT T_STRING T_BOOL 
+%token T_CHAR T_INT T_STRING T_BOOL T_DOUBLE T_VOID
 
 %token LOP_ASSIGN 
 
 %token SEMICOLON LB RB COMMA LP RP
 
-%token IDENTIFIER INTEGER CHAR BOOL STRING
+%token IDENTIFIER INTEGER CHAR BOOL STRING NUMBER 
 
 %token PLUS MINUS TIMES OVER MOD PPLUS MMINUS AND OR XOR NOT SHIFT_LEFT SHIFT_RIGHT ASSIGN EQU 
 
@@ -43,13 +43,25 @@ program
 statements
 :  statement {$$=$1;}
 |  statements statement {$$=$1; $$->addSibling($2);}
+|  LB statements RB {$$=$1;}
 ;
 
 statement
-: SEMICOLON  {$$ = new TreeNode(lineno, NODE_STMT); $$->stype = STMT_SKIP;}
+: MAIN LP RP statements { $$ = $4; }
+| while_stmt {$$=$1;}
 | declaration SEMICOLON {$$ = $1;}
+| SEMICOLON  {$$ = new TreeNode(lineno, NODE_STMT); $$->stype = STMT_SKIP;}
 ;
 
+while_stmt
+:WHILE LP expr RP statements {
+    TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
+    node->stype = STMT_WHILE;
+    node->addChild($3);
+    node->addChild($5);
+    $$ = node;
+    }
+;
 declaration
 : T IDENTIFIER LOP_ASSIGN expr{  // declare and init
     TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
@@ -59,7 +71,7 @@ declaration
     node->addChild($4);
     $$ = node;
 } 
-| T IDENTIFIER {
+| T IDLIST {
     TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
     node->stype = STMT_DECL;
     node->addChild($1);
@@ -69,7 +81,7 @@ declaration
 ;
 
 IDLIST
-: IDLIST COMMA IDENTIFIER {$1->addSibling($3); $$=$1;}
+: IDENTIFIER COMMA IDLIST {$1->addSibling($3); $$=$1;}
 | IDENTIFIER {$$ = $1;}
 ;
 
@@ -101,6 +113,7 @@ expr
 |	LP expr RP	    { $$ = $2; }
 |   IDENTIFIER  {$$ = $1;}
 |   INTEGER     {$$ = $1;}
+|   NUMBER      {$$ = $1;}
 |   CHAR {  $$ = $1;}
 |   STRING {$$ = $1;}
 ;
@@ -108,6 +121,8 @@ expr
 T: T_INT {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_INT;} 
 | T_CHAR {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_CHAR;}
 | T_BOOL {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_BOOL;}
+| T_DOUBLE {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_DOUBLE;}
+| T_VOID {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_VOID;}
 ;
 
 %%

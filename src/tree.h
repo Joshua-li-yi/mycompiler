@@ -10,7 +10,6 @@ enum NodeType
     NODE_VAR,
     NODE_EXPR,
     NODE_TYPE,
-
     NODE_STMT,
     NODE_PROG,
 };
@@ -20,12 +19,21 @@ enum OperatorType
     OP_EQU,  // ==
     OP_PLUS,
     OP_MINUS,
+    OP_GTR,
+    OP_LSS,
+    OP_GEQ,
+    OP_LEQ,
+    OP_NEQ,
+    OP_LOGICAL_AND,
+    OP_LOGICAL_OR,
+    OP_LOGICAL_NOT,
 };
 
 enum StmtType {
     STMT_SKIP,
     STMT_DECL,
     STMT_IF,
+    STMT_WHILE,
 }
 ;
 
@@ -56,14 +64,14 @@ public:
     int int_val;
     char ch_val;
     bool b_val;
+    double d_val;
     string str_val;
     string var_name;
 public:
     static string nodeType2String (NodeType type);
     static string opType2String (OperatorType type);
     static string sType2String (StmtType type);
-
-public:
+public: 
     TreeNode(int lineno, NodeType type);
 };
 TreeNode *expNode(TreeNode*, TreeNode *, TreeNode *);
