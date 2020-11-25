@@ -17,11 +17,10 @@ void TreeNode::addSibling(TreeNode *sibling)
         this->sibling = sibling;
     else
     {
-        TreeNode *tmp = this->sibling->sibling;
-        while (tmp != nullptr)
+        TreeNode *tmp = this->sibling;
+        while (tmp->sibling != nullptr)
             tmp = tmp->sibling;
-        tmp = sibling;
-        this->sibling->sibling = tmp;
+        tmp->sibling = sibling;
     }
 }
 
@@ -106,19 +105,14 @@ void TreeNode::printChildrenId(TreeNode *t)
     }
 }
 
-void TreeNode::printAST()
+void TreeNode::printAST(TreeNode *root)
 {
-    TreeNode *t = this;
-    printNodeInfo(t);
-    while(t->child != nullptr)
+    if(!root)
+        return;
+    printNodeInfo(root);
+    for (TreeNode *t = root->child; t; t = t->sibling)
     {
-        t = t->child;
-        printNodeInfo(t);
-        while (t->sibling != nullptr)
-        {
-            t = t->sibling;
-            printNodeInfo(t);
-        }
+        printAST(t);
     }
 }
 

@@ -52,7 +52,7 @@ public:
     void printNodeInfo(TreeNode*);
     void printChildrenId(TreeNode*);
 
-    void printAST(); // 先输出自己 + 孩子们的id；再依次让每个孩子输出AST。
+    void printAST(TreeNode *); // 先输出自己 + 孩子们的id；再依次让每个孩子输出AST。
     void printSpecialInfo();
 
     void genNodeId();
@@ -75,4 +75,5 @@ public:
     TreeNode(int lineno, NodeType type);
 };
 TreeNode *expNode(TreeNode*, TreeNode *, TreeNode *);
+void printAST(TreeNode *);
 #endif

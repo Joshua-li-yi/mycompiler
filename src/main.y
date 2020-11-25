@@ -42,7 +42,7 @@ program
 
 statements
 :  statement {$$=$1;}
-|  statement statements  {$$=$1; $$->addSibling($2);}
+|  statements statement   {$$=$1; $1->addSibling($2);}
 |  LB statements RB {$$=$1;}
 ;
 

@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     yyparse();
     if(root != NULL) {
         root;
-        root->printAST();
+        root->printAST(root);
     }
     return 0;
 }
