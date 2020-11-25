@@ -12,11 +12,10 @@ Terminals unused in grammar
    LOP_EQ
 
 
-State 38 conflicts: 8 shift/reduce
+State 12 conflicts: 9 shift/reduce
 State 40 conflicts: 1 shift/reduce
 State 41 conflicts: 1 shift/reduce
 State 42 conflicts: 1 shift/reduce
-State 69 conflicts: 8 shift/reduce
 State 70 conflicts: 1 shift/reduce
 State 71 conflicts: 1 shift/reduce
 State 72 conflicts: 1 shift/reduce
@@ -45,7 +44,7 @@ Grammar
     1 program: statements
 
     2 statements: statement
-    3           | statements statement
+    3           | statement statements
     4           | LB statements RB
 
     5 statement: MAIN LP RP statements
@@ -291,7 +290,14 @@ State 10
 State 11
 
     1 program: statements .
-    3 statements: statements . statement
+
+    $default  reduce using rule 1 (program)
+
+
+State 12
+
+    2 statements: statement .
+    3           | statement . statements
 
     T_CHAR     shift, and go to state 1
     T_INT      shift, and go to state 2
@@ -299,22 +305,26 @@ State 11
     T_DOUBLE   shift, and go to state 4
     T_VOID     shift, and go to state 5
     SEMICOLON  shift, and go to state 6
+    LB         shift, and go to state 7
     MAIN       shift, and go to state 8
     WHILE      shift, and go to state 9
 
-    $default  reduce using rule 1 (program)
+    T_CHAR     [reduce using rule 2 (statements)]
+    T_INT      [reduce using rule 2 (statements)]
+    T_BOOL     [reduce using rule 2 (statements)]
+    T_DOUBLE   [reduce using rule 2 (statements)]
+    T_VOID     [reduce using rule 2 (statements)]
+    SEMICOLON  [reduce using rule 2 (statements)]
+    LB         [reduce using rule 2 (statements)]
+    MAIN       [reduce using rule 2 (statements)]
+    WHILE      [reduce using rule 2 (statements)]
+    $default   reduce using rule 2 (statements)
 
-    statement    go to state 20
+    statements   go to state 20
+    statement    go to state 12
     while_stmt   go to state 13
     declaration  go to state 14
     T            go to state 15
-
-
-State 12
-
-    2 statements: statement .
-
-    $default  reduce using rule 2 (statements)
 
 
 State 13
@@ -343,23 +353,9 @@ State 15
 
 State 16
 
-    3 statements: statements . statement
-    4           | LB statements . RB
+    4 statements: LB statements . RB
 
-    T_CHAR     shift, and go to state 1
-    T_INT      shift, and go to state 2
-    T_BOOL     shift, and go to state 3
-    T_DOUBLE   shift, and go to state 4
-    T_VOID     shift, and go to state 5
-    SEMICOLON  shift, and go to state 6
-    RB         shift, and go to state 24
-    MAIN       shift, and go to state 8
-    WHILE      shift, and go to state 9
-
-    statement    go to state 20
-    while_stmt   go to state 13
-    declaration  go to state 14
-    T            go to state 15
+    RB  shift, and go to state 24
 
 
 State 17
@@ -395,7 +391,7 @@ State 19
 
 State 20
 
-    3 statements: statements statement .
+    3 statements: statement statements .
 
     $default  reduce using rule 3 (statements)
 
@@ -634,32 +630,9 @@ State 37
 
 State 38
 
-    3 statements: statements . statement
     5 statement: MAIN LP RP statements .
 
-    T_CHAR     shift, and go to state 1
-    T_INT      shift, and go to state 2
-    T_BOOL     shift, and go to state 3
-    T_DOUBLE   shift, and go to state 4
-    T_VOID     shift, and go to state 5
-    SEMICOLON  shift, and go to state 6
-    MAIN       shift, and go to state 8
-    WHILE      shift, and go to state 9
-
-    T_CHAR     [reduce using rule 5 (statement)]
-    T_INT      [reduce using rule 5 (statement)]
-    T_BOOL     [reduce using rule 5 (statement)]
-    T_DOUBLE   [reduce using rule 5 (statement)]
-    T_VOID     [reduce using rule 5 (statement)]
-    SEMICOLON  [reduce using rule 5 (statement)]
-    MAIN       [reduce using rule 5 (statement)]
-    WHILE      [reduce using rule 5 (statement)]
-    $default   reduce using rule 5 (statement)
-
-    statement    go to state 20
-    while_stmt   go to state 13
-    declaration  go to state 14
-    T            go to state 15
+    $default  reduce using rule 5 (statement)
 
 
 State 39
@@ -1244,32 +1217,9 @@ State 68
 
 State 69
 
-    3 statements: statements . statement
     9 while_stmt: WHILE LP expr RP statements .
 
-    T_CHAR     shift, and go to state 1
-    T_INT      shift, and go to state 2
-    T_BOOL     shift, and go to state 3
-    T_DOUBLE   shift, and go to state 4
-    T_VOID     shift, and go to state 5
-    SEMICOLON  shift, and go to state 6
-    MAIN       shift, and go to state 8
-    WHILE      shift, and go to state 9
-
-    T_CHAR     [reduce using rule 9 (while_stmt)]
-    T_INT      [reduce using rule 9 (while_stmt)]
-    T_BOOL     [reduce using rule 9 (while_stmt)]
-    T_DOUBLE   [reduce using rule 9 (while_stmt)]
-    T_VOID     [reduce using rule 9 (while_stmt)]
-    SEMICOLON  [reduce using rule 9 (while_stmt)]
-    MAIN       [reduce using rule 9 (while_stmt)]
-    WHILE      [reduce using rule 9 (while_stmt)]
-    $default   reduce using rule 9 (while_stmt)
-
-    statement    go to state 20
-    while_stmt   go to state 13
-    declaration  go to state 14
-    T            go to state 15
+    $default  reduce using rule 9 (while_stmt)
 
 
 State 70
