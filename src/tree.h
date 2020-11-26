@@ -38,20 +38,25 @@ enum OperatorType
     OP_MMINUS,
 };
 
-enum StmtType {
+enum StmtType
+{
     STMT_SKIP,
     STMT_DECL,
     STMT_IF,
     STMT_WHILE,
     STMT_ELSE,
     STMT_ASSIGN,
+    STMT_MIN_ASSIGN,
+    STMT_PLUS_ASSIGN,
+    STMT_MOD_ASSIGN,
+    STMT_DIV_ASSIGN,
+    STMT_TIM_ASSIGN,
     STMT_FOR,
     STMT_FUN_DECL,
     STMT_FUN_DEF,
     STMT_FUN_CALL,
     STMT_RETURN,
-}
-;
+};
 
 struct TreeNode {
 public:

@@ -8,7 +8,7 @@
 %}
 %token T_CHAR T_INT T_STRING T_BOOL T_DOUBLE T_VOID
 
-%token LOP_ASSIGN 
+%token LOP_ASSIGN PLUS_ASSIGN MIN_ASSIGN TIM_ASSIGN DIV_ASSIGN MOD_ASSIGN
 
 %token SEMICOLON LB RB COMMA LP RP
 
@@ -71,9 +71,39 @@ assignment_stmt
     node->stype = STMT_ASSIGN;
     node->addChild($1);
     node->addChild($3);
-    $$ = node;
-}
+    $$ = node;}
+| IDENTIFIER PLUS_ASSIGN expr SEMICOLON{
+    TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
+    node->stype = STMT_PLUS_ASSIGN;
+    node->addChild($1);
+    node->addChild($3);
+    $$ = node;}
+| IDENTIFIER MIN_ASSIGN expr SEMICOLON{
+    TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
+    node->stype = STMT_MIN_ASSIGN;
+    node->addChild($1);
+    node->addChild($3);
+    $$ = node;}
+| IDENTIFIER TIM_ASSIGN expr SEMICOLON{
+    TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
+    node->stype = STMT_TIM_ASSIGN;
+    node->addChild($1);
+    node->addChild($3);
+    $$ = node;}
+| IDENTIFIER DIV_ASSIGN expr SEMICOLON{
+    TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
+    node->stype = STMT_DIV_ASSIGN;
+    node->addChild($1);
+    node->addChild($3);
+    $$ = node;}
+| IDENTIFIER MOD_ASSIGN expr SEMICOLON{
+    TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
+    node->stype = STMT_MOD_ASSIGN;
+    node->addChild($1);
+    node->addChild($3);
+    $$ = node;}
 ;
+
 else_stmt
 : ELSE statements {
     TreeNode* node = new TreeNode($1->lineno, NODE_STMT);

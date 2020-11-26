@@ -175,6 +175,21 @@ WHILE while
     return MMINUS;
     
 }
+"+=" {
+    return PLUS_ASSIGN;
+}
+"-=" {
+    return MIN_ASSIGN;
+}
+"/=" {
+    return DIV_ASSIGN;
+}
+"%=" {
+    return MOD_ASSIGN;
+}
+"*=" {
+    return TIM_ASSIGN;
+}
 {INTEGER} {
     TreeNode* node = new TreeNode(lineno, NODE_CONST);
     node->type = TYPE_INT;

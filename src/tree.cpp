@@ -148,7 +148,7 @@ string TreeNode::sType2String(StmtType type)
     case STMT_ELSE:
         return "STMT ELSE";
     case STMT_ASSIGN:
-        return "STMT ASSIGN";
+        return "=";
     case STMT_FOR:
         return "STMT FOR";
     case STMT_FUN_DECL:
@@ -159,6 +159,16 @@ string TreeNode::sType2String(StmtType type)
         return "STMT FUN CALL";
     case STMT_RETURN:
         return "STMT RETURN";
+    case STMT_MIN_ASSIGN:
+        return "-=";
+    case STMT_PLUS_ASSIGN:
+        return "+=";
+    case STMT_TIM_ASSIGN:
+        return "*=";
+    case STMT_MOD_ASSIGN:
+        return "%=";
+    case STMT_DIV_ASSIGN:
+        return "/=";
     default:
         return "???";
         break;
@@ -233,7 +243,6 @@ string TreeNode::opType2String(OperatorType type)
         return "&&";
     case OP_LOGICAL_OR:
         return "||";
-    
     default:
         return "???";
         break;

@@ -9,6 +9,7 @@
 + add assignment stmt
 + add for stmt
 + add function
++ add main
 ## problem
 + if "if" or "while" is processed firstly while be happen sagmention error 
 + else if can't identify

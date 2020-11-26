@@ -56,6 +56,6 @@ void main(){
     char ch;
     while (a > 0 && a <= 10 || a % 100 == 10 && !a == 10)
     {
-        a = 1;
+        a -= 1;
     }
 }
