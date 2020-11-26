@@ -1,0 +1,7 @@
+lno@0  @6  NODE PROG    children:[@2 @5 ]
+lno@23  @2  NODE STMT  STMT DECL  children:[@0 @1 ]
+lno@23  @0  NODE TYPE  int  children:[]
+lno@23  @1  NODE VAR  var name: a  children:[]
+lno@24  @5  NODE STMT  STMT ASSIGN  children:[@3 @4 ]
+lno@24  @3  NODE VAR  var name: a  children:[]
+lno@24  @4  NODE CONST  int: 1  children:[]

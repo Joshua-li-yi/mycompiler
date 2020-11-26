@@ -35,6 +35,7 @@ enum StmtType {
     STMT_IF,
     STMT_WHILE,
     STMT_ELSE,
+    STMT_ASSIGN,
 }
 ;
 

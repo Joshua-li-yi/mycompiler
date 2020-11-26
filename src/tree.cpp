@@ -147,6 +147,8 @@ string TreeNode::sType2String(StmtType type)
         return "STMT WHILE";
     case STMT_ELSE:
         return "STMT ELSE";
+    case STMT_ASSIGN:
+        return "STMT ASSIGN";
     default:
         return "???";
         break;

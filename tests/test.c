@@ -1,10 +1,24 @@
-// int a,b;
+// test1 TODO 段错误
+// if (1 > 1);
+//
+
+// test2
+// int c = 1 + 1;
+// if (1 > 1)
+// {
+//     int c = 2;
+//     // c = 3+1;
+//     bool a = 1;
+// }
+// else
+// {
+//     int n = 0;
+// }
+
+// test3
 // int c=1+1;
-// double m = 2.0;
 // while(1){
 //     int a;
 // }
-if (1>1);
-// {int a=1;
-// bool b=1;
-// }
+int a;
+a=1;

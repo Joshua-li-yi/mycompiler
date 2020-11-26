@@ -4,10 +4,12 @@
 + add expression (+ - =)
 + add idlist
 + multi lines
++ add if else
++ add while
++ add assignment stmt
 ## problem
-+ if else
++ else if can't identify
 ## todo
-+ if, else ,while etc. stmt
 + scanf, printf
 + function
 + distinguish different scopes of var

@@ -50,8 +50,32 @@ statement
 : MAIN LP RP statements { $$ = $4; }
 | while_stmt {$$=$1;}
 | if_stmt {$$=$1;}
+| if_else_stmt {$$=$1;}
 | declaration SEMICOLON {$$ = $1;}
+| assignment_stmt {$$=$1;}
 | SEMICOLON  {$$ = new TreeNode(lineno, NODE_STMT); $$->stype = STMT_SKIP;}
+;
+assignment_stmt
+: IDENTIFIER LOP_ASSIGN expr SEMICOLON{
+    TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
+    node->stype = STMT_ASSIGN;
+    node->addChild($1);
+    node->addChild($3);
+    $$ = node;
+}
+;
+else_stmt
+: ELSE statement {
+    TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
+    node->stype = STMT_ELSE;
+    node->addChild($2);
+    $$ = node;
+ }
+| ELSE LB statements RB {
+    TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
+    node->stype = STMT_ELSE;
+    node->addChild($3);
+    $$ = node;}
 ;
 
 if_stmt
@@ -60,25 +84,35 @@ if_stmt
     node->stype = STMT_IF;
     node->addChild($3);
     node->addChild($5);
-    $$ = node;
-}
+    $$ = node;}
 | IF LP expr RP LB statements RB {
     TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
     node->stype = STMT_IF;
     node->addChild($3);
     node->addChild($6);
-    $$ = node;
-}
+    $$ = node;}
 ;
+
+if_else_stmt
+: if_stmt else_stmt {$1->addSibling($2); $$=$1;}
+;
+
 while_stmt
-:WHILE LP expr RP statements {
+: WHILE LP expr RP statement {
     TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
     node->stype = STMT_WHILE;
     node->addChild($3);
     node->addChild($5);
+    $$ = node;}
+| WHILE LP expr RP LB statements RB{
+    TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
+    node->stype = STMT_WHILE;
+    node->addChild($3);
+    node->addChild($6);
     $$ = node;
     }
 ;
+
 declaration
 : T IDENTIFIER LOP_ASSIGN expr{  // declare and init
     TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
@@ -135,7 +169,8 @@ expr
 |   STRING {$$ = $1;}
 ;
 
-T: T_INT {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_INT;} 
+T
+: T_INT {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_INT;} 
 | T_CHAR {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_CHAR;}
 | T_BOOL {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_BOOL;}
 | T_DOUBLE {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_DOUBLE;}
