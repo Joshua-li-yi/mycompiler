@@ -24,6 +24,10 @@
 // a=1;
 // test4
 int c=1+1;
-for (;;){
-    int m;
+// for (;;){
+//     int m;
+// }
+int a;
+while (a > 0 && a <= 10 || a % 100 == 10 && !a == 10){
+    int c =0;
 }

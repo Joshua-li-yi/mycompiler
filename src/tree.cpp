@@ -191,6 +191,22 @@ string TreeNode::opType2String(OperatorType type)
         return "+";
     case OP_MINUS:
         return "-";
+    case OP_TIMES:
+        return "*";
+    case OP_DIVIDE:
+        return "/";
+    case OP_MOD:
+        return "%";
+    case OP_AND:
+        return "&";
+    case OP_OR:
+        return "|";
+    case OP_NOT:
+        return "~";
+    case OP_PPLUS:
+        return "++";
+    case OP_MMINUS:
+        return "--";
     case OP_NEQ: 
         return "!=";
     case OP_GTR:
@@ -207,6 +223,7 @@ string TreeNode::opType2String(OperatorType type)
         return "&&";
     case OP_LOGICAL_OR:
         return "||";
+    
     default:
         return "???";
         break;
@@ -220,6 +237,7 @@ TreeNode *expNode(TreeNode *op, TreeNode *operand1, TreeNode *operand2)
     opt->addChild(operand2);
     return opt;
 }
+
 TreeNode *forNode(int lno,TreeNode *exp1, TreeNode *exp2, TreeNode *exp3, TreeNode *stmt){
     TreeNode *node = new TreeNode(lno, NODE_STMT);
     node->stype = STMT_FOR;

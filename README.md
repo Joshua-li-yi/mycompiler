@@ -1,7 +1,7 @@
 
 ## now process
 + complish the basic tree and type code
-+ add expression (+ - =)
++ add expression
 + add idlist
 + multi lines
 + add if else

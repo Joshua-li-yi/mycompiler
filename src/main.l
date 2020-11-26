@@ -117,7 +117,55 @@ WHILE while
     yylval = node;
     return MINUS;
     }
-
+"*" {
+    TreeNode* node = new TreeNode(lineno, NODE_EXPR);
+    node->optype = OP_TIMES;
+    yylval = node;
+    return TIMES;
+}
+"/" {
+    TreeNode* node = new TreeNode(lineno, NODE_EXPR);
+    node->optype = OP_DIVIDE;
+    yylval = node;
+    return DIVIDE;
+}
+"%" {
+    TreeNode* node = new TreeNode(lineno, NODE_EXPR);
+    node->optype = OP_MOD;
+    yylval = node;
+    return MOD;
+}
+"&" {
+    TreeNode* node = new TreeNode(lineno, NODE_EXPR);
+    node->optype = OP_AND;
+    yylval = node;
+    return AND;
+}
+"|" {
+    TreeNode* node = new TreeNode(lineno, NODE_EXPR);
+    node->optype = OP_OR;
+    yylval = node;
+    return OR;
+}
+"~" {
+    TreeNode* node = new TreeNode(lineno, NODE_EXPR);
+    node->optype = OP_NOT;
+    yylval = node;
+    return NOT;
+}
+"++" {
+    TreeNode* node = new TreeNode(lineno, NODE_EXPR);
+    node->optype = OP_PPLUS;
+    yylval = node;
+    return PPLUS;
+}
+"--" {
+    TreeNode* node = new TreeNode(lineno, NODE_EXPR);
+    node->optype = OP_MMINUS;
+    yylval = node;
+    return MMINUS;
+    
+}
 {INTEGER} {
     TreeNode* node = new TreeNode(lineno, NODE_CONST);
     node->type = TYPE_INT;

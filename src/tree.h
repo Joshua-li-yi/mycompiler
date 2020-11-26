@@ -16,9 +16,7 @@ enum NodeType
 
 enum OperatorType
 {
-    OP_EQU,  // ==
-    OP_PLUS,
-    OP_MINUS,
+    OP_EQU, // ==
     OP_GTR,
     OP_LSS,
     OP_GEQ,
@@ -27,6 +25,16 @@ enum OperatorType
     OP_LOGICAL_AND,
     OP_LOGICAL_OR,
     OP_LOGICAL_NOT,
+    OP_PLUS,
+    OP_MINUS,
+    OP_TIMES,
+    OP_DIVIDE,
+    OP_MOD,
+    OP_AND,
+    OP_OR,
+    OP_NOT,
+    OP_PPLUS,
+    OP_MMINUS,
 };
 
 enum StmtType {

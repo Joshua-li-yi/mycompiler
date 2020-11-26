@@ -14,7 +14,7 @@
 
 %token IDENTIFIER INTEGER CHAR BOOL STRING NUMBER 
 
-%token PLUS MINUS TIMES OVER MOD PPLUS MMINUS AND OR XOR NOT SHIFT_LEFT SHIFT_RIGHT ASSIGN EQU 
+%token PLUS MINUS TIMES DIVIDE MOD PPLUS MMINUS AND OR NOT EQU 
 
 %token GTR LSS GEQ LEQ NEQ LOGICAL_AND LOGICAL_OR LOGICAL_NOT UMINUS 
 
@@ -31,7 +31,7 @@
 %left GTR LSS GEQ LEQ
 %left SHIFT_LEFT SHIFT_RIGHT
 %left PLUS MINUS
-%left TIMES OVER MOD
+%left TIMES DIVIDE MOD
 %right NOT LOGICAL_NOT
 %right UMINUS
 %left  PPLUS MMINUS // 后缀自增、自减
@@ -153,7 +153,7 @@ expr
 :	expr PLUS expr	{ $$ = expNode($2, $1, $3); }
 |	expr MINUS expr	{ $$ = expNode($2, $1, $3); }
 |	expr TIMES expr	{ $$ = expNode($2, $1, $3); }
-|	expr OVER expr	{ $$ = expNode($2, $1, $3); }
+|	expr DIVIDE expr	{ $$ = expNode($2, $1, $3); }
 | 	expr MOD expr	{ $$ = expNode($2, $1, $3); }
 |   expr MMINUS     { $$ = expNode($2, $1, NULL); }
 |   expr PPLUS      { $$ = expNode($2, $1, NULL); }
@@ -161,9 +161,6 @@ expr
 |   expr OR expr    { $$ = expNode($2, $1, $3); }
 |   NOT expr        { $$ = expNode($1, $2, NULL); }
 |   expr XOR expr   { $$ = expNode($2, $1, $3); }
-|   expr SHIFT_LEFT expr  { $$ = expNode($2, $1, $3); }
-|   expr SHIFT_RIGHT expr { $$ = expNode($2, $1, $3); }
-|   expr ASSIGN expr   { $$ = expNode($2, $1, $3); }
 |   expr EQU expr   { $$ = expNode($2, $1, $3); }
 |   expr GTR expr   { $$ = expNode($2, $1, $3); }
 |   expr LSS expr   { $$ = expNode($2, $1, $3); }
