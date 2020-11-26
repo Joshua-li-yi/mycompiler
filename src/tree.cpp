@@ -151,6 +151,14 @@ string TreeNode::sType2String(StmtType type)
         return "STMT ASSIGN";
     case STMT_FOR:
         return "STMT FOR";
+    case STMT_FUN_DECL:
+        return "STMT FUN DECL";
+    case STMT_FUN_DEF:
+        return "STMT FUN DEF";
+    case STMT_FUN_CALL:
+        return "STMT FUN CALL";
+    case STMT_RETURN:
+        return "STMT RETURN";
     default:
         return "???";
         break;

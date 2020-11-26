@@ -23,11 +23,28 @@
 // int a;
 // a=1;
 // test4
-int c=1+1;
-// for (;;){
-//     int m;
+// int c=1+1;
+// // for (;;){
+// //     int m;
+// // }
+// int a;
+// while (a > 0 && a <= 10 || a % 100 == 10 && !a == 10){
+//     int c =0;
 // }
-int a;
-while (a > 0 && a <= 10 || a % 100 == 10 && !a == 10){
-    int c =0;
+int c =1;
+int f();
+// void f2(int a, bool b);
+
+int f(){
+    int m;
+    return 1;
 }
+
+// void f2(int a, bool b){
+//     int c;
+//     return;
+// }
+
+f();
+// int m,n;
+// f2(m,n);

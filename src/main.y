@@ -18,7 +18,7 @@
 
 %token GTR LSS GEQ LEQ NEQ LOGICAL_AND LOGICAL_OR LOGICAL_NOT UMINUS 
 
-%token FOR INPUT OUTPUT DO MAIN IF ELSE WHILE
+%token FOR INPUT OUTPUT DO MAIN IF ELSE WHILE RETURN
 %token EOL
 
 %left LOP_EQ
@@ -52,6 +52,9 @@ statement
 | if_stmt {$$=$1;}
 | if_else_stmt {$$=$1;}
 | for_stmt {$$=$1;}
+| function_declaration {$$=$1;}
+| function_definition {$$=$1;}
+| function_call {$$=$1;}
 | declaration SEMICOLON {$$ = $1;}
 | assignment_stmt {$$=$1;}
 | SEMICOLON  {$$ = new TreeNode(lineno, NODE_STMT); $$->stype = STMT_SKIP;}
@@ -149,6 +152,68 @@ IDLIST
 | IDENTIFIER {$$ = $1;}
 ;
 
+IDLIST_DECL
+: declaration {$$=$1;}
+| declaration COMMA IDLIST_DECL {$1->addSibling($3); $$=$1;}
+
+function_return
+: RETURN SEMICOLON {$$=$1;}
+| RETURN expr SEMICOLON {$1->addSibling($2); $$=$1;}
+;
+
+function_declaration
+: T IDENTIFIER LP IDLIST_DECL RP SEMICOLON {
+    TreeNode* node = new TreeNode($2->lineno, NODE_STMT);
+    node->stype = STMT_FUN_DECL;
+    node->addChild($1);
+    node->addChild($2);
+    node->addChild($4);
+    $$ = node;
+}
+| T IDENTIFIER LP RP SEMICOLON {
+    TreeNode* node = new TreeNode($2->lineno, NODE_STMT);
+    node->stype = STMT_FUN_DECL;
+    node->addChild($1);
+    node->addChild($2);
+    $$ = node;
+}
+;
+function_definition
+: T IDENTIFIER LP IDLIST_DECL RP LB statements function_return RB {
+    TreeNode* node = new TreeNode($2->lineno, NODE_STMT);
+    node->stype = STMT_FUN_DEF;
+    node->addChild($1);
+    node->addChild($2);
+    node->addChild($4);
+    node->addChild($7);
+    node->addChild($8);
+    $$ = node;
+}
+| T IDENTIFIER LP RP LB statements function_return RB {
+    TreeNode* node = new TreeNode($2->lineno, NODE_STMT);
+    node->stype = STMT_FUN_DEF;
+    node->addChild($1);
+    node->addChild($2);
+    node->addChild($6);
+    node->addChild($7);
+    $$ = node;
+}
+;
+function_call
+: IDENTIFIER LP IDLIST RP SEMICOLON {
+    TreeNode* node = new TreeNode($2->lineno, NODE_STMT);
+    node->stype = STMT_FUN_CALL;
+    node->addChild($1);
+    node->addChild($3);
+    $$ = node;
+}
+| IDENTIFIER LP RP SEMICOLON {
+    TreeNode* node = new TreeNode($2->lineno, NODE_STMT);
+    node->stype = STMT_FUN_CALL;
+    node->addChild($1);
+    $$ = node;
+}
+;
 expr
 :	expr PLUS expr	{ $$ = expNode($2, $1, $3); }
 |	expr MINUS expr	{ $$ = expNode($2, $1, $3); }

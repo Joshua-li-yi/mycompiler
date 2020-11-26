@@ -46,7 +46,12 @@ WHILE while
 "void" { return T_VOID;}
 ";" return  SEMICOLON;
 "," return COMMA;
-
+"return" {    
+    TreeNode* node = new TreeNode(lineno, NODE_STMT);
+    node->stype = STMT_RETURN;
+    yylval = node;
+    return RETURN;
+    }
 {WHILE} {return WHILE;}
 
 {EQU} {

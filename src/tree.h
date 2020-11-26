@@ -45,6 +45,10 @@ enum StmtType {
     STMT_ELSE,
     STMT_ASSIGN,
     STMT_FOR,
+    STMT_FUN_DECL,
+    STMT_FUN_DEF,
+    STMT_FUN_CALL,
+    STMT_RETURN,
 }
 ;
 

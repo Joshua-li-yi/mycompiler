@@ -92,11 +92,12 @@ extern int yydebug;
     IF = 302,
     ELSE = 303,
     WHILE = 304,
-    EOL = 305,
-    LOP_EQ = 306,
-    XOR = 307,
-    SHIFT_LEFT = 308,
-    SHIFT_RIGHT = 309
+    RETURN = 305,
+    EOL = 306,
+    LOP_EQ = 307,
+    XOR = 308,
+    SHIFT_LEFT = 309,
+    SHIFT_RIGHT = 310
   };
 #endif
 
