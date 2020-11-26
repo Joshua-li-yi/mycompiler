@@ -51,6 +51,7 @@ statement
 | while_stmt {$$=$1;}
 | if_stmt {$$=$1;}
 | if_else_stmt {$$=$1;}
+| for_stmt {$$=$1;}
 | declaration SEMICOLON {$$ = $1;}
 | assignment_stmt {$$=$1;}
 | SEMICOLON  {$$ = new TreeNode(lineno, NODE_STMT); $$->stype = STMT_SKIP;}
@@ -87,6 +88,35 @@ if_else_stmt
 : if_stmt else_stmt {$1->addSibling($2); $$=$1;}
 ;
 
+for_stmt
+: FOR LP expr SEMICOLON expr SEMICOLON expr RP statements {
+    TreeNode* node = forNode($1->lineno, $3, $5, $7, $9);
+    $$ = node;}
+| FOR LP declaration SEMICOLON expr SEMICOLON expr RP statements {
+    TreeNode* node = forNode($1->lineno, $3, $5, $7, $9);
+    $$ = node;}
+| FOR LP SEMICOLON expr SEMICOLON expr RP statements {
+    TreeNode* node = forNode($1->lineno, nullptr, $4, $6, $8);
+    $$ = node;}
+| FOR LP expr SEMICOLON SEMICOLON expr RP statements {
+    TreeNode* node = forNode($1->lineno, $3, nullptr, $6, $8);
+    $$ = node;}
+| FOR LP expr SEMICOLON expr SEMICOLON RP statements {
+    TreeNode* node = forNode($1->lineno, $3, $5, nullptr, $8);
+    $$ = node;}
+| FOR LP SEMICOLON SEMICOLON expr RP statements {
+    TreeNode* node = forNode($1->lineno, nullptr, nullptr, $5, $7);
+    $$ = node;}
+| FOR LP SEMICOLON expr SEMICOLON RP statements {
+    TreeNode* node = forNode($1->lineno, nullptr, $4, nullptr, $7);
+    $$ = node;}
+| FOR LP expr SEMICOLON SEMICOLON RP statements {
+    TreeNode* node = forNode($1->lineno, $3, nullptr, nullptr, $7);
+    $$ = node;}
+| FOR LP SEMICOLON SEMICOLON RP statements {
+    TreeNode* node = forNode($1->lineno, nullptr, nullptr, nullptr, $6);
+    $$ = node;}
+;
 while_stmt
 : WHILE LP expr RP statements {
     TreeNode* node = new TreeNode($1->lineno, NODE_STMT);

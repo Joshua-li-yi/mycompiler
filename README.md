@@ -7,6 +7,7 @@
 + add if else
 + add while
 + add assignment stmt
++ add for stmt
 ## problem
 + else if can't identify
 ## todo

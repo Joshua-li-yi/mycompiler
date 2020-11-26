@@ -36,6 +36,7 @@ enum StmtType {
     STMT_WHILE,
     STMT_ELSE,
     STMT_ASSIGN,
+    STMT_FOR,
 }
 ;
 
@@ -76,6 +77,8 @@ public:
 public: 
     TreeNode(int lineno, NodeType type);
 };
-TreeNode *expNode(TreeNode*, TreeNode *, TreeNode *);
-TreeNode *newIfStmtNode(int kind, TreeNode *expr, TreeNode *stmt);
+// 表达式节点
+TreeNode *expNode(TreeNode*, TreeNode*, TreeNode*);
+// for语句节点
+TreeNode *forNode(int, TreeNode*, TreeNode*, TreeNode*, TreeNode*);
 #endif

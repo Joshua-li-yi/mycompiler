@@ -16,9 +16,14 @@
 // }
 
 // test3
+// int c=1+1;
+// while(1){
+//     int a;
+// }
+// int a;
+// a=1;
+// test4
 int c=1+1;
-while(1){
-    int a;
+for (;;){
+    int m;
 }
-int a;
-a=1;

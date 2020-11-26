@@ -33,9 +33,11 @@ WHILE while
 {BLOCKCOMMENT}  /* do nothing */
 {LINECOMMENT}  /* do nothing */
 
+
 "if" return IF;
 "else" return ELSE;
 "main" return MAIN;
+"for" return FOR;
 "=" return LOP_ASSIGN;
 "int" {return T_INT;}
 "bool" {return T_BOOL;}

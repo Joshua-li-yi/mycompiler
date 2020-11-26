@@ -149,6 +149,8 @@ string TreeNode::sType2String(StmtType type)
         return "STMT ELSE";
     case STMT_ASSIGN:
         return "STMT ASSIGN";
+    case STMT_FOR:
+        return "STMT FOR";
     default:
         return "???";
         break;
@@ -217,4 +219,13 @@ TreeNode *expNode(TreeNode *op, TreeNode *operand1, TreeNode *operand2)
     opt->addChild(operand1);
     opt->addChild(operand2);
     return opt;
+}
+TreeNode *forNode(int lno,TreeNode *exp1, TreeNode *exp2, TreeNode *exp3, TreeNode *stmt){
+    TreeNode *node = new TreeNode(lno, NODE_STMT);
+    node->stype = STMT_FOR;
+    node->addChild(exp1);
+    node->addChild(exp2);
+    node->addChild(exp3);
+    node->addChild(stmt);
+    return node;
 }
