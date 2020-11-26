@@ -16,9 +16,9 @@
 // }
 
 // test3
-// int c=1+1;
-// while(1){
-//     int a;
-// }
+int c=1+1;
+while(1){
+    int a;
+}
 int a;
 a=1;

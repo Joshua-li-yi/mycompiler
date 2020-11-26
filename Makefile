@@ -29,3 +29,6 @@ clean:
 
 test: 
 	./bin/main tests/test.c >result.txt
+
+test2: 
+	./bin/main tests/test.c >result2.txt

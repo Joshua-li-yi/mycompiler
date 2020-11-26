@@ -12,9 +12,11 @@ Terminals unused in grammar
 
 State 14 conflicts: 11 shift/reduce
 State 16 conflicts: 1 shift/reduce
+State 51 conflicts: 1 shift/reduce
 State 52 conflicts: 1 shift/reduce
 State 53 conflicts: 1 shift/reduce
-State 54 conflicts: 1 shift/reduce
+State 83 conflicts: 1 shift/reduce
+State 84 conflicts: 1 shift/reduce
 State 85 conflicts: 1 shift/reduce
 State 86 conflicts: 1 shift/reduce
 State 87 conflicts: 1 shift/reduce
@@ -23,17 +25,15 @@ State 89 conflicts: 1 shift/reduce
 State 90 conflicts: 1 shift/reduce
 State 91 conflicts: 1 shift/reduce
 State 92 conflicts: 1 shift/reduce
-State 93 conflicts: 1 shift/reduce
+State 93 conflicts: 21 shift/reduce
 State 94 conflicts: 1 shift/reduce
-State 95 conflicts: 21 shift/reduce
+State 95 conflicts: 1 shift/reduce
 State 96 conflicts: 1 shift/reduce
 State 97 conflicts: 1 shift/reduce
 State 98 conflicts: 1 shift/reduce
 State 99 conflicts: 1 shift/reduce
 State 100 conflicts: 1 shift/reduce
 State 101 conflicts: 1 shift/reduce
-State 102 conflicts: 1 shift/reduce
-State 103 conflicts: 1 shift/reduce
 
 
 Grammar
@@ -56,116 +56,113 @@ Grammar
 
    12 assignment_stmt: IDENTIFIER LOP_ASSIGN expr SEMICOLON
 
-   13 else_stmt: ELSE statement
-   14          | ELSE LB statements RB
+   13 else_stmt: ELSE statements
 
-   15 if_stmt: IF LP expr RP statement
-   16        | IF LP expr RP LB statements RB
+   14 if_stmt: IF LP expr RP statements
 
-   17 if_else_stmt: if_stmt else_stmt
+   15 if_else_stmt: if_stmt else_stmt
 
-   18 while_stmt: WHILE LP expr RP statement
-   19           | WHILE LP expr RP LB statements RB
+   16 while_stmt: WHILE LP expr RP statements
 
-   20 declaration: T IDENTIFIER LOP_ASSIGN expr
-   21            | T IDLIST
+   17 declaration: T IDENTIFIER LOP_ASSIGN expr
+   18            | T IDLIST
 
-   22 IDLIST: IDENTIFIER COMMA IDLIST
-   23       | IDENTIFIER
+   19 IDLIST: IDENTIFIER COMMA IDLIST
+   20       | IDENTIFIER
 
-   24 expr: expr PLUS expr
-   25     | expr MINUS expr
-   26     | expr TIMES expr
-   27     | expr OVER expr
-   28     | expr MOD expr
-   29     | expr MMINUS
-   30     | expr PPLUS
-   31     | expr AND expr
-   32     | expr OR expr
-   33     | NOT expr
-   34     | expr XOR expr
-   35     | expr SHIFT_LEFT expr
-   36     | expr SHIFT_RIGHT expr
-   37     | expr ASSIGN expr
-   38     | expr EQU expr
-   39     | expr GTR expr
-   40     | expr LSS expr
-   41     | expr GEQ expr
-   42     | expr LEQ expr
-   43     | expr NEQ expr
-   44     | expr LOGICAL_AND expr
-   45     | expr LOGICAL_OR expr
-   46     | LOGICAL_NOT expr
-   47     | MINUS expr
-   48     | LP expr RP
-   49     | IDENTIFIER
-   50     | INTEGER
-   51     | NUMBER
-   52     | CHAR
-   53     | STRING
+   21 expr: expr PLUS expr
+   22     | expr MINUS expr
+   23     | expr TIMES expr
+   24     | expr OVER expr
+   25     | expr MOD expr
+   26     | expr MMINUS
+   27     | expr PPLUS
+   28     | expr AND expr
+   29     | expr OR expr
+   30     | NOT expr
+   31     | expr XOR expr
+   32     | expr SHIFT_LEFT expr
+   33     | expr SHIFT_RIGHT expr
+   34     | expr ASSIGN expr
+   35     | expr EQU expr
+   36     | expr GTR expr
+   37     | expr LSS expr
+   38     | expr GEQ expr
+   39     | expr LEQ expr
+   40     | expr NEQ expr
+   41     | expr LOGICAL_AND expr
+   42     | expr LOGICAL_OR expr
+   43     | LOGICAL_NOT expr
+   44     | MINUS expr
+   45     | LP expr RP
+   46     | IDENTIFIER
+   47     | INTEGER
+   48     | NUMBER
+   49     | CHAR
+   50     | STRING
 
-   54 T: T_INT
-   55  | T_CHAR
-   56  | T_BOOL
-   57  | T_DOUBLE
-   58  | T_VOID
+   51 T: T_INT
+   52  | T_CHAR
+   53  | T_BOOL
+   54  | T_DOUBLE
+   55  | T_VOID
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
 error (256)
-T_CHAR (258) 55
-T_INT (259) 54
+T_CHAR (258) 52
+T_INT (259) 51
 T_STRING (260)
-T_BOOL (261) 56
-T_DOUBLE (262) 57
-T_VOID (263) 58
-LOP_ASSIGN (264) 12 20
+T_BOOL (261) 53
+T_DOUBLE (262) 54
+T_VOID (263) 55
+LOP_ASSIGN (264) 12 17
 SEMICOLON (265) 9 11 12
-LB (266) 4 14 16 19
-RB (267) 4 14 16 19
-COMMA (268) 22
-LP (269) 5 15 16 18 19 48
-RP (270) 5 15 16 18 19 48
-IDENTIFIER (271) 12 20 22 23 49
-INTEGER (272) 50
-CHAR (273) 52
+LB (266) 4
+RB (267) 4
+COMMA (268) 19
+LP (269) 5 14 16 45
+RP (270) 5 14 16 45
+IDENTIFIER (271) 12 17 19 20 46
+INTEGER (272) 47
+CHAR (273) 49
 BOOL (274)
-STRING (275) 53
-NUMBER (276) 51
-PLUS (277) 24
-MINUS (278) 25 47
-TIMES (279) 26
-OVER (280) 27
-MOD (281) 28
-PPLUS (282) 30
-MMINUS (283) 29
-AND (284) 31
-OR (285) 32
-XOR (286) 34
-NOT (287) 33
-SHIFT_LEFT (288) 35
-SHIFT_RIGHT (289) 36
-ASSIGN (290) 37
-EQU (291) 38
-GTR (292) 39
-LSS (293) 40
-GEQ (294) 41
-LEQ (295) 42
-NEQ (296) 43
-LOGICAL_AND (297) 44
-LOGICAL_OR (298) 45
-LOGICAL_NOT (299) 46
+STRING (275) 50
+NUMBER (276) 48
+PLUS (277) 21
+MINUS (278) 22 44
+TIMES (279) 23
+OVER (280) 24
+MOD (281) 25
+PPLUS (282) 27
+MMINUS (283) 26
+AND (284) 28
+OR (285) 29
+XOR (286) 31
+NOT (287) 30
+SHIFT_LEFT (288) 32
+SHIFT_RIGHT (289) 33
+ASSIGN (290) 34
+EQU (291) 35
+GTR (292) 36
+LSS (293) 37
+GEQ (294) 38
+LEQ (295) 39
+NEQ (296) 40
+LOGICAL_AND (297) 41
+LOGICAL_OR (298) 42
+LOGICAL_NOT (299) 43
 UMINUS (300)
 FOR (301)
 INPUT (302)
 OUTPUT (303)
 DO (304)
 MAIN (305) 5
-IF (306) 15 16
-ELSE (307) 13 14
-WHILE (308) 18 19
+IF (306) 14
+ELSE (307) 13
+WHILE (308) 16
 EOL (309)
 LOP_EQ (310)
 
@@ -177,30 +174,30 @@ $accept (56)
 program (57)
     on left: 1, on right: 0
 statements (58)
-    on left: 2 3 4, on right: 1 3 4 5 14 16 19
+    on left: 2 3 4, on right: 1 3 4 5 13 14 16
 statement (59)
-    on left: 5 6 7 8 9 10 11, on right: 2 3 13 15 18
+    on left: 5 6 7 8 9 10 11, on right: 2 3
 assignment_stmt (60)
     on left: 12, on right: 10
 else_stmt (61)
-    on left: 13 14, on right: 17
+    on left: 13, on right: 15
 if_stmt (62)
-    on left: 15 16, on right: 7 17
+    on left: 14, on right: 7 15
 if_else_stmt (63)
-    on left: 17, on right: 8
+    on left: 15, on right: 8
 while_stmt (64)
-    on left: 18 19, on right: 6
+    on left: 16, on right: 6
 declaration (65)
-    on left: 20 21, on right: 9
+    on left: 17 18, on right: 9
 IDLIST (66)
-    on left: 22 23, on right: 21 22
+    on left: 19 20, on right: 18 19
 expr (67)
-    on left: 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41
-    42 43 44 45 46 47 48 49 50 51 52 53, on right: 12 15 16 18 19 20
-    24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44
-    45 46 47 48
+    on left: 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38
+    39 40 41 42 43 44 45 46 47 48 49 50, on right: 12 14 16 17 21 22
+    23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43
+    44 45
 T (68)
-    on left: 54 55 56 57 58, on right: 20 21
+    on left: 51 52 53 54 55, on right: 17 18
 
 
 State 0
@@ -232,37 +229,37 @@ State 0
 
 State 1
 
-   55 T: T_CHAR .
+   52 T: T_CHAR .
 
-    $default  reduce using rule 55 (T)
+    $default  reduce using rule 52 (T)
 
 
 State 2
 
-   54 T: T_INT .
+   51 T: T_INT .
 
-    $default  reduce using rule 54 (T)
+    $default  reduce using rule 51 (T)
 
 
 State 3
 
-   56 T: T_BOOL .
+   53 T: T_BOOL .
 
-    $default  reduce using rule 56 (T)
+    $default  reduce using rule 53 (T)
 
 
 State 4
 
-   57 T: T_DOUBLE .
+   54 T: T_DOUBLE .
 
-    $default  reduce using rule 57 (T)
+    $default  reduce using rule 54 (T)
 
 
 State 5
 
-   58 T: T_VOID .
+   55 T: T_VOID .
 
-    $default  reduce using rule 58 (T)
+    $default  reduce using rule 55 (T)
 
 
 State 6
@@ -314,16 +311,14 @@ State 9
 
 State 10
 
-   15 if_stmt: IF . LP expr RP statement
-   16        | IF . LP expr RP LB statements RB
+   14 if_stmt: IF . LP expr RP statements
 
     LP  shift, and go to state 24
 
 
 State 11
 
-   18 while_stmt: WHILE . LP expr RP statement
-   19           | WHILE . LP expr RP LB statements RB
+   16 while_stmt: WHILE . LP expr RP statements
 
     LP  shift, and go to state 25
 
@@ -392,7 +387,7 @@ State 15
 State 16
 
     7 statement: if_stmt .
-   17 if_else_stmt: if_stmt . else_stmt
+   15 if_else_stmt: if_stmt . else_stmt
 
     ELSE  shift, and go to state 28
 
@@ -425,8 +420,8 @@ State 19
 
 State 20
 
-   20 declaration: T . IDENTIFIER LOP_ASSIGN expr
-   21            | T . IDLIST
+   17 declaration: T . IDENTIFIER LOP_ASSIGN expr
+   18            | T . IDLIST
 
     IDENTIFIER  shift, and go to state 31
 
@@ -466,8 +461,7 @@ State 23
 
 State 24
 
-   15 if_stmt: IF LP . expr RP statement
-   16        | IF LP . expr RP LB statements RB
+   14 if_stmt: IF LP . expr RP statements
 
     LP           shift, and go to state 34
     IDENTIFIER   shift, and go to state 35
@@ -484,8 +478,7 @@ State 24
 
 State 25
 
-   18 while_stmt: WHILE LP . expr RP statement
-   19           | WHILE LP . expr RP LB statements RB
+   16 while_stmt: WHILE LP . expr RP statements
 
     LP           shift, and go to state 34
     IDENTIFIER   shift, and go to state 35
@@ -516,8 +509,7 @@ State 27
 
 State 28
 
-   13 else_stmt: ELSE . statement
-   14          | ELSE . LB statements RB
+   13 else_stmt: ELSE . statements
 
     T_CHAR      shift, and go to state 1
     T_INT       shift, and go to state 2
@@ -525,13 +517,14 @@ State 28
     T_DOUBLE    shift, and go to state 4
     T_VOID      shift, and go to state 5
     SEMICOLON   shift, and go to state 6
-    LB          shift, and go to state 47
+    LB          shift, and go to state 7
     IDENTIFIER  shift, and go to state 8
     MAIN        shift, and go to state 9
     IF          shift, and go to state 10
     WHILE       shift, and go to state 11
 
-    statement        go to state 48
+    statements       go to state 47
+    statement        go to state 14
     assignment_stmt  go to state 15
     if_stmt          go to state 16
     if_else_stmt     go to state 17
@@ -542,9 +535,9 @@ State 28
 
 State 29
 
-   17 if_else_stmt: if_stmt else_stmt .
+   15 if_else_stmt: if_stmt else_stmt .
 
-    $default  reduce using rule 17 (if_else_stmt)
+    $default  reduce using rule 15 (if_else_stmt)
 
 
 State 30
@@ -556,21 +549,21 @@ State 30
 
 State 31
 
-   20 declaration: T IDENTIFIER . LOP_ASSIGN expr
-   22 IDLIST: IDENTIFIER . COMMA IDLIST
-   23       | IDENTIFIER .
+   17 declaration: T IDENTIFIER . LOP_ASSIGN expr
+   19 IDLIST: IDENTIFIER . COMMA IDLIST
+   20       | IDENTIFIER .
 
-    LOP_ASSIGN  shift, and go to state 49
-    COMMA       shift, and go to state 50
+    LOP_ASSIGN  shift, and go to state 48
+    COMMA       shift, and go to state 49
 
-    $default  reduce using rule 23 (IDLIST)
+    $default  reduce using rule 20 (IDLIST)
 
 
 State 32
 
-   21 declaration: T IDLIST .
+   18 declaration: T IDLIST .
 
-    $default  reduce using rule 21 (declaration)
+    $default  reduce using rule 18 (declaration)
 
 
 State 33
@@ -582,7 +575,59 @@ State 33
 
 State 34
 
-   48 expr: LP . expr RP
+   45 expr: LP . expr RP
+
+    LP           shift, and go to state 34
+    IDENTIFIER   shift, and go to state 35
+    INTEGER      shift, and go to state 36
+    CHAR         shift, and go to state 37
+    STRING       shift, and go to state 38
+    NUMBER       shift, and go to state 39
+    MINUS        shift, and go to state 40
+    NOT          shift, and go to state 41
+    LOGICAL_NOT  shift, and go to state 42
+
+    expr  go to state 50
+
+
+State 35
+
+   46 expr: IDENTIFIER .
+
+    $default  reduce using rule 46 (expr)
+
+
+State 36
+
+   47 expr: INTEGER .
+
+    $default  reduce using rule 47 (expr)
+
+
+State 37
+
+   49 expr: CHAR .
+
+    $default  reduce using rule 49 (expr)
+
+
+State 38
+
+   50 expr: STRING .
+
+    $default  reduce using rule 50 (expr)
+
+
+State 39
+
+   48 expr: NUMBER .
+
+    $default  reduce using rule 48 (expr)
+
+
+State 40
+
+   44 expr: MINUS . expr
 
     LP           shift, and go to state 34
     IDENTIFIER   shift, and go to state 35
@@ -597,44 +642,9 @@ State 34
     expr  go to state 51
 
 
-State 35
+State 41
 
-   49 expr: IDENTIFIER .
-
-    $default  reduce using rule 49 (expr)
-
-
-State 36
-
-   50 expr: INTEGER .
-
-    $default  reduce using rule 50 (expr)
-
-
-State 37
-
-   52 expr: CHAR .
-
-    $default  reduce using rule 52 (expr)
-
-
-State 38
-
-   53 expr: STRING .
-
-    $default  reduce using rule 53 (expr)
-
-
-State 39
-
-   51 expr: NUMBER .
-
-    $default  reduce using rule 51 (expr)
-
-
-State 40
-
-   47 expr: MINUS . expr
+   30 expr: NOT . expr
 
     LP           shift, and go to state 34
     IDENTIFIER   shift, and go to state 35
@@ -649,9 +659,9 @@ State 40
     expr  go to state 52
 
 
-State 41
+State 42
 
-   33 expr: NOT . expr
+   43 expr: LOGICAL_NOT . expr
 
     LP           shift, and go to state 34
     IDENTIFIER   shift, and go to state 35
@@ -666,70 +676,53 @@ State 41
     expr  go to state 53
 
 
-State 42
-
-   46 expr: LOGICAL_NOT . expr
-
-    LP           shift, and go to state 34
-    IDENTIFIER   shift, and go to state 35
-    INTEGER      shift, and go to state 36
-    CHAR         shift, and go to state 37
-    STRING       shift, and go to state 38
-    NUMBER       shift, and go to state 39
-    MINUS        shift, and go to state 40
-    NOT          shift, and go to state 41
-    LOGICAL_NOT  shift, and go to state 42
-
-    expr  go to state 54
-
-
 State 43
 
    12 assignment_stmt: IDENTIFIER LOP_ASSIGN expr . SEMICOLON
-   24 expr: expr . PLUS expr
-   25     | expr . MINUS expr
-   26     | expr . TIMES expr
-   27     | expr . OVER expr
-   28     | expr . MOD expr
-   29     | expr . MMINUS
-   30     | expr . PPLUS
-   31     | expr . AND expr
-   32     | expr . OR expr
-   34     | expr . XOR expr
-   35     | expr . SHIFT_LEFT expr
-   36     | expr . SHIFT_RIGHT expr
-   37     | expr . ASSIGN expr
-   38     | expr . EQU expr
-   39     | expr . GTR expr
-   40     | expr . LSS expr
-   41     | expr . GEQ expr
-   42     | expr . LEQ expr
-   43     | expr . NEQ expr
-   44     | expr . LOGICAL_AND expr
-   45     | expr . LOGICAL_OR expr
+   21 expr: expr . PLUS expr
+   22     | expr . MINUS expr
+   23     | expr . TIMES expr
+   24     | expr . OVER expr
+   25     | expr . MOD expr
+   26     | expr . MMINUS
+   27     | expr . PPLUS
+   28     | expr . AND expr
+   29     | expr . OR expr
+   31     | expr . XOR expr
+   32     | expr . SHIFT_LEFT expr
+   33     | expr . SHIFT_RIGHT expr
+   34     | expr . ASSIGN expr
+   35     | expr . EQU expr
+   36     | expr . GTR expr
+   37     | expr . LSS expr
+   38     | expr . GEQ expr
+   39     | expr . LEQ expr
+   40     | expr . NEQ expr
+   41     | expr . LOGICAL_AND expr
+   42     | expr . LOGICAL_OR expr
 
-    SEMICOLON    shift, and go to state 55
-    PLUS         shift, and go to state 56
-    MINUS        shift, and go to state 57
-    TIMES        shift, and go to state 58
-    OVER         shift, and go to state 59
-    MOD          shift, and go to state 60
-    PPLUS        shift, and go to state 61
-    MMINUS       shift, and go to state 62
-    AND          shift, and go to state 63
-    OR           shift, and go to state 64
-    XOR          shift, and go to state 65
-    SHIFT_LEFT   shift, and go to state 66
-    SHIFT_RIGHT  shift, and go to state 67
-    ASSIGN       shift, and go to state 68
-    EQU          shift, and go to state 69
-    GTR          shift, and go to state 70
-    LSS          shift, and go to state 71
-    GEQ          shift, and go to state 72
-    LEQ          shift, and go to state 73
-    NEQ          shift, and go to state 74
-    LOGICAL_AND  shift, and go to state 75
-    LOGICAL_OR   shift, and go to state 76
+    SEMICOLON    shift, and go to state 54
+    PLUS         shift, and go to state 55
+    MINUS        shift, and go to state 56
+    TIMES        shift, and go to state 57
+    OVER         shift, and go to state 58
+    MOD          shift, and go to state 59
+    PPLUS        shift, and go to state 60
+    MMINUS       shift, and go to state 61
+    AND          shift, and go to state 62
+    OR           shift, and go to state 63
+    XOR          shift, and go to state 64
+    SHIFT_LEFT   shift, and go to state 65
+    SHIFT_RIGHT  shift, and go to state 66
+    ASSIGN       shift, and go to state 67
+    EQU          shift, and go to state 68
+    GTR          shift, and go to state 69
+    LSS          shift, and go to state 70
+    GEQ          shift, and go to state 71
+    LEQ          shift, and go to state 72
+    NEQ          shift, and go to state 73
+    LOGICAL_AND  shift, and go to state 74
+    LOGICAL_OR   shift, and go to state 75
 
 
 State 44
@@ -748,7 +741,7 @@ State 44
     IF          shift, and go to state 10
     WHILE       shift, and go to state 11
 
-    statements       go to state 77
+    statements       go to state 76
     statement        go to state 14
     assignment_stmt  go to state 15
     if_stmt          go to state 16
@@ -760,140 +753,112 @@ State 44
 
 State 45
 
-   15 if_stmt: IF LP expr . RP statement
-   16        | IF LP expr . RP LB statements RB
-   24 expr: expr . PLUS expr
-   25     | expr . MINUS expr
-   26     | expr . TIMES expr
-   27     | expr . OVER expr
-   28     | expr . MOD expr
-   29     | expr . MMINUS
-   30     | expr . PPLUS
-   31     | expr . AND expr
-   32     | expr . OR expr
-   34     | expr . XOR expr
-   35     | expr . SHIFT_LEFT expr
-   36     | expr . SHIFT_RIGHT expr
-   37     | expr . ASSIGN expr
-   38     | expr . EQU expr
-   39     | expr . GTR expr
-   40     | expr . LSS expr
-   41     | expr . GEQ expr
-   42     | expr . LEQ expr
-   43     | expr . NEQ expr
-   44     | expr . LOGICAL_AND expr
-   45     | expr . LOGICAL_OR expr
+   14 if_stmt: IF LP expr . RP statements
+   21 expr: expr . PLUS expr
+   22     | expr . MINUS expr
+   23     | expr . TIMES expr
+   24     | expr . OVER expr
+   25     | expr . MOD expr
+   26     | expr . MMINUS
+   27     | expr . PPLUS
+   28     | expr . AND expr
+   29     | expr . OR expr
+   31     | expr . XOR expr
+   32     | expr . SHIFT_LEFT expr
+   33     | expr . SHIFT_RIGHT expr
+   34     | expr . ASSIGN expr
+   35     | expr . EQU expr
+   36     | expr . GTR expr
+   37     | expr . LSS expr
+   38     | expr . GEQ expr
+   39     | expr . LEQ expr
+   40     | expr . NEQ expr
+   41     | expr . LOGICAL_AND expr
+   42     | expr . LOGICAL_OR expr
 
-    RP           shift, and go to state 78
-    PLUS         shift, and go to state 56
-    MINUS        shift, and go to state 57
-    TIMES        shift, and go to state 58
-    OVER         shift, and go to state 59
-    MOD          shift, and go to state 60
-    PPLUS        shift, and go to state 61
-    MMINUS       shift, and go to state 62
-    AND          shift, and go to state 63
-    OR           shift, and go to state 64
-    XOR          shift, and go to state 65
-    SHIFT_LEFT   shift, and go to state 66
-    SHIFT_RIGHT  shift, and go to state 67
-    ASSIGN       shift, and go to state 68
-    EQU          shift, and go to state 69
-    GTR          shift, and go to state 70
-    LSS          shift, and go to state 71
-    GEQ          shift, and go to state 72
-    LEQ          shift, and go to state 73
-    NEQ          shift, and go to state 74
-    LOGICAL_AND  shift, and go to state 75
-    LOGICAL_OR   shift, and go to state 76
+    RP           shift, and go to state 77
+    PLUS         shift, and go to state 55
+    MINUS        shift, and go to state 56
+    TIMES        shift, and go to state 57
+    OVER         shift, and go to state 58
+    MOD          shift, and go to state 59
+    PPLUS        shift, and go to state 60
+    MMINUS       shift, and go to state 61
+    AND          shift, and go to state 62
+    OR           shift, and go to state 63
+    XOR          shift, and go to state 64
+    SHIFT_LEFT   shift, and go to state 65
+    SHIFT_RIGHT  shift, and go to state 66
+    ASSIGN       shift, and go to state 67
+    EQU          shift, and go to state 68
+    GTR          shift, and go to state 69
+    LSS          shift, and go to state 70
+    GEQ          shift, and go to state 71
+    LEQ          shift, and go to state 72
+    NEQ          shift, and go to state 73
+    LOGICAL_AND  shift, and go to state 74
+    LOGICAL_OR   shift, and go to state 75
 
 
 State 46
 
-   18 while_stmt: WHILE LP expr . RP statement
-   19           | WHILE LP expr . RP LB statements RB
-   24 expr: expr . PLUS expr
-   25     | expr . MINUS expr
-   26     | expr . TIMES expr
-   27     | expr . OVER expr
-   28     | expr . MOD expr
-   29     | expr . MMINUS
-   30     | expr . PPLUS
-   31     | expr . AND expr
-   32     | expr . OR expr
-   34     | expr . XOR expr
-   35     | expr . SHIFT_LEFT expr
-   36     | expr . SHIFT_RIGHT expr
-   37     | expr . ASSIGN expr
-   38     | expr . EQU expr
-   39     | expr . GTR expr
-   40     | expr . LSS expr
-   41     | expr . GEQ expr
-   42     | expr . LEQ expr
-   43     | expr . NEQ expr
-   44     | expr . LOGICAL_AND expr
-   45     | expr . LOGICAL_OR expr
+   16 while_stmt: WHILE LP expr . RP statements
+   21 expr: expr . PLUS expr
+   22     | expr . MINUS expr
+   23     | expr . TIMES expr
+   24     | expr . OVER expr
+   25     | expr . MOD expr
+   26     | expr . MMINUS
+   27     | expr . PPLUS
+   28     | expr . AND expr
+   29     | expr . OR expr
+   31     | expr . XOR expr
+   32     | expr . SHIFT_LEFT expr
+   33     | expr . SHIFT_RIGHT expr
+   34     | expr . ASSIGN expr
+   35     | expr . EQU expr
+   36     | expr . GTR expr
+   37     | expr . LSS expr
+   38     | expr . GEQ expr
+   39     | expr . LEQ expr
+   40     | expr . NEQ expr
+   41     | expr . LOGICAL_AND expr
+   42     | expr . LOGICAL_OR expr
 
-    RP           shift, and go to state 79
-    PLUS         shift, and go to state 56
-    MINUS        shift, and go to state 57
-    TIMES        shift, and go to state 58
-    OVER         shift, and go to state 59
-    MOD          shift, and go to state 60
-    PPLUS        shift, and go to state 61
-    MMINUS       shift, and go to state 62
-    AND          shift, and go to state 63
-    OR           shift, and go to state 64
-    XOR          shift, and go to state 65
-    SHIFT_LEFT   shift, and go to state 66
-    SHIFT_RIGHT  shift, and go to state 67
-    ASSIGN       shift, and go to state 68
-    EQU          shift, and go to state 69
-    GTR          shift, and go to state 70
-    LSS          shift, and go to state 71
-    GEQ          shift, and go to state 72
-    LEQ          shift, and go to state 73
-    NEQ          shift, and go to state 74
-    LOGICAL_AND  shift, and go to state 75
-    LOGICAL_OR   shift, and go to state 76
+    RP           shift, and go to state 78
+    PLUS         shift, and go to state 55
+    MINUS        shift, and go to state 56
+    TIMES        shift, and go to state 57
+    OVER         shift, and go to state 58
+    MOD          shift, and go to state 59
+    PPLUS        shift, and go to state 60
+    MMINUS       shift, and go to state 61
+    AND          shift, and go to state 62
+    OR           shift, and go to state 63
+    XOR          shift, and go to state 64
+    SHIFT_LEFT   shift, and go to state 65
+    SHIFT_RIGHT  shift, and go to state 66
+    ASSIGN       shift, and go to state 67
+    EQU          shift, and go to state 68
+    GTR          shift, and go to state 69
+    LSS          shift, and go to state 70
+    GEQ          shift, and go to state 71
+    LEQ          shift, and go to state 72
+    NEQ          shift, and go to state 73
+    LOGICAL_AND  shift, and go to state 74
+    LOGICAL_OR   shift, and go to state 75
 
 
 State 47
 
-   14 else_stmt: ELSE LB . statements RB
-
-    T_CHAR      shift, and go to state 1
-    T_INT       shift, and go to state 2
-    T_BOOL      shift, and go to state 3
-    T_DOUBLE    shift, and go to state 4
-    T_VOID      shift, and go to state 5
-    SEMICOLON   shift, and go to state 6
-    LB          shift, and go to state 7
-    IDENTIFIER  shift, and go to state 8
-    MAIN        shift, and go to state 9
-    IF          shift, and go to state 10
-    WHILE       shift, and go to state 11
-
-    statements       go to state 80
-    statement        go to state 14
-    assignment_stmt  go to state 15
-    if_stmt          go to state 16
-    if_else_stmt     go to state 17
-    while_stmt       go to state 18
-    declaration      go to state 19
-    T                go to state 20
-
-
-State 48
-
-   13 else_stmt: ELSE statement .
+   13 else_stmt: ELSE statements .
 
     $default  reduce using rule 13 (else_stmt)
 
 
-State 49
+State 48
 
-   20 declaration: T IDENTIFIER LOP_ASSIGN . expr
+   17 declaration: T IDENTIFIER LOP_ASSIGN . expr
 
     LP           shift, and go to state 34
     IDENTIFIER   shift, and go to state 35
@@ -905,176 +870,210 @@ State 49
     NOT          shift, and go to state 41
     LOGICAL_NOT  shift, and go to state 42
 
-    expr  go to state 81
+    expr  go to state 79
+
+
+State 49
+
+   19 IDLIST: IDENTIFIER COMMA . IDLIST
+
+    IDENTIFIER  shift, and go to state 80
+
+    IDLIST  go to state 81
 
 
 State 50
 
-   22 IDLIST: IDENTIFIER COMMA . IDLIST
+   21 expr: expr . PLUS expr
+   22     | expr . MINUS expr
+   23     | expr . TIMES expr
+   24     | expr . OVER expr
+   25     | expr . MOD expr
+   26     | expr . MMINUS
+   27     | expr . PPLUS
+   28     | expr . AND expr
+   29     | expr . OR expr
+   31     | expr . XOR expr
+   32     | expr . SHIFT_LEFT expr
+   33     | expr . SHIFT_RIGHT expr
+   34     | expr . ASSIGN expr
+   35     | expr . EQU expr
+   36     | expr . GTR expr
+   37     | expr . LSS expr
+   38     | expr . GEQ expr
+   39     | expr . LEQ expr
+   40     | expr . NEQ expr
+   41     | expr . LOGICAL_AND expr
+   42     | expr . LOGICAL_OR expr
+   45     | LP expr . RP
 
-    IDENTIFIER  shift, and go to state 82
-
-    IDLIST  go to state 83
+    RP           shift, and go to state 82
+    PLUS         shift, and go to state 55
+    MINUS        shift, and go to state 56
+    TIMES        shift, and go to state 57
+    OVER         shift, and go to state 58
+    MOD          shift, and go to state 59
+    PPLUS        shift, and go to state 60
+    MMINUS       shift, and go to state 61
+    AND          shift, and go to state 62
+    OR           shift, and go to state 63
+    XOR          shift, and go to state 64
+    SHIFT_LEFT   shift, and go to state 65
+    SHIFT_RIGHT  shift, and go to state 66
+    ASSIGN       shift, and go to state 67
+    EQU          shift, and go to state 68
+    GTR          shift, and go to state 69
+    LSS          shift, and go to state 70
+    GEQ          shift, and go to state 71
+    LEQ          shift, and go to state 72
+    NEQ          shift, and go to state 73
+    LOGICAL_AND  shift, and go to state 74
+    LOGICAL_OR   shift, and go to state 75
 
 
 State 51
 
-   24 expr: expr . PLUS expr
-   25     | expr . MINUS expr
-   26     | expr . TIMES expr
-   27     | expr . OVER expr
-   28     | expr . MOD expr
-   29     | expr . MMINUS
-   30     | expr . PPLUS
-   31     | expr . AND expr
-   32     | expr . OR expr
-   34     | expr . XOR expr
-   35     | expr . SHIFT_LEFT expr
-   36     | expr . SHIFT_RIGHT expr
-   37     | expr . ASSIGN expr
-   38     | expr . EQU expr
-   39     | expr . GTR expr
-   40     | expr . LSS expr
-   41     | expr . GEQ expr
-   42     | expr . LEQ expr
-   43     | expr . NEQ expr
-   44     | expr . LOGICAL_AND expr
-   45     | expr . LOGICAL_OR expr
-   48     | LP expr . RP
+   21 expr: expr . PLUS expr
+   22     | expr . MINUS expr
+   23     | expr . TIMES expr
+   24     | expr . OVER expr
+   25     | expr . MOD expr
+   26     | expr . MMINUS
+   27     | expr . PPLUS
+   28     | expr . AND expr
+   29     | expr . OR expr
+   31     | expr . XOR expr
+   32     | expr . SHIFT_LEFT expr
+   33     | expr . SHIFT_RIGHT expr
+   34     | expr . ASSIGN expr
+   35     | expr . EQU expr
+   36     | expr . GTR expr
+   37     | expr . LSS expr
+   38     | expr . GEQ expr
+   39     | expr . LEQ expr
+   40     | expr . NEQ expr
+   41     | expr . LOGICAL_AND expr
+   42     | expr . LOGICAL_OR expr
+   44     | MINUS expr .
 
-    RP           shift, and go to state 84
-    PLUS         shift, and go to state 56
-    MINUS        shift, and go to state 57
-    TIMES        shift, and go to state 58
-    OVER         shift, and go to state 59
-    MOD          shift, and go to state 60
-    PPLUS        shift, and go to state 61
-    MMINUS       shift, and go to state 62
-    AND          shift, and go to state 63
-    OR           shift, and go to state 64
-    XOR          shift, and go to state 65
-    SHIFT_LEFT   shift, and go to state 66
-    SHIFT_RIGHT  shift, and go to state 67
-    ASSIGN       shift, and go to state 68
-    EQU          shift, and go to state 69
-    GTR          shift, and go to state 70
-    LSS          shift, and go to state 71
-    GEQ          shift, and go to state 72
-    LEQ          shift, and go to state 73
-    NEQ          shift, and go to state 74
-    LOGICAL_AND  shift, and go to state 75
-    LOGICAL_OR   shift, and go to state 76
+    PPLUS   shift, and go to state 60
+    MMINUS  shift, and go to state 61
+    ASSIGN  shift, and go to state 67
+
+    ASSIGN    [reduce using rule 44 (expr)]
+    $default  reduce using rule 44 (expr)
 
 
 State 52
 
-   24 expr: expr . PLUS expr
-   25     | expr . MINUS expr
-   26     | expr . TIMES expr
-   27     | expr . OVER expr
-   28     | expr . MOD expr
-   29     | expr . MMINUS
-   30     | expr . PPLUS
-   31     | expr . AND expr
-   32     | expr . OR expr
-   34     | expr . XOR expr
-   35     | expr . SHIFT_LEFT expr
-   36     | expr . SHIFT_RIGHT expr
-   37     | expr . ASSIGN expr
-   38     | expr . EQU expr
-   39     | expr . GTR expr
-   40     | expr . LSS expr
-   41     | expr . GEQ expr
-   42     | expr . LEQ expr
-   43     | expr . NEQ expr
-   44     | expr . LOGICAL_AND expr
-   45     | expr . LOGICAL_OR expr
-   47     | MINUS expr .
+   21 expr: expr . PLUS expr
+   22     | expr . MINUS expr
+   23     | expr . TIMES expr
+   24     | expr . OVER expr
+   25     | expr . MOD expr
+   26     | expr . MMINUS
+   27     | expr . PPLUS
+   28     | expr . AND expr
+   29     | expr . OR expr
+   30     | NOT expr .
+   31     | expr . XOR expr
+   32     | expr . SHIFT_LEFT expr
+   33     | expr . SHIFT_RIGHT expr
+   34     | expr . ASSIGN expr
+   35     | expr . EQU expr
+   36     | expr . GTR expr
+   37     | expr . LSS expr
+   38     | expr . GEQ expr
+   39     | expr . LEQ expr
+   40     | expr . NEQ expr
+   41     | expr . LOGICAL_AND expr
+   42     | expr . LOGICAL_OR expr
 
-    PPLUS   shift, and go to state 61
-    MMINUS  shift, and go to state 62
-    ASSIGN  shift, and go to state 68
+    PPLUS   shift, and go to state 60
+    MMINUS  shift, and go to state 61
+    ASSIGN  shift, and go to state 67
 
-    ASSIGN    [reduce using rule 47 (expr)]
-    $default  reduce using rule 47 (expr)
+    ASSIGN    [reduce using rule 30 (expr)]
+    $default  reduce using rule 30 (expr)
 
 
 State 53
 
-   24 expr: expr . PLUS expr
-   25     | expr . MINUS expr
-   26     | expr . TIMES expr
-   27     | expr . OVER expr
-   28     | expr . MOD expr
-   29     | expr . MMINUS
-   30     | expr . PPLUS
-   31     | expr . AND expr
-   32     | expr . OR expr
-   33     | NOT expr .
-   34     | expr . XOR expr
-   35     | expr . SHIFT_LEFT expr
-   36     | expr . SHIFT_RIGHT expr
-   37     | expr . ASSIGN expr
-   38     | expr . EQU expr
-   39     | expr . GTR expr
-   40     | expr . LSS expr
-   41     | expr . GEQ expr
-   42     | expr . LEQ expr
-   43     | expr . NEQ expr
-   44     | expr . LOGICAL_AND expr
-   45     | expr . LOGICAL_OR expr
+   21 expr: expr . PLUS expr
+   22     | expr . MINUS expr
+   23     | expr . TIMES expr
+   24     | expr . OVER expr
+   25     | expr . MOD expr
+   26     | expr . MMINUS
+   27     | expr . PPLUS
+   28     | expr . AND expr
+   29     | expr . OR expr
+   31     | expr . XOR expr
+   32     | expr . SHIFT_LEFT expr
+   33     | expr . SHIFT_RIGHT expr
+   34     | expr . ASSIGN expr
+   35     | expr . EQU expr
+   36     | expr . GTR expr
+   37     | expr . LSS expr
+   38     | expr . GEQ expr
+   39     | expr . LEQ expr
+   40     | expr . NEQ expr
+   41     | expr . LOGICAL_AND expr
+   42     | expr . LOGICAL_OR expr
+   43     | LOGICAL_NOT expr .
 
-    PPLUS   shift, and go to state 61
-    MMINUS  shift, and go to state 62
-    ASSIGN  shift, and go to state 68
+    PPLUS   shift, and go to state 60
+    MMINUS  shift, and go to state 61
+    ASSIGN  shift, and go to state 67
 
-    ASSIGN    [reduce using rule 33 (expr)]
-    $default  reduce using rule 33 (expr)
+    ASSIGN    [reduce using rule 43 (expr)]
+    $default  reduce using rule 43 (expr)
 
 
 State 54
-
-   24 expr: expr . PLUS expr
-   25     | expr . MINUS expr
-   26     | expr . TIMES expr
-   27     | expr . OVER expr
-   28     | expr . MOD expr
-   29     | expr . MMINUS
-   30     | expr . PPLUS
-   31     | expr . AND expr
-   32     | expr . OR expr
-   34     | expr . XOR expr
-   35     | expr . SHIFT_LEFT expr
-   36     | expr . SHIFT_RIGHT expr
-   37     | expr . ASSIGN expr
-   38     | expr . EQU expr
-   39     | expr . GTR expr
-   40     | expr . LSS expr
-   41     | expr . GEQ expr
-   42     | expr . LEQ expr
-   43     | expr . NEQ expr
-   44     | expr . LOGICAL_AND expr
-   45     | expr . LOGICAL_OR expr
-   46     | LOGICAL_NOT expr .
-
-    PPLUS   shift, and go to state 61
-    MMINUS  shift, and go to state 62
-    ASSIGN  shift, and go to state 68
-
-    ASSIGN    [reduce using rule 46 (expr)]
-    $default  reduce using rule 46 (expr)
-
-
-State 55
 
    12 assignment_stmt: IDENTIFIER LOP_ASSIGN expr SEMICOLON .
 
     $default  reduce using rule 12 (assignment_stmt)
 
 
+State 55
+
+   21 expr: expr PLUS . expr
+
+    LP           shift, and go to state 34
+    IDENTIFIER   shift, and go to state 35
+    INTEGER      shift, and go to state 36
+    CHAR         shift, and go to state 37
+    STRING       shift, and go to state 38
+    NUMBER       shift, and go to state 39
+    MINUS        shift, and go to state 40
+    NOT          shift, and go to state 41
+    LOGICAL_NOT  shift, and go to state 42
+
+    expr  go to state 83
+
+
 State 56
 
-   24 expr: expr PLUS . expr
+   22 expr: expr MINUS . expr
+
+    LP           shift, and go to state 34
+    IDENTIFIER   shift, and go to state 35
+    INTEGER      shift, and go to state 36
+    CHAR         shift, and go to state 37
+    STRING       shift, and go to state 38
+    NUMBER       shift, and go to state 39
+    MINUS        shift, and go to state 40
+    NOT          shift, and go to state 41
+    LOGICAL_NOT  shift, and go to state 42
+
+    expr  go to state 84
+
+
+State 57
+
+   23 expr: expr TIMES . expr
 
     LP           shift, and go to state 34
     IDENTIFIER   shift, and go to state 35
@@ -1089,9 +1088,9 @@ State 56
     expr  go to state 85
 
 
-State 57
+State 58
 
-   25 expr: expr MINUS . expr
+   24 expr: expr OVER . expr
 
     LP           shift, and go to state 34
     IDENTIFIER   shift, and go to state 35
@@ -1106,9 +1105,9 @@ State 57
     expr  go to state 86
 
 
-State 58
+State 59
 
-   26 expr: expr TIMES . expr
+   25 expr: expr MOD . expr
 
     LP           shift, and go to state 34
     IDENTIFIER   shift, and go to state 35
@@ -1123,9 +1122,23 @@ State 58
     expr  go to state 87
 
 
-State 59
+State 60
 
-   27 expr: expr OVER . expr
+   27 expr: expr PPLUS .
+
+    $default  reduce using rule 27 (expr)
+
+
+State 61
+
+   26 expr: expr MMINUS .
+
+    $default  reduce using rule 26 (expr)
+
+
+State 62
+
+   28 expr: expr AND . expr
 
     LP           shift, and go to state 34
     IDENTIFIER   shift, and go to state 35
@@ -1140,9 +1153,9 @@ State 59
     expr  go to state 88
 
 
-State 60
+State 63
 
-   28 expr: expr MOD . expr
+   29 expr: expr OR . expr
 
     LP           shift, and go to state 34
     IDENTIFIER   shift, and go to state 35
@@ -1157,23 +1170,9 @@ State 60
     expr  go to state 89
 
 
-State 61
+State 64
 
-   30 expr: expr PPLUS .
-
-    $default  reduce using rule 30 (expr)
-
-
-State 62
-
-   29 expr: expr MMINUS .
-
-    $default  reduce using rule 29 (expr)
-
-
-State 63
-
-   31 expr: expr AND . expr
+   31 expr: expr XOR . expr
 
     LP           shift, and go to state 34
     IDENTIFIER   shift, and go to state 35
@@ -1188,9 +1187,9 @@ State 63
     expr  go to state 90
 
 
-State 64
+State 65
 
-   32 expr: expr OR . expr
+   32 expr: expr SHIFT_LEFT . expr
 
     LP           shift, and go to state 34
     IDENTIFIER   shift, and go to state 35
@@ -1205,9 +1204,9 @@ State 64
     expr  go to state 91
 
 
-State 65
+State 66
 
-   34 expr: expr XOR . expr
+   33 expr: expr SHIFT_RIGHT . expr
 
     LP           shift, and go to state 34
     IDENTIFIER   shift, and go to state 35
@@ -1222,9 +1221,9 @@ State 65
     expr  go to state 92
 
 
-State 66
+State 67
 
-   35 expr: expr SHIFT_LEFT . expr
+   34 expr: expr ASSIGN . expr
 
     LP           shift, and go to state 34
     IDENTIFIER   shift, and go to state 35
@@ -1239,9 +1238,9 @@ State 66
     expr  go to state 93
 
 
-State 67
+State 68
 
-   36 expr: expr SHIFT_RIGHT . expr
+   35 expr: expr EQU . expr
 
     LP           shift, and go to state 34
     IDENTIFIER   shift, and go to state 35
@@ -1256,9 +1255,9 @@ State 67
     expr  go to state 94
 
 
-State 68
+State 69
 
-   37 expr: expr ASSIGN . expr
+   36 expr: expr GTR . expr
 
     LP           shift, and go to state 34
     IDENTIFIER   shift, and go to state 35
@@ -1273,9 +1272,9 @@ State 68
     expr  go to state 95
 
 
-State 69
+State 70
 
-   38 expr: expr EQU . expr
+   37 expr: expr LSS . expr
 
     LP           shift, and go to state 34
     IDENTIFIER   shift, and go to state 35
@@ -1290,9 +1289,9 @@ State 69
     expr  go to state 96
 
 
-State 70
+State 71
 
-   39 expr: expr GTR . expr
+   38 expr: expr GEQ . expr
 
     LP           shift, and go to state 34
     IDENTIFIER   shift, and go to state 35
@@ -1307,9 +1306,9 @@ State 70
     expr  go to state 97
 
 
-State 71
+State 72
 
-   40 expr: expr LSS . expr
+   39 expr: expr LEQ . expr
 
     LP           shift, and go to state 34
     IDENTIFIER   shift, and go to state 35
@@ -1324,9 +1323,9 @@ State 71
     expr  go to state 98
 
 
-State 72
+State 73
 
-   41 expr: expr GEQ . expr
+   40 expr: expr NEQ . expr
 
     LP           shift, and go to state 34
     IDENTIFIER   shift, and go to state 35
@@ -1341,9 +1340,9 @@ State 72
     expr  go to state 99
 
 
-State 73
+State 74
 
-   42 expr: expr LEQ . expr
+   41 expr: expr LOGICAL_AND . expr
 
     LP           shift, and go to state 34
     IDENTIFIER   shift, and go to state 35
@@ -1358,9 +1357,9 @@ State 73
     expr  go to state 100
 
 
-State 74
+State 75
 
-   43 expr: expr NEQ . expr
+   42 expr: expr LOGICAL_OR . expr
 
     LP           shift, and go to state 34
     IDENTIFIER   shift, and go to state 35
@@ -1375,51 +1374,16 @@ State 74
     expr  go to state 101
 
 
-State 75
-
-   44 expr: expr LOGICAL_AND . expr
-
-    LP           shift, and go to state 34
-    IDENTIFIER   shift, and go to state 35
-    INTEGER      shift, and go to state 36
-    CHAR         shift, and go to state 37
-    STRING       shift, and go to state 38
-    NUMBER       shift, and go to state 39
-    MINUS        shift, and go to state 40
-    NOT          shift, and go to state 41
-    LOGICAL_NOT  shift, and go to state 42
-
-    expr  go to state 102
-
-
 State 76
-
-   45 expr: expr LOGICAL_OR . expr
-
-    LP           shift, and go to state 34
-    IDENTIFIER   shift, and go to state 35
-    INTEGER      shift, and go to state 36
-    CHAR         shift, and go to state 37
-    STRING       shift, and go to state 38
-    NUMBER       shift, and go to state 39
-    MINUS        shift, and go to state 40
-    NOT          shift, and go to state 41
-    LOGICAL_NOT  shift, and go to state 42
-
-    expr  go to state 103
-
-
-State 77
 
     5 statement: MAIN LP RP statements .
 
     $default  reduce using rule 5 (statement)
 
 
-State 78
+State 77
 
-   15 if_stmt: IF LP expr RP . statement
-   16        | IF LP expr RP . LB statements RB
+   14 if_stmt: IF LP expr RP . statements
 
     T_CHAR      shift, and go to state 1
     T_INT       shift, and go to state 2
@@ -1427,13 +1391,40 @@ State 78
     T_DOUBLE    shift, and go to state 4
     T_VOID      shift, and go to state 5
     SEMICOLON   shift, and go to state 6
-    LB          shift, and go to state 104
+    LB          shift, and go to state 7
     IDENTIFIER  shift, and go to state 8
     MAIN        shift, and go to state 9
     IF          shift, and go to state 10
     WHILE       shift, and go to state 11
 
-    statement        go to state 105
+    statements       go to state 102
+    statement        go to state 14
+    assignment_stmt  go to state 15
+    if_stmt          go to state 16
+    if_else_stmt     go to state 17
+    while_stmt       go to state 18
+    declaration      go to state 19
+    T                go to state 20
+
+
+State 78
+
+   16 while_stmt: WHILE LP expr RP . statements
+
+    T_CHAR      shift, and go to state 1
+    T_INT       shift, and go to state 2
+    T_BOOL      shift, and go to state 3
+    T_DOUBLE    shift, and go to state 4
+    T_VOID      shift, and go to state 5
+    SEMICOLON   shift, and go to state 6
+    LB          shift, and go to state 7
+    IDENTIFIER  shift, and go to state 8
+    MAIN        shift, and go to state 9
+    IF          shift, and go to state 10
+    WHILE       shift, and go to state 11
+
+    statements       go to state 103
+    statement        go to state 14
     assignment_stmt  go to state 15
     if_stmt          go to state 16
     if_else_stmt     go to state 17
@@ -1444,323 +1435,385 @@ State 78
 
 State 79
 
-   18 while_stmt: WHILE LP expr RP . statement
-   19           | WHILE LP expr RP . LB statements RB
+   17 declaration: T IDENTIFIER LOP_ASSIGN expr .
+   21 expr: expr . PLUS expr
+   22     | expr . MINUS expr
+   23     | expr . TIMES expr
+   24     | expr . OVER expr
+   25     | expr . MOD expr
+   26     | expr . MMINUS
+   27     | expr . PPLUS
+   28     | expr . AND expr
+   29     | expr . OR expr
+   31     | expr . XOR expr
+   32     | expr . SHIFT_LEFT expr
+   33     | expr . SHIFT_RIGHT expr
+   34     | expr . ASSIGN expr
+   35     | expr . EQU expr
+   36     | expr . GTR expr
+   37     | expr . LSS expr
+   38     | expr . GEQ expr
+   39     | expr . LEQ expr
+   40     | expr . NEQ expr
+   41     | expr . LOGICAL_AND expr
+   42     | expr . LOGICAL_OR expr
 
-    T_CHAR      shift, and go to state 1
-    T_INT       shift, and go to state 2
-    T_BOOL      shift, and go to state 3
-    T_DOUBLE    shift, and go to state 4
-    T_VOID      shift, and go to state 5
-    SEMICOLON   shift, and go to state 6
-    LB          shift, and go to state 106
-    IDENTIFIER  shift, and go to state 8
-    MAIN        shift, and go to state 9
-    IF          shift, and go to state 10
-    WHILE       shift, and go to state 11
+    PLUS         shift, and go to state 55
+    MINUS        shift, and go to state 56
+    TIMES        shift, and go to state 57
+    OVER         shift, and go to state 58
+    MOD          shift, and go to state 59
+    PPLUS        shift, and go to state 60
+    MMINUS       shift, and go to state 61
+    AND          shift, and go to state 62
+    OR           shift, and go to state 63
+    XOR          shift, and go to state 64
+    SHIFT_LEFT   shift, and go to state 65
+    SHIFT_RIGHT  shift, and go to state 66
+    ASSIGN       shift, and go to state 67
+    EQU          shift, and go to state 68
+    GTR          shift, and go to state 69
+    LSS          shift, and go to state 70
+    GEQ          shift, and go to state 71
+    LEQ          shift, and go to state 72
+    NEQ          shift, and go to state 73
+    LOGICAL_AND  shift, and go to state 74
+    LOGICAL_OR   shift, and go to state 75
 
-    statement        go to state 107
-    assignment_stmt  go to state 15
-    if_stmt          go to state 16
-    if_else_stmt     go to state 17
-    while_stmt       go to state 18
-    declaration      go to state 19
-    T                go to state 20
+    $default  reduce using rule 17 (declaration)
 
 
 State 80
 
-   14 else_stmt: ELSE LB statements . RB
+   19 IDLIST: IDENTIFIER . COMMA IDLIST
+   20       | IDENTIFIER .
 
-    RB  shift, and go to state 108
+    COMMA  shift, and go to state 49
+
+    $default  reduce using rule 20 (IDLIST)
 
 
 State 81
 
-   20 declaration: T IDENTIFIER LOP_ASSIGN expr .
-   24 expr: expr . PLUS expr
-   25     | expr . MINUS expr
-   26     | expr . TIMES expr
-   27     | expr . OVER expr
-   28     | expr . MOD expr
-   29     | expr . MMINUS
-   30     | expr . PPLUS
-   31     | expr . AND expr
-   32     | expr . OR expr
-   34     | expr . XOR expr
-   35     | expr . SHIFT_LEFT expr
-   36     | expr . SHIFT_RIGHT expr
-   37     | expr . ASSIGN expr
-   38     | expr . EQU expr
-   39     | expr . GTR expr
-   40     | expr . LSS expr
-   41     | expr . GEQ expr
-   42     | expr . LEQ expr
-   43     | expr . NEQ expr
-   44     | expr . LOGICAL_AND expr
-   45     | expr . LOGICAL_OR expr
+   19 IDLIST: IDENTIFIER COMMA IDLIST .
 
-    PLUS         shift, and go to state 56
-    MINUS        shift, and go to state 57
-    TIMES        shift, and go to state 58
-    OVER         shift, and go to state 59
-    MOD          shift, and go to state 60
-    PPLUS        shift, and go to state 61
-    MMINUS       shift, and go to state 62
-    AND          shift, and go to state 63
-    OR           shift, and go to state 64
-    XOR          shift, and go to state 65
-    SHIFT_LEFT   shift, and go to state 66
-    SHIFT_RIGHT  shift, and go to state 67
-    ASSIGN       shift, and go to state 68
-    EQU          shift, and go to state 69
-    GTR          shift, and go to state 70
-    LSS          shift, and go to state 71
-    GEQ          shift, and go to state 72
-    LEQ          shift, and go to state 73
-    NEQ          shift, and go to state 74
-    LOGICAL_AND  shift, and go to state 75
-    LOGICAL_OR   shift, and go to state 76
-
-    $default  reduce using rule 20 (declaration)
+    $default  reduce using rule 19 (IDLIST)
 
 
 State 82
 
-   22 IDLIST: IDENTIFIER . COMMA IDLIST
-   23       | IDENTIFIER .
+   45 expr: LP expr RP .
 
-    COMMA  shift, and go to state 50
-
-    $default  reduce using rule 23 (IDLIST)
+    $default  reduce using rule 45 (expr)
 
 
 State 83
 
-   22 IDLIST: IDENTIFIER COMMA IDLIST .
+   21 expr: expr . PLUS expr
+   21     | expr PLUS expr .
+   22     | expr . MINUS expr
+   23     | expr . TIMES expr
+   24     | expr . OVER expr
+   25     | expr . MOD expr
+   26     | expr . MMINUS
+   27     | expr . PPLUS
+   28     | expr . AND expr
+   29     | expr . OR expr
+   31     | expr . XOR expr
+   32     | expr . SHIFT_LEFT expr
+   33     | expr . SHIFT_RIGHT expr
+   34     | expr . ASSIGN expr
+   35     | expr . EQU expr
+   36     | expr . GTR expr
+   37     | expr . LSS expr
+   38     | expr . GEQ expr
+   39     | expr . LEQ expr
+   40     | expr . NEQ expr
+   41     | expr . LOGICAL_AND expr
+   42     | expr . LOGICAL_OR expr
 
-    $default  reduce using rule 22 (IDLIST)
+    TIMES   shift, and go to state 57
+    OVER    shift, and go to state 58
+    MOD     shift, and go to state 59
+    PPLUS   shift, and go to state 60
+    MMINUS  shift, and go to state 61
+    ASSIGN  shift, and go to state 67
+
+    ASSIGN    [reduce using rule 21 (expr)]
+    $default  reduce using rule 21 (expr)
 
 
 State 84
 
-   48 expr: LP expr RP .
+   21 expr: expr . PLUS expr
+   22     | expr . MINUS expr
+   22     | expr MINUS expr .
+   23     | expr . TIMES expr
+   24     | expr . OVER expr
+   25     | expr . MOD expr
+   26     | expr . MMINUS
+   27     | expr . PPLUS
+   28     | expr . AND expr
+   29     | expr . OR expr
+   31     | expr . XOR expr
+   32     | expr . SHIFT_LEFT expr
+   33     | expr . SHIFT_RIGHT expr
+   34     | expr . ASSIGN expr
+   35     | expr . EQU expr
+   36     | expr . GTR expr
+   37     | expr . LSS expr
+   38     | expr . GEQ expr
+   39     | expr . LEQ expr
+   40     | expr . NEQ expr
+   41     | expr . LOGICAL_AND expr
+   42     | expr . LOGICAL_OR expr
 
-    $default  reduce using rule 48 (expr)
+    TIMES   shift, and go to state 57
+    OVER    shift, and go to state 58
+    MOD     shift, and go to state 59
+    PPLUS   shift, and go to state 60
+    MMINUS  shift, and go to state 61
+    ASSIGN  shift, and go to state 67
+
+    ASSIGN    [reduce using rule 22 (expr)]
+    $default  reduce using rule 22 (expr)
 
 
 State 85
 
-   24 expr: expr . PLUS expr
-   24     | expr PLUS expr .
-   25     | expr . MINUS expr
-   26     | expr . TIMES expr
-   27     | expr . OVER expr
-   28     | expr . MOD expr
-   29     | expr . MMINUS
-   30     | expr . PPLUS
-   31     | expr . AND expr
-   32     | expr . OR expr
-   34     | expr . XOR expr
-   35     | expr . SHIFT_LEFT expr
-   36     | expr . SHIFT_RIGHT expr
-   37     | expr . ASSIGN expr
-   38     | expr . EQU expr
-   39     | expr . GTR expr
-   40     | expr . LSS expr
-   41     | expr . GEQ expr
-   42     | expr . LEQ expr
-   43     | expr . NEQ expr
-   44     | expr . LOGICAL_AND expr
-   45     | expr . LOGICAL_OR expr
+   21 expr: expr . PLUS expr
+   22     | expr . MINUS expr
+   23     | expr . TIMES expr
+   23     | expr TIMES expr .
+   24     | expr . OVER expr
+   25     | expr . MOD expr
+   26     | expr . MMINUS
+   27     | expr . PPLUS
+   28     | expr . AND expr
+   29     | expr . OR expr
+   31     | expr . XOR expr
+   32     | expr . SHIFT_LEFT expr
+   33     | expr . SHIFT_RIGHT expr
+   34     | expr . ASSIGN expr
+   35     | expr . EQU expr
+   36     | expr . GTR expr
+   37     | expr . LSS expr
+   38     | expr . GEQ expr
+   39     | expr . LEQ expr
+   40     | expr . NEQ expr
+   41     | expr . LOGICAL_AND expr
+   42     | expr . LOGICAL_OR expr
 
-    TIMES   shift, and go to state 58
-    OVER    shift, and go to state 59
-    MOD     shift, and go to state 60
-    PPLUS   shift, and go to state 61
-    MMINUS  shift, and go to state 62
-    ASSIGN  shift, and go to state 68
+    PPLUS   shift, and go to state 60
+    MMINUS  shift, and go to state 61
+    ASSIGN  shift, and go to state 67
+
+    ASSIGN    [reduce using rule 23 (expr)]
+    $default  reduce using rule 23 (expr)
+
+
+State 86
+
+   21 expr: expr . PLUS expr
+   22     | expr . MINUS expr
+   23     | expr . TIMES expr
+   24     | expr . OVER expr
+   24     | expr OVER expr .
+   25     | expr . MOD expr
+   26     | expr . MMINUS
+   27     | expr . PPLUS
+   28     | expr . AND expr
+   29     | expr . OR expr
+   31     | expr . XOR expr
+   32     | expr . SHIFT_LEFT expr
+   33     | expr . SHIFT_RIGHT expr
+   34     | expr . ASSIGN expr
+   35     | expr . EQU expr
+   36     | expr . GTR expr
+   37     | expr . LSS expr
+   38     | expr . GEQ expr
+   39     | expr . LEQ expr
+   40     | expr . NEQ expr
+   41     | expr . LOGICAL_AND expr
+   42     | expr . LOGICAL_OR expr
+
+    PPLUS   shift, and go to state 60
+    MMINUS  shift, and go to state 61
+    ASSIGN  shift, and go to state 67
 
     ASSIGN    [reduce using rule 24 (expr)]
     $default  reduce using rule 24 (expr)
 
 
-State 86
+State 87
 
-   24 expr: expr . PLUS expr
-   25     | expr . MINUS expr
-   25     | expr MINUS expr .
-   26     | expr . TIMES expr
-   27     | expr . OVER expr
-   28     | expr . MOD expr
-   29     | expr . MMINUS
-   30     | expr . PPLUS
-   31     | expr . AND expr
-   32     | expr . OR expr
-   34     | expr . XOR expr
-   35     | expr . SHIFT_LEFT expr
-   36     | expr . SHIFT_RIGHT expr
-   37     | expr . ASSIGN expr
-   38     | expr . EQU expr
-   39     | expr . GTR expr
-   40     | expr . LSS expr
-   41     | expr . GEQ expr
-   42     | expr . LEQ expr
-   43     | expr . NEQ expr
-   44     | expr . LOGICAL_AND expr
-   45     | expr . LOGICAL_OR expr
+   21 expr: expr . PLUS expr
+   22     | expr . MINUS expr
+   23     | expr . TIMES expr
+   24     | expr . OVER expr
+   25     | expr . MOD expr
+   25     | expr MOD expr .
+   26     | expr . MMINUS
+   27     | expr . PPLUS
+   28     | expr . AND expr
+   29     | expr . OR expr
+   31     | expr . XOR expr
+   32     | expr . SHIFT_LEFT expr
+   33     | expr . SHIFT_RIGHT expr
+   34     | expr . ASSIGN expr
+   35     | expr . EQU expr
+   36     | expr . GTR expr
+   37     | expr . LSS expr
+   38     | expr . GEQ expr
+   39     | expr . LEQ expr
+   40     | expr . NEQ expr
+   41     | expr . LOGICAL_AND expr
+   42     | expr . LOGICAL_OR expr
 
-    TIMES   shift, and go to state 58
-    OVER    shift, and go to state 59
-    MOD     shift, and go to state 60
-    PPLUS   shift, and go to state 61
-    MMINUS  shift, and go to state 62
-    ASSIGN  shift, and go to state 68
+    PPLUS   shift, and go to state 60
+    MMINUS  shift, and go to state 61
+    ASSIGN  shift, and go to state 67
 
     ASSIGN    [reduce using rule 25 (expr)]
     $default  reduce using rule 25 (expr)
 
 
-State 87
-
-   24 expr: expr . PLUS expr
-   25     | expr . MINUS expr
-   26     | expr . TIMES expr
-   26     | expr TIMES expr .
-   27     | expr . OVER expr
-   28     | expr . MOD expr
-   29     | expr . MMINUS
-   30     | expr . PPLUS
-   31     | expr . AND expr
-   32     | expr . OR expr
-   34     | expr . XOR expr
-   35     | expr . SHIFT_LEFT expr
-   36     | expr . SHIFT_RIGHT expr
-   37     | expr . ASSIGN expr
-   38     | expr . EQU expr
-   39     | expr . GTR expr
-   40     | expr . LSS expr
-   41     | expr . GEQ expr
-   42     | expr . LEQ expr
-   43     | expr . NEQ expr
-   44     | expr . LOGICAL_AND expr
-   45     | expr . LOGICAL_OR expr
-
-    PPLUS   shift, and go to state 61
-    MMINUS  shift, and go to state 62
-    ASSIGN  shift, and go to state 68
-
-    ASSIGN    [reduce using rule 26 (expr)]
-    $default  reduce using rule 26 (expr)
-
-
 State 88
 
-   24 expr: expr . PLUS expr
-   25     | expr . MINUS expr
-   26     | expr . TIMES expr
-   27     | expr . OVER expr
-   27     | expr OVER expr .
-   28     | expr . MOD expr
-   29     | expr . MMINUS
-   30     | expr . PPLUS
-   31     | expr . AND expr
-   32     | expr . OR expr
-   34     | expr . XOR expr
-   35     | expr . SHIFT_LEFT expr
-   36     | expr . SHIFT_RIGHT expr
-   37     | expr . ASSIGN expr
-   38     | expr . EQU expr
-   39     | expr . GTR expr
-   40     | expr . LSS expr
-   41     | expr . GEQ expr
-   42     | expr . LEQ expr
-   43     | expr . NEQ expr
-   44     | expr . LOGICAL_AND expr
-   45     | expr . LOGICAL_OR expr
+   21 expr: expr . PLUS expr
+   22     | expr . MINUS expr
+   23     | expr . TIMES expr
+   24     | expr . OVER expr
+   25     | expr . MOD expr
+   26     | expr . MMINUS
+   27     | expr . PPLUS
+   28     | expr . AND expr
+   28     | expr AND expr .
+   29     | expr . OR expr
+   31     | expr . XOR expr
+   32     | expr . SHIFT_LEFT expr
+   33     | expr . SHIFT_RIGHT expr
+   34     | expr . ASSIGN expr
+   35     | expr . EQU expr
+   36     | expr . GTR expr
+   37     | expr . LSS expr
+   38     | expr . GEQ expr
+   39     | expr . LEQ expr
+   40     | expr . NEQ expr
+   41     | expr . LOGICAL_AND expr
+   42     | expr . LOGICAL_OR expr
 
-    PPLUS   shift, and go to state 61
-    MMINUS  shift, and go to state 62
-    ASSIGN  shift, and go to state 68
-
-    ASSIGN    [reduce using rule 27 (expr)]
-    $default  reduce using rule 27 (expr)
-
-
-State 89
-
-   24 expr: expr . PLUS expr
-   25     | expr . MINUS expr
-   26     | expr . TIMES expr
-   27     | expr . OVER expr
-   28     | expr . MOD expr
-   28     | expr MOD expr .
-   29     | expr . MMINUS
-   30     | expr . PPLUS
-   31     | expr . AND expr
-   32     | expr . OR expr
-   34     | expr . XOR expr
-   35     | expr . SHIFT_LEFT expr
-   36     | expr . SHIFT_RIGHT expr
-   37     | expr . ASSIGN expr
-   38     | expr . EQU expr
-   39     | expr . GTR expr
-   40     | expr . LSS expr
-   41     | expr . GEQ expr
-   42     | expr . LEQ expr
-   43     | expr . NEQ expr
-   44     | expr . LOGICAL_AND expr
-   45     | expr . LOGICAL_OR expr
-
-    PPLUS   shift, and go to state 61
-    MMINUS  shift, and go to state 62
-    ASSIGN  shift, and go to state 68
+    PLUS         shift, and go to state 55
+    MINUS        shift, and go to state 56
+    TIMES        shift, and go to state 57
+    OVER         shift, and go to state 58
+    MOD          shift, and go to state 59
+    PPLUS        shift, and go to state 60
+    MMINUS       shift, and go to state 61
+    SHIFT_LEFT   shift, and go to state 65
+    SHIFT_RIGHT  shift, and go to state 66
+    ASSIGN       shift, and go to state 67
+    EQU          shift, and go to state 68
+    GTR          shift, and go to state 69
+    LSS          shift, and go to state 70
+    GEQ          shift, and go to state 71
+    LEQ          shift, and go to state 72
+    NEQ          shift, and go to state 73
 
     ASSIGN    [reduce using rule 28 (expr)]
     $default  reduce using rule 28 (expr)
 
 
+State 89
+
+   21 expr: expr . PLUS expr
+   22     | expr . MINUS expr
+   23     | expr . TIMES expr
+   24     | expr . OVER expr
+   25     | expr . MOD expr
+   26     | expr . MMINUS
+   27     | expr . PPLUS
+   28     | expr . AND expr
+   29     | expr . OR expr
+   29     | expr OR expr .
+   31     | expr . XOR expr
+   32     | expr . SHIFT_LEFT expr
+   33     | expr . SHIFT_RIGHT expr
+   34     | expr . ASSIGN expr
+   35     | expr . EQU expr
+   36     | expr . GTR expr
+   37     | expr . LSS expr
+   38     | expr . GEQ expr
+   39     | expr . LEQ expr
+   40     | expr . NEQ expr
+   41     | expr . LOGICAL_AND expr
+   42     | expr . LOGICAL_OR expr
+
+    PLUS         shift, and go to state 55
+    MINUS        shift, and go to state 56
+    TIMES        shift, and go to state 57
+    OVER         shift, and go to state 58
+    MOD          shift, and go to state 59
+    PPLUS        shift, and go to state 60
+    MMINUS       shift, and go to state 61
+    AND          shift, and go to state 62
+    XOR          shift, and go to state 64
+    SHIFT_LEFT   shift, and go to state 65
+    SHIFT_RIGHT  shift, and go to state 66
+    ASSIGN       shift, and go to state 67
+    EQU          shift, and go to state 68
+    GTR          shift, and go to state 69
+    LSS          shift, and go to state 70
+    GEQ          shift, and go to state 71
+    LEQ          shift, and go to state 72
+    NEQ          shift, and go to state 73
+
+    ASSIGN    [reduce using rule 29 (expr)]
+    $default  reduce using rule 29 (expr)
+
+
 State 90
 
-   24 expr: expr . PLUS expr
-   25     | expr . MINUS expr
-   26     | expr . TIMES expr
-   27     | expr . OVER expr
-   28     | expr . MOD expr
-   29     | expr . MMINUS
-   30     | expr . PPLUS
-   31     | expr . AND expr
-   31     | expr AND expr .
-   32     | expr . OR expr
-   34     | expr . XOR expr
-   35     | expr . SHIFT_LEFT expr
-   36     | expr . SHIFT_RIGHT expr
-   37     | expr . ASSIGN expr
-   38     | expr . EQU expr
-   39     | expr . GTR expr
-   40     | expr . LSS expr
-   41     | expr . GEQ expr
-   42     | expr . LEQ expr
-   43     | expr . NEQ expr
-   44     | expr . LOGICAL_AND expr
-   45     | expr . LOGICAL_OR expr
+   21 expr: expr . PLUS expr
+   22     | expr . MINUS expr
+   23     | expr . TIMES expr
+   24     | expr . OVER expr
+   25     | expr . MOD expr
+   26     | expr . MMINUS
+   27     | expr . PPLUS
+   28     | expr . AND expr
+   29     | expr . OR expr
+   31     | expr . XOR expr
+   31     | expr XOR expr .
+   32     | expr . SHIFT_LEFT expr
+   33     | expr . SHIFT_RIGHT expr
+   34     | expr . ASSIGN expr
+   35     | expr . EQU expr
+   36     | expr . GTR expr
+   37     | expr . LSS expr
+   38     | expr . GEQ expr
+   39     | expr . LEQ expr
+   40     | expr . NEQ expr
+   41     | expr . LOGICAL_AND expr
+   42     | expr . LOGICAL_OR expr
 
-    PLUS         shift, and go to state 56
-    MINUS        shift, and go to state 57
-    TIMES        shift, and go to state 58
-    OVER         shift, and go to state 59
-    MOD          shift, and go to state 60
-    PPLUS        shift, and go to state 61
-    MMINUS       shift, and go to state 62
-    SHIFT_LEFT   shift, and go to state 66
-    SHIFT_RIGHT  shift, and go to state 67
-    ASSIGN       shift, and go to state 68
-    EQU          shift, and go to state 69
-    GTR          shift, and go to state 70
-    LSS          shift, and go to state 71
-    GEQ          shift, and go to state 72
-    LEQ          shift, and go to state 73
-    NEQ          shift, and go to state 74
+    PLUS         shift, and go to state 55
+    MINUS        shift, and go to state 56
+    TIMES        shift, and go to state 57
+    OVER         shift, and go to state 58
+    MOD          shift, and go to state 59
+    PPLUS        shift, and go to state 60
+    MMINUS       shift, and go to state 61
+    AND          shift, and go to state 62
+    SHIFT_LEFT   shift, and go to state 65
+    SHIFT_RIGHT  shift, and go to state 66
+    ASSIGN       shift, and go to state 67
+    EQU          shift, and go to state 68
+    GTR          shift, and go to state 69
+    LSS          shift, and go to state 70
+    GEQ          shift, and go to state 71
+    LEQ          shift, and go to state 72
+    NEQ          shift, and go to state 73
 
     ASSIGN    [reduce using rule 31 (expr)]
     $default  reduce using rule 31 (expr)
@@ -1768,47 +1821,37 @@ State 90
 
 State 91
 
-   24 expr: expr . PLUS expr
-   25     | expr . MINUS expr
-   26     | expr . TIMES expr
-   27     | expr . OVER expr
-   28     | expr . MOD expr
-   29     | expr . MMINUS
-   30     | expr . PPLUS
-   31     | expr . AND expr
-   32     | expr . OR expr
-   32     | expr OR expr .
-   34     | expr . XOR expr
-   35     | expr . SHIFT_LEFT expr
-   36     | expr . SHIFT_RIGHT expr
-   37     | expr . ASSIGN expr
-   38     | expr . EQU expr
-   39     | expr . GTR expr
-   40     | expr . LSS expr
-   41     | expr . GEQ expr
-   42     | expr . LEQ expr
-   43     | expr . NEQ expr
-   44     | expr . LOGICAL_AND expr
-   45     | expr . LOGICAL_OR expr
+   21 expr: expr . PLUS expr
+   22     | expr . MINUS expr
+   23     | expr . TIMES expr
+   24     | expr . OVER expr
+   25     | expr . MOD expr
+   26     | expr . MMINUS
+   27     | expr . PPLUS
+   28     | expr . AND expr
+   29     | expr . OR expr
+   31     | expr . XOR expr
+   32     | expr . SHIFT_LEFT expr
+   32     | expr SHIFT_LEFT expr .
+   33     | expr . SHIFT_RIGHT expr
+   34     | expr . ASSIGN expr
+   35     | expr . EQU expr
+   36     | expr . GTR expr
+   37     | expr . LSS expr
+   38     | expr . GEQ expr
+   39     | expr . LEQ expr
+   40     | expr . NEQ expr
+   41     | expr . LOGICAL_AND expr
+   42     | expr . LOGICAL_OR expr
 
-    PLUS         shift, and go to state 56
-    MINUS        shift, and go to state 57
-    TIMES        shift, and go to state 58
-    OVER         shift, and go to state 59
-    MOD          shift, and go to state 60
-    PPLUS        shift, and go to state 61
-    MMINUS       shift, and go to state 62
-    AND          shift, and go to state 63
-    XOR          shift, and go to state 65
-    SHIFT_LEFT   shift, and go to state 66
-    SHIFT_RIGHT  shift, and go to state 67
-    ASSIGN       shift, and go to state 68
-    EQU          shift, and go to state 69
-    GTR          shift, and go to state 70
-    LSS          shift, and go to state 71
-    GEQ          shift, and go to state 72
-    LEQ          shift, and go to state 73
-    NEQ          shift, and go to state 74
+    PLUS    shift, and go to state 55
+    MINUS   shift, and go to state 56
+    TIMES   shift, and go to state 57
+    OVER    shift, and go to state 58
+    MOD     shift, and go to state 59
+    PPLUS   shift, and go to state 60
+    MMINUS  shift, and go to state 61
+    ASSIGN  shift, and go to state 67
 
     ASSIGN    [reduce using rule 32 (expr)]
     $default  reduce using rule 32 (expr)
@@ -1816,641 +1859,469 @@ State 91
 
 State 92
 
-   24 expr: expr . PLUS expr
-   25     | expr . MINUS expr
-   26     | expr . TIMES expr
-   27     | expr . OVER expr
-   28     | expr . MOD expr
-   29     | expr . MMINUS
-   30     | expr . PPLUS
-   31     | expr . AND expr
-   32     | expr . OR expr
-   34     | expr . XOR expr
-   34     | expr XOR expr .
-   35     | expr . SHIFT_LEFT expr
-   36     | expr . SHIFT_RIGHT expr
-   37     | expr . ASSIGN expr
-   38     | expr . EQU expr
-   39     | expr . GTR expr
-   40     | expr . LSS expr
-   41     | expr . GEQ expr
-   42     | expr . LEQ expr
-   43     | expr . NEQ expr
-   44     | expr . LOGICAL_AND expr
-   45     | expr . LOGICAL_OR expr
+   21 expr: expr . PLUS expr
+   22     | expr . MINUS expr
+   23     | expr . TIMES expr
+   24     | expr . OVER expr
+   25     | expr . MOD expr
+   26     | expr . MMINUS
+   27     | expr . PPLUS
+   28     | expr . AND expr
+   29     | expr . OR expr
+   31     | expr . XOR expr
+   32     | expr . SHIFT_LEFT expr
+   33     | expr . SHIFT_RIGHT expr
+   33     | expr SHIFT_RIGHT expr .
+   34     | expr . ASSIGN expr
+   35     | expr . EQU expr
+   36     | expr . GTR expr
+   37     | expr . LSS expr
+   38     | expr . GEQ expr
+   39     | expr . LEQ expr
+   40     | expr . NEQ expr
+   41     | expr . LOGICAL_AND expr
+   42     | expr . LOGICAL_OR expr
 
-    PLUS         shift, and go to state 56
-    MINUS        shift, and go to state 57
-    TIMES        shift, and go to state 58
-    OVER         shift, and go to state 59
-    MOD          shift, and go to state 60
-    PPLUS        shift, and go to state 61
-    MMINUS       shift, and go to state 62
-    AND          shift, and go to state 63
-    SHIFT_LEFT   shift, and go to state 66
-    SHIFT_RIGHT  shift, and go to state 67
-    ASSIGN       shift, and go to state 68
-    EQU          shift, and go to state 69
-    GTR          shift, and go to state 70
-    LSS          shift, and go to state 71
-    GEQ          shift, and go to state 72
-    LEQ          shift, and go to state 73
-    NEQ          shift, and go to state 74
+    PLUS    shift, and go to state 55
+    MINUS   shift, and go to state 56
+    TIMES   shift, and go to state 57
+    OVER    shift, and go to state 58
+    MOD     shift, and go to state 59
+    PPLUS   shift, and go to state 60
+    MMINUS  shift, and go to state 61
+    ASSIGN  shift, and go to state 67
 
-    ASSIGN    [reduce using rule 34 (expr)]
-    $default  reduce using rule 34 (expr)
+    ASSIGN    [reduce using rule 33 (expr)]
+    $default  reduce using rule 33 (expr)
 
 
 State 93
 
-   24 expr: expr . PLUS expr
-   25     | expr . MINUS expr
-   26     | expr . TIMES expr
-   27     | expr . OVER expr
-   28     | expr . MOD expr
-   29     | expr . MMINUS
-   30     | expr . PPLUS
-   31     | expr . AND expr
-   32     | expr . OR expr
-   34     | expr . XOR expr
-   35     | expr . SHIFT_LEFT expr
-   35     | expr SHIFT_LEFT expr .
-   36     | expr . SHIFT_RIGHT expr
-   37     | expr . ASSIGN expr
-   38     | expr . EQU expr
-   39     | expr . GTR expr
-   40     | expr . LSS expr
-   41     | expr . GEQ expr
-   42     | expr . LEQ expr
-   43     | expr . NEQ expr
-   44     | expr . LOGICAL_AND expr
-   45     | expr . LOGICAL_OR expr
+   21 expr: expr . PLUS expr
+   22     | expr . MINUS expr
+   23     | expr . TIMES expr
+   24     | expr . OVER expr
+   25     | expr . MOD expr
+   26     | expr . MMINUS
+   27     | expr . PPLUS
+   28     | expr . AND expr
+   29     | expr . OR expr
+   31     | expr . XOR expr
+   32     | expr . SHIFT_LEFT expr
+   33     | expr . SHIFT_RIGHT expr
+   34     | expr . ASSIGN expr
+   34     | expr ASSIGN expr .
+   35     | expr . EQU expr
+   36     | expr . GTR expr
+   37     | expr . LSS expr
+   38     | expr . GEQ expr
+   39     | expr . LEQ expr
+   40     | expr . NEQ expr
+   41     | expr . LOGICAL_AND expr
+   42     | expr . LOGICAL_OR expr
 
-    PLUS    shift, and go to state 56
-    MINUS   shift, and go to state 57
-    TIMES   shift, and go to state 58
-    OVER    shift, and go to state 59
-    MOD     shift, and go to state 60
-    PPLUS   shift, and go to state 61
-    MMINUS  shift, and go to state 62
-    ASSIGN  shift, and go to state 68
+    PLUS         shift, and go to state 55
+    MINUS        shift, and go to state 56
+    TIMES        shift, and go to state 57
+    OVER         shift, and go to state 58
+    MOD          shift, and go to state 59
+    PPLUS        shift, and go to state 60
+    MMINUS       shift, and go to state 61
+    AND          shift, and go to state 62
+    OR           shift, and go to state 63
+    XOR          shift, and go to state 64
+    SHIFT_LEFT   shift, and go to state 65
+    SHIFT_RIGHT  shift, and go to state 66
+    ASSIGN       shift, and go to state 67
+    EQU          shift, and go to state 68
+    GTR          shift, and go to state 69
+    LSS          shift, and go to state 70
+    GEQ          shift, and go to state 71
+    LEQ          shift, and go to state 72
+    NEQ          shift, and go to state 73
+    LOGICAL_AND  shift, and go to state 74
+    LOGICAL_OR   shift, and go to state 75
+
+    PLUS         [reduce using rule 34 (expr)]
+    MINUS        [reduce using rule 34 (expr)]
+    TIMES        [reduce using rule 34 (expr)]
+    OVER         [reduce using rule 34 (expr)]
+    MOD          [reduce using rule 34 (expr)]
+    PPLUS        [reduce using rule 34 (expr)]
+    MMINUS       [reduce using rule 34 (expr)]
+    AND          [reduce using rule 34 (expr)]
+    OR           [reduce using rule 34 (expr)]
+    XOR          [reduce using rule 34 (expr)]
+    SHIFT_LEFT   [reduce using rule 34 (expr)]
+    SHIFT_RIGHT  [reduce using rule 34 (expr)]
+    ASSIGN       [reduce using rule 34 (expr)]
+    EQU          [reduce using rule 34 (expr)]
+    GTR          [reduce using rule 34 (expr)]
+    LSS          [reduce using rule 34 (expr)]
+    GEQ          [reduce using rule 34 (expr)]
+    LEQ          [reduce using rule 34 (expr)]
+    NEQ          [reduce using rule 34 (expr)]
+    LOGICAL_AND  [reduce using rule 34 (expr)]
+    LOGICAL_OR   [reduce using rule 34 (expr)]
+    $default     reduce using rule 34 (expr)
+
+
+State 94
+
+   21 expr: expr . PLUS expr
+   22     | expr . MINUS expr
+   23     | expr . TIMES expr
+   24     | expr . OVER expr
+   25     | expr . MOD expr
+   26     | expr . MMINUS
+   27     | expr . PPLUS
+   28     | expr . AND expr
+   29     | expr . OR expr
+   31     | expr . XOR expr
+   32     | expr . SHIFT_LEFT expr
+   33     | expr . SHIFT_RIGHT expr
+   34     | expr . ASSIGN expr
+   35     | expr . EQU expr
+   35     | expr EQU expr .
+   36     | expr . GTR expr
+   37     | expr . LSS expr
+   38     | expr . GEQ expr
+   39     | expr . LEQ expr
+   40     | expr . NEQ expr
+   41     | expr . LOGICAL_AND expr
+   42     | expr . LOGICAL_OR expr
+
+    PLUS         shift, and go to state 55
+    MINUS        shift, and go to state 56
+    TIMES        shift, and go to state 57
+    OVER         shift, and go to state 58
+    MOD          shift, and go to state 59
+    PPLUS        shift, and go to state 60
+    MMINUS       shift, and go to state 61
+    SHIFT_LEFT   shift, and go to state 65
+    SHIFT_RIGHT  shift, and go to state 66
+    ASSIGN       shift, and go to state 67
+    GTR          shift, and go to state 69
+    LSS          shift, and go to state 70
+    GEQ          shift, and go to state 71
+    LEQ          shift, and go to state 72
 
     ASSIGN    [reduce using rule 35 (expr)]
     $default  reduce using rule 35 (expr)
 
 
-State 94
+State 95
 
-   24 expr: expr . PLUS expr
-   25     | expr . MINUS expr
-   26     | expr . TIMES expr
-   27     | expr . OVER expr
-   28     | expr . MOD expr
-   29     | expr . MMINUS
-   30     | expr . PPLUS
-   31     | expr . AND expr
-   32     | expr . OR expr
-   34     | expr . XOR expr
-   35     | expr . SHIFT_LEFT expr
-   36     | expr . SHIFT_RIGHT expr
-   36     | expr SHIFT_RIGHT expr .
-   37     | expr . ASSIGN expr
-   38     | expr . EQU expr
-   39     | expr . GTR expr
-   40     | expr . LSS expr
-   41     | expr . GEQ expr
-   42     | expr . LEQ expr
-   43     | expr . NEQ expr
-   44     | expr . LOGICAL_AND expr
-   45     | expr . LOGICAL_OR expr
+   21 expr: expr . PLUS expr
+   22     | expr . MINUS expr
+   23     | expr . TIMES expr
+   24     | expr . OVER expr
+   25     | expr . MOD expr
+   26     | expr . MMINUS
+   27     | expr . PPLUS
+   28     | expr . AND expr
+   29     | expr . OR expr
+   31     | expr . XOR expr
+   32     | expr . SHIFT_LEFT expr
+   33     | expr . SHIFT_RIGHT expr
+   34     | expr . ASSIGN expr
+   35     | expr . EQU expr
+   36     | expr . GTR expr
+   36     | expr GTR expr .
+   37     | expr . LSS expr
+   38     | expr . GEQ expr
+   39     | expr . LEQ expr
+   40     | expr . NEQ expr
+   41     | expr . LOGICAL_AND expr
+   42     | expr . LOGICAL_OR expr
 
-    PLUS    shift, and go to state 56
-    MINUS   shift, and go to state 57
-    TIMES   shift, and go to state 58
-    OVER    shift, and go to state 59
-    MOD     shift, and go to state 60
-    PPLUS   shift, and go to state 61
-    MMINUS  shift, and go to state 62
-    ASSIGN  shift, and go to state 68
+    PLUS         shift, and go to state 55
+    MINUS        shift, and go to state 56
+    TIMES        shift, and go to state 57
+    OVER         shift, and go to state 58
+    MOD          shift, and go to state 59
+    PPLUS        shift, and go to state 60
+    MMINUS       shift, and go to state 61
+    SHIFT_LEFT   shift, and go to state 65
+    SHIFT_RIGHT  shift, and go to state 66
+    ASSIGN       shift, and go to state 67
 
     ASSIGN    [reduce using rule 36 (expr)]
     $default  reduce using rule 36 (expr)
 
 
-State 95
-
-   24 expr: expr . PLUS expr
-   25     | expr . MINUS expr
-   26     | expr . TIMES expr
-   27     | expr . OVER expr
-   28     | expr . MOD expr
-   29     | expr . MMINUS
-   30     | expr . PPLUS
-   31     | expr . AND expr
-   32     | expr . OR expr
-   34     | expr . XOR expr
-   35     | expr . SHIFT_LEFT expr
-   36     | expr . SHIFT_RIGHT expr
-   37     | expr . ASSIGN expr
-   37     | expr ASSIGN expr .
-   38     | expr . EQU expr
-   39     | expr . GTR expr
-   40     | expr . LSS expr
-   41     | expr . GEQ expr
-   42     | expr . LEQ expr
-   43     | expr . NEQ expr
-   44     | expr . LOGICAL_AND expr
-   45     | expr . LOGICAL_OR expr
-
-    PLUS         shift, and go to state 56
-    MINUS        shift, and go to state 57
-    TIMES        shift, and go to state 58
-    OVER         shift, and go to state 59
-    MOD          shift, and go to state 60
-    PPLUS        shift, and go to state 61
-    MMINUS       shift, and go to state 62
-    AND          shift, and go to state 63
-    OR           shift, and go to state 64
-    XOR          shift, and go to state 65
-    SHIFT_LEFT   shift, and go to state 66
-    SHIFT_RIGHT  shift, and go to state 67
-    ASSIGN       shift, and go to state 68
-    EQU          shift, and go to state 69
-    GTR          shift, and go to state 70
-    LSS          shift, and go to state 71
-    GEQ          shift, and go to state 72
-    LEQ          shift, and go to state 73
-    NEQ          shift, and go to state 74
-    LOGICAL_AND  shift, and go to state 75
-    LOGICAL_OR   shift, and go to state 76
-
-    PLUS         [reduce using rule 37 (expr)]
-    MINUS        [reduce using rule 37 (expr)]
-    TIMES        [reduce using rule 37 (expr)]
-    OVER         [reduce using rule 37 (expr)]
-    MOD          [reduce using rule 37 (expr)]
-    PPLUS        [reduce using rule 37 (expr)]
-    MMINUS       [reduce using rule 37 (expr)]
-    AND          [reduce using rule 37 (expr)]
-    OR           [reduce using rule 37 (expr)]
-    XOR          [reduce using rule 37 (expr)]
-    SHIFT_LEFT   [reduce using rule 37 (expr)]
-    SHIFT_RIGHT  [reduce using rule 37 (expr)]
-    ASSIGN       [reduce using rule 37 (expr)]
-    EQU          [reduce using rule 37 (expr)]
-    GTR          [reduce using rule 37 (expr)]
-    LSS          [reduce using rule 37 (expr)]
-    GEQ          [reduce using rule 37 (expr)]
-    LEQ          [reduce using rule 37 (expr)]
-    NEQ          [reduce using rule 37 (expr)]
-    LOGICAL_AND  [reduce using rule 37 (expr)]
-    LOGICAL_OR   [reduce using rule 37 (expr)]
-    $default     reduce using rule 37 (expr)
-
-
 State 96
 
-   24 expr: expr . PLUS expr
-   25     | expr . MINUS expr
-   26     | expr . TIMES expr
-   27     | expr . OVER expr
-   28     | expr . MOD expr
-   29     | expr . MMINUS
-   30     | expr . PPLUS
-   31     | expr . AND expr
-   32     | expr . OR expr
-   34     | expr . XOR expr
-   35     | expr . SHIFT_LEFT expr
-   36     | expr . SHIFT_RIGHT expr
-   37     | expr . ASSIGN expr
-   38     | expr . EQU expr
-   38     | expr EQU expr .
-   39     | expr . GTR expr
-   40     | expr . LSS expr
-   41     | expr . GEQ expr
-   42     | expr . LEQ expr
-   43     | expr . NEQ expr
-   44     | expr . LOGICAL_AND expr
-   45     | expr . LOGICAL_OR expr
+   21 expr: expr . PLUS expr
+   22     | expr . MINUS expr
+   23     | expr . TIMES expr
+   24     | expr . OVER expr
+   25     | expr . MOD expr
+   26     | expr . MMINUS
+   27     | expr . PPLUS
+   28     | expr . AND expr
+   29     | expr . OR expr
+   31     | expr . XOR expr
+   32     | expr . SHIFT_LEFT expr
+   33     | expr . SHIFT_RIGHT expr
+   34     | expr . ASSIGN expr
+   35     | expr . EQU expr
+   36     | expr . GTR expr
+   37     | expr . LSS expr
+   37     | expr LSS expr .
+   38     | expr . GEQ expr
+   39     | expr . LEQ expr
+   40     | expr . NEQ expr
+   41     | expr . LOGICAL_AND expr
+   42     | expr . LOGICAL_OR expr
 
-    PLUS         shift, and go to state 56
-    MINUS        shift, and go to state 57
-    TIMES        shift, and go to state 58
-    OVER         shift, and go to state 59
-    MOD          shift, and go to state 60
-    PPLUS        shift, and go to state 61
-    MMINUS       shift, and go to state 62
-    SHIFT_LEFT   shift, and go to state 66
-    SHIFT_RIGHT  shift, and go to state 67
-    ASSIGN       shift, and go to state 68
-    GTR          shift, and go to state 70
-    LSS          shift, and go to state 71
-    GEQ          shift, and go to state 72
-    LEQ          shift, and go to state 73
+    PLUS         shift, and go to state 55
+    MINUS        shift, and go to state 56
+    TIMES        shift, and go to state 57
+    OVER         shift, and go to state 58
+    MOD          shift, and go to state 59
+    PPLUS        shift, and go to state 60
+    MMINUS       shift, and go to state 61
+    SHIFT_LEFT   shift, and go to state 65
+    SHIFT_RIGHT  shift, and go to state 66
+    ASSIGN       shift, and go to state 67
+
+    ASSIGN    [reduce using rule 37 (expr)]
+    $default  reduce using rule 37 (expr)
+
+
+State 97
+
+   21 expr: expr . PLUS expr
+   22     | expr . MINUS expr
+   23     | expr . TIMES expr
+   24     | expr . OVER expr
+   25     | expr . MOD expr
+   26     | expr . MMINUS
+   27     | expr . PPLUS
+   28     | expr . AND expr
+   29     | expr . OR expr
+   31     | expr . XOR expr
+   32     | expr . SHIFT_LEFT expr
+   33     | expr . SHIFT_RIGHT expr
+   34     | expr . ASSIGN expr
+   35     | expr . EQU expr
+   36     | expr . GTR expr
+   37     | expr . LSS expr
+   38     | expr . GEQ expr
+   38     | expr GEQ expr .
+   39     | expr . LEQ expr
+   40     | expr . NEQ expr
+   41     | expr . LOGICAL_AND expr
+   42     | expr . LOGICAL_OR expr
+
+    PLUS         shift, and go to state 55
+    MINUS        shift, and go to state 56
+    TIMES        shift, and go to state 57
+    OVER         shift, and go to state 58
+    MOD          shift, and go to state 59
+    PPLUS        shift, and go to state 60
+    MMINUS       shift, and go to state 61
+    SHIFT_LEFT   shift, and go to state 65
+    SHIFT_RIGHT  shift, and go to state 66
+    ASSIGN       shift, and go to state 67
 
     ASSIGN    [reduce using rule 38 (expr)]
     $default  reduce using rule 38 (expr)
 
 
-State 97
+State 98
 
-   24 expr: expr . PLUS expr
-   25     | expr . MINUS expr
-   26     | expr . TIMES expr
-   27     | expr . OVER expr
-   28     | expr . MOD expr
-   29     | expr . MMINUS
-   30     | expr . PPLUS
-   31     | expr . AND expr
-   32     | expr . OR expr
-   34     | expr . XOR expr
-   35     | expr . SHIFT_LEFT expr
-   36     | expr . SHIFT_RIGHT expr
-   37     | expr . ASSIGN expr
-   38     | expr . EQU expr
-   39     | expr . GTR expr
-   39     | expr GTR expr .
-   40     | expr . LSS expr
-   41     | expr . GEQ expr
-   42     | expr . LEQ expr
-   43     | expr . NEQ expr
-   44     | expr . LOGICAL_AND expr
-   45     | expr . LOGICAL_OR expr
+   21 expr: expr . PLUS expr
+   22     | expr . MINUS expr
+   23     | expr . TIMES expr
+   24     | expr . OVER expr
+   25     | expr . MOD expr
+   26     | expr . MMINUS
+   27     | expr . PPLUS
+   28     | expr . AND expr
+   29     | expr . OR expr
+   31     | expr . XOR expr
+   32     | expr . SHIFT_LEFT expr
+   33     | expr . SHIFT_RIGHT expr
+   34     | expr . ASSIGN expr
+   35     | expr . EQU expr
+   36     | expr . GTR expr
+   37     | expr . LSS expr
+   38     | expr . GEQ expr
+   39     | expr . LEQ expr
+   39     | expr LEQ expr .
+   40     | expr . NEQ expr
+   41     | expr . LOGICAL_AND expr
+   42     | expr . LOGICAL_OR expr
 
-    PLUS         shift, and go to state 56
-    MINUS        shift, and go to state 57
-    TIMES        shift, and go to state 58
-    OVER         shift, and go to state 59
-    MOD          shift, and go to state 60
-    PPLUS        shift, and go to state 61
-    MMINUS       shift, and go to state 62
-    SHIFT_LEFT   shift, and go to state 66
-    SHIFT_RIGHT  shift, and go to state 67
-    ASSIGN       shift, and go to state 68
+    PLUS         shift, and go to state 55
+    MINUS        shift, and go to state 56
+    TIMES        shift, and go to state 57
+    OVER         shift, and go to state 58
+    MOD          shift, and go to state 59
+    PPLUS        shift, and go to state 60
+    MMINUS       shift, and go to state 61
+    SHIFT_LEFT   shift, and go to state 65
+    SHIFT_RIGHT  shift, and go to state 66
+    ASSIGN       shift, and go to state 67
 
     ASSIGN    [reduce using rule 39 (expr)]
     $default  reduce using rule 39 (expr)
 
 
-State 98
+State 99
 
-   24 expr: expr . PLUS expr
-   25     | expr . MINUS expr
-   26     | expr . TIMES expr
-   27     | expr . OVER expr
-   28     | expr . MOD expr
-   29     | expr . MMINUS
-   30     | expr . PPLUS
-   31     | expr . AND expr
-   32     | expr . OR expr
-   34     | expr . XOR expr
-   35     | expr . SHIFT_LEFT expr
-   36     | expr . SHIFT_RIGHT expr
-   37     | expr . ASSIGN expr
-   38     | expr . EQU expr
-   39     | expr . GTR expr
-   40     | expr . LSS expr
-   40     | expr LSS expr .
-   41     | expr . GEQ expr
-   42     | expr . LEQ expr
-   43     | expr . NEQ expr
-   44     | expr . LOGICAL_AND expr
-   45     | expr . LOGICAL_OR expr
+   21 expr: expr . PLUS expr
+   22     | expr . MINUS expr
+   23     | expr . TIMES expr
+   24     | expr . OVER expr
+   25     | expr . MOD expr
+   26     | expr . MMINUS
+   27     | expr . PPLUS
+   28     | expr . AND expr
+   29     | expr . OR expr
+   31     | expr . XOR expr
+   32     | expr . SHIFT_LEFT expr
+   33     | expr . SHIFT_RIGHT expr
+   34     | expr . ASSIGN expr
+   35     | expr . EQU expr
+   36     | expr . GTR expr
+   37     | expr . LSS expr
+   38     | expr . GEQ expr
+   39     | expr . LEQ expr
+   40     | expr . NEQ expr
+   40     | expr NEQ expr .
+   41     | expr . LOGICAL_AND expr
+   42     | expr . LOGICAL_OR expr
 
-    PLUS         shift, and go to state 56
-    MINUS        shift, and go to state 57
-    TIMES        shift, and go to state 58
-    OVER         shift, and go to state 59
-    MOD          shift, and go to state 60
-    PPLUS        shift, and go to state 61
-    MMINUS       shift, and go to state 62
-    SHIFT_LEFT   shift, and go to state 66
-    SHIFT_RIGHT  shift, and go to state 67
-    ASSIGN       shift, and go to state 68
+    PLUS         shift, and go to state 55
+    MINUS        shift, and go to state 56
+    TIMES        shift, and go to state 57
+    OVER         shift, and go to state 58
+    MOD          shift, and go to state 59
+    PPLUS        shift, and go to state 60
+    MMINUS       shift, and go to state 61
+    SHIFT_LEFT   shift, and go to state 65
+    SHIFT_RIGHT  shift, and go to state 66
+    ASSIGN       shift, and go to state 67
+    GTR          shift, and go to state 69
+    LSS          shift, and go to state 70
+    GEQ          shift, and go to state 71
+    LEQ          shift, and go to state 72
 
     ASSIGN    [reduce using rule 40 (expr)]
     $default  reduce using rule 40 (expr)
 
 
-State 99
+State 100
 
-   24 expr: expr . PLUS expr
-   25     | expr . MINUS expr
-   26     | expr . TIMES expr
-   27     | expr . OVER expr
-   28     | expr . MOD expr
-   29     | expr . MMINUS
-   30     | expr . PPLUS
-   31     | expr . AND expr
-   32     | expr . OR expr
-   34     | expr . XOR expr
-   35     | expr . SHIFT_LEFT expr
-   36     | expr . SHIFT_RIGHT expr
-   37     | expr . ASSIGN expr
-   38     | expr . EQU expr
-   39     | expr . GTR expr
-   40     | expr . LSS expr
-   41     | expr . GEQ expr
-   41     | expr GEQ expr .
-   42     | expr . LEQ expr
-   43     | expr . NEQ expr
-   44     | expr . LOGICAL_AND expr
-   45     | expr . LOGICAL_OR expr
+   21 expr: expr . PLUS expr
+   22     | expr . MINUS expr
+   23     | expr . TIMES expr
+   24     | expr . OVER expr
+   25     | expr . MOD expr
+   26     | expr . MMINUS
+   27     | expr . PPLUS
+   28     | expr . AND expr
+   29     | expr . OR expr
+   31     | expr . XOR expr
+   32     | expr . SHIFT_LEFT expr
+   33     | expr . SHIFT_RIGHT expr
+   34     | expr . ASSIGN expr
+   35     | expr . EQU expr
+   36     | expr . GTR expr
+   37     | expr . LSS expr
+   38     | expr . GEQ expr
+   39     | expr . LEQ expr
+   40     | expr . NEQ expr
+   41     | expr . LOGICAL_AND expr
+   41     | expr LOGICAL_AND expr .
+   42     | expr . LOGICAL_OR expr
 
-    PLUS         shift, and go to state 56
-    MINUS        shift, and go to state 57
-    TIMES        shift, and go to state 58
-    OVER         shift, and go to state 59
-    MOD          shift, and go to state 60
-    PPLUS        shift, and go to state 61
-    MMINUS       shift, and go to state 62
-    SHIFT_LEFT   shift, and go to state 66
-    SHIFT_RIGHT  shift, and go to state 67
-    ASSIGN       shift, and go to state 68
+    PLUS         shift, and go to state 55
+    MINUS        shift, and go to state 56
+    TIMES        shift, and go to state 57
+    OVER         shift, and go to state 58
+    MOD          shift, and go to state 59
+    PPLUS        shift, and go to state 60
+    MMINUS       shift, and go to state 61
+    AND          shift, and go to state 62
+    OR           shift, and go to state 63
+    XOR          shift, and go to state 64
+    SHIFT_LEFT   shift, and go to state 65
+    SHIFT_RIGHT  shift, and go to state 66
+    ASSIGN       shift, and go to state 67
+    EQU          shift, and go to state 68
+    GTR          shift, and go to state 69
+    LSS          shift, and go to state 70
+    GEQ          shift, and go to state 71
+    LEQ          shift, and go to state 72
+    NEQ          shift, and go to state 73
 
     ASSIGN    [reduce using rule 41 (expr)]
     $default  reduce using rule 41 (expr)
 
 
-State 100
+State 101
 
-   24 expr: expr . PLUS expr
-   25     | expr . MINUS expr
-   26     | expr . TIMES expr
-   27     | expr . OVER expr
-   28     | expr . MOD expr
-   29     | expr . MMINUS
-   30     | expr . PPLUS
-   31     | expr . AND expr
-   32     | expr . OR expr
-   34     | expr . XOR expr
-   35     | expr . SHIFT_LEFT expr
-   36     | expr . SHIFT_RIGHT expr
-   37     | expr . ASSIGN expr
-   38     | expr . EQU expr
-   39     | expr . GTR expr
-   40     | expr . LSS expr
-   41     | expr . GEQ expr
-   42     | expr . LEQ expr
-   42     | expr LEQ expr .
-   43     | expr . NEQ expr
-   44     | expr . LOGICAL_AND expr
-   45     | expr . LOGICAL_OR expr
+   21 expr: expr . PLUS expr
+   22     | expr . MINUS expr
+   23     | expr . TIMES expr
+   24     | expr . OVER expr
+   25     | expr . MOD expr
+   26     | expr . MMINUS
+   27     | expr . PPLUS
+   28     | expr . AND expr
+   29     | expr . OR expr
+   31     | expr . XOR expr
+   32     | expr . SHIFT_LEFT expr
+   33     | expr . SHIFT_RIGHT expr
+   34     | expr . ASSIGN expr
+   35     | expr . EQU expr
+   36     | expr . GTR expr
+   37     | expr . LSS expr
+   38     | expr . GEQ expr
+   39     | expr . LEQ expr
+   40     | expr . NEQ expr
+   41     | expr . LOGICAL_AND expr
+   42     | expr . LOGICAL_OR expr
+   42     | expr LOGICAL_OR expr .
 
-    PLUS         shift, and go to state 56
-    MINUS        shift, and go to state 57
-    TIMES        shift, and go to state 58
-    OVER         shift, and go to state 59
-    MOD          shift, and go to state 60
-    PPLUS        shift, and go to state 61
-    MMINUS       shift, and go to state 62
-    SHIFT_LEFT   shift, and go to state 66
-    SHIFT_RIGHT  shift, and go to state 67
-    ASSIGN       shift, and go to state 68
+    PLUS         shift, and go to state 55
+    MINUS        shift, and go to state 56
+    TIMES        shift, and go to state 57
+    OVER         shift, and go to state 58
+    MOD          shift, and go to state 59
+    PPLUS        shift, and go to state 60
+    MMINUS       shift, and go to state 61
+    AND          shift, and go to state 62
+    OR           shift, and go to state 63
+    XOR          shift, and go to state 64
+    SHIFT_LEFT   shift, and go to state 65
+    SHIFT_RIGHT  shift, and go to state 66
+    ASSIGN       shift, and go to state 67
+    EQU          shift, and go to state 68
+    GTR          shift, and go to state 69
+    LSS          shift, and go to state 70
+    GEQ          shift, and go to state 71
+    LEQ          shift, and go to state 72
+    NEQ          shift, and go to state 73
+    LOGICAL_AND  shift, and go to state 74
 
     ASSIGN    [reduce using rule 42 (expr)]
     $default  reduce using rule 42 (expr)
 
 
-State 101
-
-   24 expr: expr . PLUS expr
-   25     | expr . MINUS expr
-   26     | expr . TIMES expr
-   27     | expr . OVER expr
-   28     | expr . MOD expr
-   29     | expr . MMINUS
-   30     | expr . PPLUS
-   31     | expr . AND expr
-   32     | expr . OR expr
-   34     | expr . XOR expr
-   35     | expr . SHIFT_LEFT expr
-   36     | expr . SHIFT_RIGHT expr
-   37     | expr . ASSIGN expr
-   38     | expr . EQU expr
-   39     | expr . GTR expr
-   40     | expr . LSS expr
-   41     | expr . GEQ expr
-   42     | expr . LEQ expr
-   43     | expr . NEQ expr
-   43     | expr NEQ expr .
-   44     | expr . LOGICAL_AND expr
-   45     | expr . LOGICAL_OR expr
-
-    PLUS         shift, and go to state 56
-    MINUS        shift, and go to state 57
-    TIMES        shift, and go to state 58
-    OVER         shift, and go to state 59
-    MOD          shift, and go to state 60
-    PPLUS        shift, and go to state 61
-    MMINUS       shift, and go to state 62
-    SHIFT_LEFT   shift, and go to state 66
-    SHIFT_RIGHT  shift, and go to state 67
-    ASSIGN       shift, and go to state 68
-    GTR          shift, and go to state 70
-    LSS          shift, and go to state 71
-    GEQ          shift, and go to state 72
-    LEQ          shift, and go to state 73
-
-    ASSIGN    [reduce using rule 43 (expr)]
-    $default  reduce using rule 43 (expr)
-
-
 State 102
 
-   24 expr: expr . PLUS expr
-   25     | expr . MINUS expr
-   26     | expr . TIMES expr
-   27     | expr . OVER expr
-   28     | expr . MOD expr
-   29     | expr . MMINUS
-   30     | expr . PPLUS
-   31     | expr . AND expr
-   32     | expr . OR expr
-   34     | expr . XOR expr
-   35     | expr . SHIFT_LEFT expr
-   36     | expr . SHIFT_RIGHT expr
-   37     | expr . ASSIGN expr
-   38     | expr . EQU expr
-   39     | expr . GTR expr
-   40     | expr . LSS expr
-   41     | expr . GEQ expr
-   42     | expr . LEQ expr
-   43     | expr . NEQ expr
-   44     | expr . LOGICAL_AND expr
-   44     | expr LOGICAL_AND expr .
-   45     | expr . LOGICAL_OR expr
+   14 if_stmt: IF LP expr RP statements .
 
-    PLUS         shift, and go to state 56
-    MINUS        shift, and go to state 57
-    TIMES        shift, and go to state 58
-    OVER         shift, and go to state 59
-    MOD          shift, and go to state 60
-    PPLUS        shift, and go to state 61
-    MMINUS       shift, and go to state 62
-    AND          shift, and go to state 63
-    OR           shift, and go to state 64
-    XOR          shift, and go to state 65
-    SHIFT_LEFT   shift, and go to state 66
-    SHIFT_RIGHT  shift, and go to state 67
-    ASSIGN       shift, and go to state 68
-    EQU          shift, and go to state 69
-    GTR          shift, and go to state 70
-    LSS          shift, and go to state 71
-    GEQ          shift, and go to state 72
-    LEQ          shift, and go to state 73
-    NEQ          shift, and go to state 74
-
-    ASSIGN    [reduce using rule 44 (expr)]
-    $default  reduce using rule 44 (expr)
+    $default  reduce using rule 14 (if_stmt)
 
 
 State 103
 
-   24 expr: expr . PLUS expr
-   25     | expr . MINUS expr
-   26     | expr . TIMES expr
-   27     | expr . OVER expr
-   28     | expr . MOD expr
-   29     | expr . MMINUS
-   30     | expr . PPLUS
-   31     | expr . AND expr
-   32     | expr . OR expr
-   34     | expr . XOR expr
-   35     | expr . SHIFT_LEFT expr
-   36     | expr . SHIFT_RIGHT expr
-   37     | expr . ASSIGN expr
-   38     | expr . EQU expr
-   39     | expr . GTR expr
-   40     | expr . LSS expr
-   41     | expr . GEQ expr
-   42     | expr . LEQ expr
-   43     | expr . NEQ expr
-   44     | expr . LOGICAL_AND expr
-   45     | expr . LOGICAL_OR expr
-   45     | expr LOGICAL_OR expr .
+   16 while_stmt: WHILE LP expr RP statements .
 
-    PLUS         shift, and go to state 56
-    MINUS        shift, and go to state 57
-    TIMES        shift, and go to state 58
-    OVER         shift, and go to state 59
-    MOD          shift, and go to state 60
-    PPLUS        shift, and go to state 61
-    MMINUS       shift, and go to state 62
-    AND          shift, and go to state 63
-    OR           shift, and go to state 64
-    XOR          shift, and go to state 65
-    SHIFT_LEFT   shift, and go to state 66
-    SHIFT_RIGHT  shift, and go to state 67
-    ASSIGN       shift, and go to state 68
-    EQU          shift, and go to state 69
-    GTR          shift, and go to state 70
-    LSS          shift, and go to state 71
-    GEQ          shift, and go to state 72
-    LEQ          shift, and go to state 73
-    NEQ          shift, and go to state 74
-    LOGICAL_AND  shift, and go to state 75
-
-    ASSIGN    [reduce using rule 45 (expr)]
-    $default  reduce using rule 45 (expr)
-
-
-State 104
-
-   16 if_stmt: IF LP expr RP LB . statements RB
-
-    T_CHAR      shift, and go to state 1
-    T_INT       shift, and go to state 2
-    T_BOOL      shift, and go to state 3
-    T_DOUBLE    shift, and go to state 4
-    T_VOID      shift, and go to state 5
-    SEMICOLON   shift, and go to state 6
-    LB          shift, and go to state 7
-    IDENTIFIER  shift, and go to state 8
-    MAIN        shift, and go to state 9
-    IF          shift, and go to state 10
-    WHILE       shift, and go to state 11
-
-    statements       go to state 109
-    statement        go to state 14
-    assignment_stmt  go to state 15
-    if_stmt          go to state 16
-    if_else_stmt     go to state 17
-    while_stmt       go to state 18
-    declaration      go to state 19
-    T                go to state 20
-
-
-State 105
-
-   15 if_stmt: IF LP expr RP statement .
-
-    $default  reduce using rule 15 (if_stmt)
-
-
-State 106
-
-   19 while_stmt: WHILE LP expr RP LB . statements RB
-
-    T_CHAR      shift, and go to state 1
-    T_INT       shift, and go to state 2
-    T_BOOL      shift, and go to state 3
-    T_DOUBLE    shift, and go to state 4
-    T_VOID      shift, and go to state 5
-    SEMICOLON   shift, and go to state 6
-    LB          shift, and go to state 7
-    IDENTIFIER  shift, and go to state 8
-    MAIN        shift, and go to state 9
-    IF          shift, and go to state 10
-    WHILE       shift, and go to state 11
-
-    statements       go to state 110
-    statement        go to state 14
-    assignment_stmt  go to state 15
-    if_stmt          go to state 16
-    if_else_stmt     go to state 17
-    while_stmt       go to state 18
-    declaration      go to state 19
-    T                go to state 20
-
-
-State 107
-
-   18 while_stmt: WHILE LP expr RP statement .
-
-    $default  reduce using rule 18 (while_stmt)
-
-
-State 108
-
-   14 else_stmt: ELSE LB statements RB .
-
-    $default  reduce using rule 14 (else_stmt)
-
-
-State 109
-
-   16 if_stmt: IF LP expr RP LB statements . RB
-
-    RB  shift, and go to state 111
-
-
-State 110
-
-   19 while_stmt: WHILE LP expr RP LB statements . RB
-
-    RB  shift, and go to state 112
-
-
-State 111
-
-   16 if_stmt: IF LP expr RP LB statements RB .
-
-    $default  reduce using rule 16 (if_stmt)
-
-
-State 112
-
-   19 while_stmt: WHILE LP expr RP LB statements RB .
-
-    $default  reduce using rule 19 (while_stmt)
+    $default  reduce using rule 16 (while_stmt)

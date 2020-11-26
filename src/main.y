@@ -43,7 +43,7 @@ program
 statements
 :  statement {$$=$1;}
 |  statement statements {$$=$1; $1->addSibling($2);}
-|  LB statements RB {$$=$1;}
+|  LB statements RB {$$=$2;}
 ;
 
 statement
@@ -55,6 +55,7 @@ statement
 | assignment_stmt {$$=$1;}
 | SEMICOLON  {$$ = new TreeNode(lineno, NODE_STMT); $$->stype = STMT_SKIP;}
 ;
+
 assignment_stmt
 : IDENTIFIER LOP_ASSIGN expr SEMICOLON{
     TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
@@ -65,31 +66,20 @@ assignment_stmt
 }
 ;
 else_stmt
-: ELSE statement {
+: ELSE statements {
     TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
     node->stype = STMT_ELSE;
     node->addChild($2);
     $$ = node;
  }
-| ELSE LB statements RB {
-    TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
-    node->stype = STMT_ELSE;
-    node->addChild($3);
-    $$ = node;}
 ;
 
 if_stmt
-: IF LP expr RP statement {
+: IF LP expr RP statements {
     TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
     node->stype = STMT_IF;
     node->addChild($3);
     node->addChild($5);
-    $$ = node;}
-| IF LP expr RP LB statements RB {
-    TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
-    node->stype = STMT_IF;
-    node->addChild($3);
-    node->addChild($6);
     $$ = node;}
 ;
 
@@ -98,19 +88,12 @@ if_else_stmt
 ;
 
 while_stmt
-: WHILE LP expr RP statement {
+: WHILE LP expr RP statements {
     TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
     node->stype = STMT_WHILE;
     node->addChild($3);
     node->addChild($5);
     $$ = node;}
-| WHILE LP expr RP LB statements RB{
-    TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
-    node->stype = STMT_WHILE;
-    node->addChild($3);
-    node->addChild($6);
-    $$ = node;
-    }
 ;
 
 declaration
