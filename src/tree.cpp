@@ -182,6 +182,8 @@ string TreeNode::nodeType2String(NodeType type)
         return "NODE VAR";
     case NODE_CONST:
         return "NODE CONST";
+    case NODE_MAIN:
+        return "main";
     default:
         return "???";
         break;

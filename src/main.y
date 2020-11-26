@@ -47,7 +47,11 @@ statements
 ;
 
 statement
-: MAIN LP RP statements { $$ = $4; }
+: T MAIN LP RP statements { 
+    $2->addChild($1);
+    $2->addChild($5);
+    $$ = $2;
+    }
 | while_stmt {$$=$1;}
 | if_stmt {$$=$1;}
 | if_else_stmt {$$=$1;}
@@ -55,6 +59,7 @@ statement
 | function_declaration {$$=$1;}
 | function_definition {$$=$1;}
 | function_call {$$=$1;}
+| function_return {$$=$1;}
 | declaration SEMICOLON {$$ = $1;}
 | assignment_stmt {$$=$1;}
 | SEMICOLON  {$$ = new TreeNode(lineno, NODE_STMT); $$->stype = STMT_SKIP;}
@@ -179,23 +184,21 @@ function_declaration
 }
 ;
 function_definition
-: T IDENTIFIER LP IDLIST_DECL RP LB statements function_return RB {
+: T IDENTIFIER LP IDLIST_DECL RP LB statements RB {
     TreeNode* node = new TreeNode($2->lineno, NODE_STMT);
     node->stype = STMT_FUN_DEF;
     node->addChild($1);
     node->addChild($2);
     node->addChild($4);
     node->addChild($7);
-    node->addChild($8);
     $$ = node;
 }
-| T IDENTIFIER LP RP LB statements function_return RB {
+| T IDENTIFIER LP RP LB statements RB {
     TreeNode* node = new TreeNode($2->lineno, NODE_STMT);
     node->stype = STMT_FUN_DEF;
     node->addChild($1);
     node->addChild($2);
     node->addChild($6);
-    node->addChild($7);
     $$ = node;
 }
 ;

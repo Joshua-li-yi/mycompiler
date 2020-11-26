@@ -12,6 +12,7 @@ enum NodeType
     NODE_TYPE,
     NODE_STMT,
     NODE_PROG,
+    NODE_MAIN,
 };
 
 enum OperatorType

@@ -36,7 +36,6 @@ WHILE while
 
 "if" return IF;
 "else" return ELSE;
-"main" return MAIN;
 "for" return FOR;
 "=" return LOP_ASSIGN;
 "int" {return T_INT;}
@@ -46,6 +45,11 @@ WHILE while
 "void" { return T_VOID;}
 ";" return  SEMICOLON;
 "," return COMMA;
+"main" {    
+    TreeNode* node = new TreeNode(lineno, NODE_MAIN);
+    yylval = node;
+    return MAIN;
+    }
 "return" {    
     TreeNode* node = new TreeNode(lineno, NODE_STMT);
     node->stype = STMT_RETURN;

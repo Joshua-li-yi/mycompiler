@@ -31,20 +31,31 @@
 // while (a > 0 && a <= 10 || a % 100 == 10 && !a == 10){
 //     int c =0;
 // }
-int c =1;
-int f();
-// void f2(int a, bool b);
+// test5
+// int c =1;
+// int f();
+// // void f2(int a, bool b);
 
-int f(){
-    int m;
-    return 1;
-}
-
-// void f2(int a, bool b){
-//     int c;
-//     return;
+// int f(){
+//     int m;
+//     return 1;
 // }
 
-f();
+// // void f2(int a, bool b){
+// //     int c;
+// //     return;
+// // }
+
+// f();
 // int m,n;
 // f2(m,n);
+void main(){
+    int a,s;
+    a = 10;
+    s = 0;
+    char ch;
+    while (a > 0 && a <= 10 || a % 100 == 10 && !a == 10)
+    {
+        a = 1;
+    }
+}
