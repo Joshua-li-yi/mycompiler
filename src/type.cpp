@@ -18,6 +18,10 @@ string Type::getTypeInfo() {
             return "double";
         case VALUE_VOID:
             return "void";
+        case VALUE_POINT:
+            return "*";
+        case VALUE_CITE:
+            return "&";
         default:
             cerr << "shouldn't reach here, typeinfo";
             assert(0);

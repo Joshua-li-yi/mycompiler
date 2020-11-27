@@ -38,7 +38,6 @@ void TreeNode::genNodeId()
 
 void TreeNode::printNodeInfo(TreeNode *t)
 {
-    // t->genNodeId();
     string print_type = "";
     string detail = "";
     string childNodeID = "Children: ";

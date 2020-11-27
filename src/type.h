@@ -10,6 +10,8 @@ enum ValueType
     VALUE_CHAR,
     VALUE_STRING,
     VALUE_DOUBLE,
+    VALUE_POINT,
+    VALUE_CITE,
     VALUE_VOID,
     COMPOSE_STRUCT,
     COMPOSE_UNION,
@@ -42,6 +44,9 @@ static Type* TYPE_BOOL = new Type(VALUE_BOOL);
 static Type* TYPE_STRING = new Type(VALUE_STRING);
 static Type* TYPE_DOUBLE = new Type(VALUE_DOUBLE);
 static Type *TYPE_VOID = new Type(VALUE_VOID);
+
+static Type *TYPE_POINT = new Type(VALUE_POINT);
+static Type *TYPE_CITE = new Type(VALUE_CITE);
 
 int getSize(Type* type);
 

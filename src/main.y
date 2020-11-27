@@ -155,6 +155,7 @@ for_stmt
     TreeNode* node = forNode($1->lineno, nullptr, nullptr, nullptr, $6);
     $$ = node;}
 ;
+
 while_stmt
 : WHILE LP expr RP statements {
     TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
@@ -205,6 +206,7 @@ function_declaration
     node->addChild($4);
     $$ = node;
 }
+
 | T IDENTIFIER LP RP SEMICOLON {
     TreeNode* node = new TreeNode($2->lineno, NODE_STMT);
     node->stype = STMT_FUN_DECL;
@@ -221,8 +223,7 @@ function_definition
     node->addChild($2);
     node->addChild($4);
     node->addChild($7);
-    $$ = node;
-}
+    $$ = node;}
 | T IDENTIFIER LP RP LB statements RB {
     TreeNode* node = new TreeNode($2->lineno, NODE_STMT);
     node->stype = STMT_FUN_DEF;
@@ -232,8 +233,27 @@ function_definition
     $$ = node;
 }
 ;
+function_call_id
+: expr {$$=$1;}
+| AND IDENTIFIER {
+    TreeNode* node = new TreeNode($2->lineno, NODE_CONST);
+    node->type = TYPE_CITE;
+    node->addChild($2);
+    $$ = node;}
+| TIMES IDENTIFIER {
+    TreeNode* node = new TreeNode($2->lineno, NODE_CONST);
+    node->type = TYPE_POINT;
+    node->addChild($2);
+    $$ = node;}
+;
+
+function_call_idlist
+: function_call_id { $$ = $1;}
+| function_call_id COMMA function_call_idlist { $1->addSibling($3); $$=$1;}
+;
+
 function_call
-: IDENTIFIER LP IDLIST RP SEMICOLON {
+: IDENTIFIER LP function_call_idlist RP SEMICOLON {
     TreeNode* node = new TreeNode($2->lineno, NODE_STMT);
     node->stype = STMT_FUN_CALL;
     node->addChild($1);
