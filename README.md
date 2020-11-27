@@ -9,12 +9,12 @@
 + add assignment stmt
 + add for stmt
 + add function
-+ add main、
++ add main
 + add function call
 + add point and cite
 + add scanf & prinf
 ## problem
-+ if "if" or "while" is processed firstly while be happen sagmention error 
++ if "if" or "while" is processed firstly while happen sagmention error 
 + else if can't identify
 ## todo
 + distinguish different scopes of var
