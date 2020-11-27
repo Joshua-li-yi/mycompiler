@@ -168,6 +168,10 @@ string TreeNode::sType2String(StmtType type)
         return "%=";
     case STMT_DIV_ASSIGN:
         return "/=";
+    case STMT_SCANF:
+        return "scanf";
+    case STMT_PRINTF:
+        return "printf";
     default:
         return "???";
         break;

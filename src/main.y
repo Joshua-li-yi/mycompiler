@@ -19,6 +19,7 @@
 %token GTR LSS GEQ LEQ NEQ LOGICAL_AND LOGICAL_OR LOGICAL_NOT UMINUS 
 
 %token FOR INPUT OUTPUT DO MAIN IF ELSE WHILE RETURN
+%token SCANF PRINTF
 %token EOL
 
 %left LOP_EQ
@@ -60,9 +61,21 @@ statement
 | function_definition {$$=$1;}
 | function_call {$$=$1;}
 | function_return {$$=$1;}
+| scanf_function {$$=$1;}
+| printf_function {$$=$1;}
 | declaration SEMICOLON {$$ = $1;}
 | assignment_stmt {$$=$1;}
 | SEMICOLON  {$$ = new TreeNode(lineno, NODE_STMT); $$->stype = STMT_SKIP;}
+;
+
+scanf_function
+: SCANF LP function_call_idlist RP SEMICOLON {$1->addChild($3); $$=$1;}
+| SCANF LP RP SEMICOLON {$$=$1;}
+;
+
+printf_function
+: PRINTF LP function_call_idlist RP SEMICOLON {$1->addChild($3); $$=$1;}
+| PRINTF LP RP SEMICOLON {$$=$1;}
 ;
 
 assignment_stmt
@@ -188,17 +201,56 @@ IDLIST
 | IDENTIFIER {$$ = $1;}
 ;
 
-IDLIST_DECL
-: declaration {$$=$1;}
-| declaration COMMA IDLIST_DECL {$1->addSibling($3); $$=$1;}
+function_declaration_id
+: T IDENTIFIER LOP_ASSIGN expr{  // declare and init
+    TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
+    node->stype = STMT_DECL;
+    node->addChild($1);
+    node->addChild($2);
+    node->addChild($4);
+    $$ = node;
+} 
+| T IDENTIFIER {
+    TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
+    node->stype = STMT_DECL;
+    node->addChild($1);
+    node->addChild($2);
+    $$ = node;}
+| T {$$=$1;}
+;
+
+function_declaration_idlist
+: function_declaration_id {$$=$1;}
+| function_declaration_id COMMA function_declaration_idlist {$1->addSibling($3); $$=$1;}
+;
 
 function_return
 : RETURN SEMICOLON {$$=$1;}
 | RETURN expr SEMICOLON {$1->addSibling($2); $$=$1;}
 ;
 
+function_definition_id
+: T IDENTIFIER LOP_ASSIGN expr{  // declare and init
+    TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
+    node->stype = STMT_DECL;
+    node->addChild($1);
+    node->addChild($2);
+    node->addChild($4);
+    $$ = node;
+} 
+| T IDENTIFIER {
+    TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
+    node->stype = STMT_DECL;
+    node->addChild($1);
+    node->addChild($2);
+    $$ = node;}
+;
+function_definition_idlist
+: function_definition_id {$$=$1;}
+| function_definition_id COMMA function_definition_idlist {$$=$1;}
+
 function_declaration
-: T IDENTIFIER LP IDLIST_DECL RP SEMICOLON {
+: T IDENTIFIER LP function_declaration_idlist RP SEMICOLON {
     TreeNode* node = new TreeNode($2->lineno, NODE_STMT);
     node->stype = STMT_FUN_DECL;
     node->addChild($1);
@@ -215,8 +267,9 @@ function_declaration
     $$ = node;
 }
 ;
+
 function_definition
-: T IDENTIFIER LP IDLIST_DECL RP LB statements RB {
+: T IDENTIFIER LP function_definition_idlist RP LB statements RB {
     TreeNode* node = new TreeNode($2->lineno, NODE_STMT);
     node->stype = STMT_FUN_DEF;
     node->addChild($1);
@@ -233,6 +286,7 @@ function_definition
     $$ = node;
 }
 ;
+
 function_call_id
 : expr {$$=$1;}
 | AND IDENTIFIER {
@@ -303,6 +357,14 @@ T
 | T_BOOL {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_BOOL;}
 | T_DOUBLE {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_DOUBLE;}
 | T_VOID {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_VOID;}
+| T_INT TIMES {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_POINT;}
+| T_INT AND {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_CITE;}
+| T_CHAR TIMES {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_POINT;}
+| T_CHAR AND {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_CITE;}
+| T_BOOL TIMES {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_POINT;}
+| T_BOOL AND {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_CITE;}
+| T_DOUBLE TIMES {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_POINT;}
+| T_DOUBLE AND {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_CITE;}
 ;
 
 %%

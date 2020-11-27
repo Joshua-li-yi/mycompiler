@@ -56,6 +56,18 @@ WHILE while
     yylval = node;
     return RETURN;
     }
+"printf" {
+    TreeNode* node = new TreeNode(lineno, NODE_STMT);
+    node->stype = STMT_PRINTF;
+    yylval = node;
+    return PRINTF;
+}
+"scanf" {
+    TreeNode* node = new TreeNode(lineno, NODE_STMT);
+    node->stype = STMT_SCANF;
+    yylval = node;
+    return SCANF;
+}
 {WHILE} {return WHILE;}
 
 {EQU} {

@@ -56,6 +56,8 @@ enum StmtType
     STMT_FUN_DEF,
     STMT_FUN_CALL,
     STMT_RETURN,
+    STMT_SCANF,
+    STMT_PRINTF,
 };
 
 struct TreeNode {

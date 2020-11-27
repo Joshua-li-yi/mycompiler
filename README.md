@@ -12,11 +12,10 @@
 + add main、
 + add function call
 + add point and cite
++ add scanf & prinf
 ## problem
 + if "if" or "while" is processed firstly while be happen sagmention error 
 + else if can't identify
 ## todo
-+ scanf, printf
-+ function
 + distinguish different scopes of var
 + error check

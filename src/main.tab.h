@@ -98,11 +98,13 @@ extern int yydebug;
     ELSE = 308,
     WHILE = 309,
     RETURN = 310,
-    EOL = 311,
-    LOP_EQ = 312,
-    XOR = 313,
-    SHIFT_LEFT = 314,
-    SHIFT_RIGHT = 315
+    SCANF = 311,
+    PRINTF = 312,
+    EOL = 313,
+    LOP_EQ = 314,
+    XOR = 315,
+    SHIFT_LEFT = 316,
+    SHIFT_RIGHT = 317
   };
 #endif
 

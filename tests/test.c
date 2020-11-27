@@ -34,17 +34,17 @@
 // test5
 // int c =1;
 // int f();
-// // void f2(int a, bool b);
+// void f2(int a, bool &b);
 
 // int f(){
 //     int m;
 //     return 1;
 // }
 
-// // void f2(int a, bool b){
-// //     int c;
-// //     return;
-// // }
+// void f2(int a, bool b){
+//     int c;
+//     return;
+// }
 
 // f();
 // int m,n;
