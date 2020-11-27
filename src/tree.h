@@ -58,6 +58,7 @@ enum StmtType
     STMT_RETURN,
     STMT_SCANF,
     STMT_PRINTF,
+    STMT_DOMAIN,
 };
 
 struct TreeNode {
@@ -96,6 +97,16 @@ public:
     static string sType2String (StmtType type);
 public: 
     TreeNode(int lineno, NodeType type);
+};
+
+class VarNode{
+public:
+    unordered_map<string, TreeNode*> map;
+    VarNode* child = nullptr;
+    VarNode* sibling = nullptr;
+    VarNode* father = nullptr;
+    void addChild(VarNode*);
+    void addSibling(VarNode*);
 };
 // 表达式节点
 TreeNode *expNode(TreeNode*, TreeNode*, TreeNode*);

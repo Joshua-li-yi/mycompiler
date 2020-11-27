@@ -44,13 +44,17 @@ program
 statements
 :  statement {$$=$1;}
 |  statement statements {$$=$1; $1->addSibling($2);}
-|  LB statements RB {$$=$2;}
+|  LB statements RB {
+    $$=$2;}
 ;
 
 statement
-: T MAIN LP RP statements { 
+: T MAIN LP RP statements {
+    TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
+    node->stype = STMT_DOMAIN;
+    node->addChild($5);
     $2->addChild($1);
-    $2->addChild($5);
+    $2->addChild(node);
     $$ = $2;
     }
 | while_stmt {$$=$1;}
@@ -121,7 +125,10 @@ else_stmt
 : ELSE statements {
     TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
     node->stype = STMT_ELSE;
-    node->addChild($2);
+    TreeNode* node2 = new TreeNode($1->lineno, NODE_STMT);
+    node2->stype = STMT_DOMAIN;
+    node2->addChild($2);
+    node->addChild(node2);
     $$ = node;
  }
 ;
@@ -130,8 +137,11 @@ if_stmt
 : IF LP expr RP statements {
     TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
     node->stype = STMT_IF;
-    node->addChild($3);
-    node->addChild($5);
+    TreeNode* node2 = new TreeNode($1->lineno, NODE_STMT);
+    node2->stype = STMT_DOMAIN;
+    node2->addChild($3);
+    node2->addChild($5);
+    node->addChild(node2);
     $$ = node;}
 ;
 
@@ -173,8 +183,11 @@ while_stmt
 : WHILE LP expr RP statements {
     TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
     node->stype = STMT_WHILE;
-    node->addChild($3);
-    node->addChild($5);
+    TreeNode* node2 = new TreeNode($1->lineno, NODE_STMT);
+    node2->stype = STMT_DOMAIN;
+    node2->addChild($3);
+    node2->addChild($5);
+    node->addChild(node2);
     $$ = node;}
 ;
 
@@ -272,17 +285,23 @@ function_definition
 : T IDENTIFIER LP function_definition_idlist RP LB statements RB {
     TreeNode* node = new TreeNode($2->lineno, NODE_STMT);
     node->stype = STMT_FUN_DEF;
+    TreeNode* node2 = new TreeNode($1->lineno, NODE_STMT);
+    node2->stype = STMT_DOMAIN;
     node->addChild($1);
     node->addChild($2);
-    node->addChild($4);
-    node->addChild($7);
+    node2->addChild($4);
+    node2->addChild($7);
+    node->addChild(node2);
     $$ = node;}
 | T IDENTIFIER LP RP LB statements RB {
     TreeNode* node = new TreeNode($2->lineno, NODE_STMT);
     node->stype = STMT_FUN_DEF;
+    TreeNode* node2 = new TreeNode($1->lineno, NODE_STMT);
+    node2->stype = STMT_DOMAIN;
     node->addChild($1);
     node->addChild($2);
-    node->addChild($6);
+    node2->addChild($6);
+    node->addChild(node2);
     $$ = node;
 }
 ;

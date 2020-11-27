@@ -17,7 +17,6 @@ LB \{
 RB \}
 LP \(
 RP \) 
-IDENTIFIER [[:alpha:]_][[:alpha:][:digit:]_]*
 EQU ==
 GTR \>
 LSS \< 
@@ -28,6 +27,7 @@ LOGICAL_AND &&
 LOGICAL_OR \|\|
 LOGICAL_NOT !
 WHILE while
+IDENTIFIER [[:alpha:]_][[:alpha:][:digit:]_]*
 %%
 
 {BLOCKCOMMENT}  /* do nothing */

@@ -102,13 +102,13 @@ void TreeNode::printChildrenId(TreeNode *t)
     }
 }
 // 先根递归遍历
-void TreeNode::printAST(TreeNode *root)
+void TreeNode::printAST(TreeNode *t)
 {
-    if(!root)
+    if(!t)
         return;
-    printNodeInfo(root);
-    for (TreeNode *t = root->child; t; t = t->sibling)
-        printAST(t);
+    printNodeInfo(t);
+    for (TreeNode *t2 = t->child; t2; t2 = t2->sibling)
+        printAST(t2);
 }
 
 // You can output more info...
@@ -172,6 +172,8 @@ string TreeNode::sType2String(StmtType type)
         return "scanf";
     case STMT_PRINTF:
         return "printf";
+    case STMT_DOMAIN:
+        return "STMT DOMAIN";
     default:
         return "???";
         break;
@@ -263,9 +265,12 @@ TreeNode *expNode(TreeNode *op, TreeNode *operand1, TreeNode *operand2)
 TreeNode *forNode(int lno,TreeNode *exp1, TreeNode *exp2, TreeNode *exp3, TreeNode *stmt){
     TreeNode *node = new TreeNode(lno, NODE_STMT);
     node->stype = STMT_FOR;
-    node->addChild(exp1);
-    node->addChild(exp2);
-    node->addChild(exp3);
-    node->addChild(stmt);
+    TreeNode* node2 = new TreeNode(lno, NODE_STMT);
+    node2->stype = STMT_DOMAIN;
+    node2->addChild(exp1);
+    node2->addChild(exp2);
+    node2->addChild(exp3);
+    node2->addChild(stmt);
+    node->addChild(node2);
     return node;
 }
