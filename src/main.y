@@ -5,6 +5,7 @@
     extern int lineno;
     int yylex();
     int yyerror( char const * );
+    
 %}
 %token T_CHAR T_INT T_STRING T_BOOL T_DOUBLE T_VOID
 
@@ -26,11 +27,9 @@
 %left LOGICAL_OR
 %left LOGICAL_AND
 %left OR
-%left XOR
 %left AND
 %left EQU NEQ
 %left GTR LSS GEQ LEQ
-%left SHIFT_LEFT SHIFT_RIGHT
 %left PLUS MINUS
 %left TIMES DIVIDE MOD
 %right NOT LOGICAL_NOT
@@ -351,7 +350,6 @@ expr
 |   expr AND expr   { $$ = expNode($2, $1, $3); } 
 |   expr OR expr    { $$ = expNode($2, $1, $3); }
 |   NOT expr        { $$ = expNode($1, $2, NULL); }
-|   expr XOR expr   { $$ = expNode($2, $1, $3); }
 |   expr EQU expr   { $$ = expNode($2, $1, $3); }
 |   expr GTR expr   { $$ = expNode($2, $1, $3); }
 |   expr LSS expr   { $$ = expNode($2, $1, $3); }

@@ -22,7 +22,11 @@ int main(int argc, char *argv[])
     }
     yyparse();
     if(root != NULL) {
-        root->printAST(root);
+        root->genNodeId();
+        // root->genSymbolTable();
+        root->printAST();
+        cout<<endl;
+        // PrintSymbolTable();
     }
     return 0;
 }

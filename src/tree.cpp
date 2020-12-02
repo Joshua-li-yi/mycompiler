@@ -1,11 +1,11 @@
 #include "tree.h"
-static int globalNodeId = 0;
 
 void TreeNode::addChild(TreeNode *child)
 {
     if (this->child == nullptr)
         this->child = child;
-    else{
+    else
+    {
         this->child->addSibling(child);
     }
 }
@@ -27,13 +27,17 @@ TreeNode::TreeNode(int lineno, NodeType type)
 {
     this->lineno = lineno;
     this->nodeType = type;
-    genNodeId();
 }
 
 void TreeNode::genNodeId()
 {
+    static int globalNodeId = 0;
+    if (!this)
+        return;
     this->nodeID = globalNodeId;
     globalNodeId += 1;
+    for (TreeNode *t = this->child; t; t = t->sibling)
+        t->genNodeId();
 }
 
 void TreeNode::printNodeInfo(TreeNode *t)
@@ -49,15 +53,19 @@ void TreeNode::printNodeInfo(TreeNode *t)
     {
         detail = "OP: " + opType2String(t->optype);
     }
-    else if (t->nodeType == NODE_TYPE){
+    else if (t->nodeType == NODE_TYPE)
+    {
         detail = t->type->getTypeInfo();
     }
-    else if (t->nodeType == NODE_VAR){
+    else if (t->nodeType == NODE_VAR)
+    {
         detail = "var name: " + t->var_name;
     }
-    else if(t->nodeType == NODE_CONST){
+    else if (t->nodeType == NODE_CONST)
+    {
         string t_type_str = t->type->getTypeInfo();
-        if(t_type_str=="int"){
+        if (t_type_str == "int")
+        {
             detail = to_string(t->int_val);
         }
         else if (t_type_str == "string")
@@ -72,10 +80,11 @@ void TreeNode::printNodeInfo(TreeNode *t)
         {
             detail = to_string(t->d_val);
         }
-        else if(t_type_str == "char"){
+        else if (t_type_str == "char")
+        {
             detail = to_string(t->ch_val);
         }
-       detail = t_type_str+": "+detail;
+        detail = t_type_str + ": " + detail;
     }
 
     print_type = nodeType2String(t->nodeType);
@@ -84,8 +93,6 @@ void TreeNode::printNodeInfo(TreeNode *t)
          << "@" << t->nodeID << "  " << print_type << "  " << detail << "  children:[";
     printChildrenId(t);
     cout << "]" << endl;
-    // string t = "";
-    // cout << "  " << setw(10) << t << endl;
 }
 
 void TreeNode::printChildrenId(TreeNode *t)
@@ -94,7 +101,7 @@ void TreeNode::printChildrenId(TreeNode *t)
     {
         cout << "@" << t->child->nodeID << " ";
         TreeNode *tmp = t->child->sibling;
-        while (tmp!= nullptr)
+        while (tmp != nullptr)
         {
             cout << "@" << tmp->nodeID << " ";
             tmp = tmp->sibling;
@@ -102,13 +109,45 @@ void TreeNode::printChildrenId(TreeNode *t)
     }
 }
 // 先根递归遍历
-void TreeNode::printAST(TreeNode *t)
+void TreeNode::printAST()
 {
-    if(!t)
+    if (!this)
         return;
-    printNodeInfo(t);
-    for (TreeNode *t2 = t->child; t2; t2 = t2->sibling)
-        printAST(t2);
+    printNodeInfo(this);
+    for (TreeNode *t = this->child; t; t = t->sibling)
+        t->printAST();
+}
+void TreeNode::genSymbolTable()
+{
+    if (!this)
+        return;
+    TreeNode *cur = this;
+    if (cur->nodeType == NODE_STMT && cur->stype == STMT_DECL)
+    {
+        if (cur->child != nullptr)
+        {
+            if (cur->child->nodeType = NODE_VAR)
+                GlobalVarSymbolTable[cur->child->var_name] = cur->child;
+            TreeNode *tmp = cur->child->sibling;
+            while (tmp != nullptr)
+            {
+                if (tmp->nodeType = NODE_VAR)
+                    GlobalVarSymbolTable[tmp->child->var_name] = tmp->child;
+                tmp = tmp->sibling;
+            }
+        }
+    }
+    for (TreeNode *t = this->child; t; t = t->sibling)
+        t->genSymbolTable();
+}
+
+void PrintSymbolTable()
+{
+    std::map<string, TreeNode *>::iterator iter;
+    for (iter = GlobalVarSymbolTable.begin(); iter != GlobalVarSymbolTable.end(); iter++)
+    {
+        printf("%s, %d", iter->first, iter->second->nodeID);
+    }
 }
 
 // You can output more info...
@@ -232,7 +271,7 @@ string TreeNode::opType2String(OperatorType type)
         return "++";
     case OP_MMINUS:
         return "--";
-    case OP_NEQ: 
+    case OP_NEQ:
         return "!=";
     case OP_GTR:
         return ">";
@@ -262,10 +301,11 @@ TreeNode *expNode(TreeNode *op, TreeNode *operand1, TreeNode *operand2)
     return opt;
 }
 
-TreeNode *forNode(int lno,TreeNode *exp1, TreeNode *exp2, TreeNode *exp3, TreeNode *stmt){
+TreeNode *forNode(int lno, TreeNode *exp1, TreeNode *exp2, TreeNode *exp3, TreeNode *stmt)
+{
     TreeNode *node = new TreeNode(lno, NODE_STMT);
     node->stype = STMT_FOR;
-    TreeNode* node2 = new TreeNode(lno, NODE_STMT);
+    TreeNode *node2 = new TreeNode(lno, NODE_STMT);
     node2->stype = STMT_DOMAIN;
     node2->addChild(exp1);
     node2->addChild(exp2);

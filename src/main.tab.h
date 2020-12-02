@@ -101,10 +101,7 @@ extern int yydebug;
     SCANF = 311,
     PRINTF = 312,
     EOL = 313,
-    LOP_EQ = 314,
-    XOR = 315,
-    SHIFT_LEFT = 316,
-    SHIFT_RIGHT = 317
+    LOP_EQ = 314
   };
 #endif
 

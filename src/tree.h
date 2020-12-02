@@ -76,9 +76,9 @@ public:
     void printNodeInfo(TreeNode*);
     void printChildrenId(TreeNode*);
 
-    void printAST(TreeNode *); // 先输出自己 + 孩子们的id；再依次让每个孩子输出AST。
+    void printAST(); // 先输出自己 + 孩子们的id；再依次让每个孩子输出AST。
     void printSpecialInfo();
-
+    void genSymbolTable();
     void genNodeId();
 
 public:
@@ -112,4 +112,7 @@ public:
 TreeNode *expNode(TreeNode*, TreeNode*, TreeNode*);
 // for语句节点
 TreeNode *forNode(int, TreeNode*, TreeNode*, TreeNode*, TreeNode*);
+void PrintSymbolTable();
+static map<string, TreeNode *> GlobalVarSymbolTable;
+static list<map<string, TreeNode *>> STlist;
 #endif
