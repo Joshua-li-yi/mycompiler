@@ -13,6 +13,7 @@
 + add function call
 + add point and cite
 + add scanf & prinf
++ add global var symbol table
 ## problem
 + if "if" or "while" is processed firstly while happen sagmention error 
 + else if can't identify

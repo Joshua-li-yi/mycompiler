@@ -126,13 +126,13 @@ void TreeNode::genSymbolTable()
     {
         if (cur->child != nullptr)
         {
-            if (cur->child->nodeType = NODE_VAR)
+            if (cur->child->nodeType == NODE_VAR)
                 GlobalVarSymbolTable[cur->child->var_name] = cur->child;
             TreeNode *tmp = cur->child->sibling;
             while (tmp != nullptr)
             {
-                if (tmp->nodeType = NODE_VAR)
-                    GlobalVarSymbolTable[tmp->child->var_name] = tmp->child;
+                if (tmp->nodeType == NODE_VAR)
+                    GlobalVarSymbolTable[tmp->var_name] = tmp;
                 tmp = tmp->sibling;
             }
         }
@@ -141,12 +141,12 @@ void TreeNode::genSymbolTable()
         t->genSymbolTable();
 }
 
-void PrintSymbolTable()
+void TreeNode::PrintSymbolTable()
 {
     std::map<string, TreeNode *>::iterator iter;
     for (iter = GlobalVarSymbolTable.begin(); iter != GlobalVarSymbolTable.end(); iter++)
     {
-        printf("%s, %d", iter->first, iter->second->nodeID);
+        cout<< iter->first<< ", "<<iter->second->nodeID<<" ";
     }
 }
 

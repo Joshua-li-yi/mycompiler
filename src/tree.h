@@ -80,7 +80,7 @@ public:
     void printSpecialInfo();
     void genSymbolTable();
     void genNodeId();
-
+    void PrintSymbolTable();
 public:
     OperatorType optype;  // 如果是表达式
     Type *type;  // 变量、类型、表达式结点，有类型。
@@ -99,20 +99,10 @@ public:
     TreeNode(int lineno, NodeType type);
 };
 
-class VarNode{
-public:
-    unordered_map<string, TreeNode*> map;
-    VarNode* child = nullptr;
-    VarNode* sibling = nullptr;
-    VarNode* father = nullptr;
-    void addChild(VarNode*);
-    void addSibling(VarNode*);
-};
 // 表达式节点
 TreeNode *expNode(TreeNode*, TreeNode*, TreeNode*);
 // for语句节点
 TreeNode *forNode(int, TreeNode*, TreeNode*, TreeNode*, TreeNode*);
-void PrintSymbolTable();
+
 static map<string, TreeNode *> GlobalVarSymbolTable;
-static list<map<string, TreeNode *>> STlist;
 #endif

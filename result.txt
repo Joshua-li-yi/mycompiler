@@ -82,3 +82,4 @@ lno@84  @80  NODE STMT  printf  children:[@81 @82 ]
 lno@84  @81  NODE CONST  string: "Have fun: %d\n"  children:[]
 lno@84  @82  NODE VAR  var name: i  children:[]
 
+a, 46 b, 65 ch, 16 i, 73 s, 7 
