@@ -40,7 +40,7 @@ string& symbol_table::getname(int pos)
 	return table[pos].name;
 }
 
-int symbol_table::set_type(int pos, int type)
+int symbol_table::set_type(int pos, symbolType type)
 {
 	if (pos < 0 || pos >= size)
 	{
@@ -52,7 +52,7 @@ int symbol_table::set_type(int pos, int type)
 	return 0;
 }
 
-int symbol_table::get_type(int pos)
+symbolType symbol_table::get_type(int pos)
 {
 	if (pos < 0 || pos >= size)
 	{

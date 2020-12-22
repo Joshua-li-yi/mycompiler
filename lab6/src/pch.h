@@ -18,5 +18,8 @@
 #include <map>
 #include <stack>
 #include <unordered_map>
-
+#include "symbol.h"
+#include "tree.h"
+#include <vector>
+#include "Quad.h"
 #endif
