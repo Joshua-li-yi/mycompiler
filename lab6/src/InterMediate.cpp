@@ -7,6 +7,7 @@ InterMediate::InterMediate(TreeNode *rootNode)
     this->root = rootNode;
 }
 
+// TODO
 void InterMediate::Generate(TreeNode *node)
 {
     if (node == nullptr)
@@ -18,26 +19,45 @@ void InterMediate::Generate(TreeNode *node)
     {
     case NODE_STMT:
     {
+        test(0);
+
         TreeNode *cur = node;
         if (cur->stype == STMT_DECL)
         {
+            test(3);
+
             symbolType tmp_type;
             if (cur->child != nullptr)
             {
                 if (cur->child->nodeType == NODE_TYPE)
                     tmp_type = nodeTypetoSymbolType(cur->child);
+                test(3);
+
                 TreeNode *tmp = cur->child->sibling;
                 while (tmp != nullptr)
                 {
+                    test(5);
+
                     if (tmp->nodeType == NODE_VAR)
                     {
                         struct symbol *sym = new symbol();
                         sym->name = tmp->var_name;
                         sym->token = tmp->nodeID;
                         sym->type = tmp_type;
+                        test(1);
+                        if ((tmp->sibling->nodeType != NODE_CONST) | (tmp->sibling==nullptr))
+                        {
+                            test(2);
 
-                        Quad quad_int = Quad(OpCode_VAR_DECL, nullptr, sym);
-                        this->quads.push_back(quad_int);
+                            Quad quad_int = Quad(OpCode_VAR_DECL, nullptr, sym);
+                            this->quads.push_back(quad_int);
+                        }
+                        else
+                        {
+                            Quad quad_int = Quad(OpCode_VAR_DECL, tmp->sibling->int_val, sym);
+                            this->quads.push_back(quad_int);
+                        }
+
                     }
                     tmp = tmp->sibling;
                 }
@@ -1126,12 +1146,12 @@ void InterMediate::Generate(TreeNode *node)
 //     list1->merge(*list2);
 //     return list1;
 // }
-// void InterMediate::backpatch(list<int> *backList, int target)
+// void InterMediate::backpatch(list<int> *backList, int )
 // {
 //     list<int>::iterator it;
 //     for (it = backList->begin(); it != backList->end(); it++)
 //     {
-//         quads[*it].backpatch(target);
+//         quads[*it].backpatch();
 //     }
 //     return;
 // }
@@ -1141,7 +1161,8 @@ void InterMediate::printQuads()
     // vector<Quad>::iterator it;
     cout << "\t   Operator   \targ1\targ2\tresult" << endl;
     int count = 0;
-    for(auto it:this->quads){
+    for (auto it : this->quads)
+    {
         cout << count++ << "\t";
         it.printQuad();
     }

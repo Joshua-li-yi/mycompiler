@@ -1,7 +1,8 @@
 lno@0  @0  NODE PROG    children:[@1 ]
-lno@2  @1  NODE STMT  STMT DECL  children:[@2 @3 ]
-lno@2  @2  NODE TYPE  int  children:[]
-lno@2  @3  NODE VAR  var name: a  children:[]
+lno@5  @1  NODE STMT  STMT DECL  children:[@2 @3 @4 ]
+lno@5  @2  NODE TYPE  int  children:[]
+lno@5  @3  NODE VAR  var name: a  children:[]
+lno@5  @4  NODE CONST  int: 1  children:[]
 
 	   Operator   	arg1	arg2	result
-0	  VAR_DECL  	-	-	a
+0	  VAR_DECL  	1	-	a
