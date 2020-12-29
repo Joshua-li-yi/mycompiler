@@ -7,7 +7,7 @@
 #include "symbol.h"
 #include "pch.h"
 #include "Quad.h"
-
+#include "debug.h"
 // Inter mediate code generator
 class InterMediate
 {
@@ -34,7 +34,7 @@ public:
     // inline vector<symbol *> &getTempVars() { return this->tempVar; }
 
     InterMediate(TreeNode*);
-    void Generate(TreeNode *node, SymbolTable *symbolTable);
+    void Generate(TreeNode *node);
     // // Create a child symbol table to generate follow code.
     // SymbolTable *GenerateStmt(TreeNode *node, SymbolTable *symbolTable);
     // SymbolTable *GenerateReturn(TreeNode *node, SymbolTable *symbolTable);

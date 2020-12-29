@@ -84,12 +84,12 @@ private:
  * *******************************
 */
     int flag;
-    std::string printOp();
+    string printOp();
 
 public:
     // Jump to the target
-    // Quad(OpCode op, int result);
-    Quad(OpCode op, symbol *result);
+    Quad(OpCode op, int result);
+    // Quad(OpCode op, symbol *result);
     Quad(OpCode op, symbol *arg1, symbol *result); // assign variable to variable
     Quad(OpCode op, int arg1, symbol *result);     // assign literals to variable
     Quad(OpCode op, symbol *arg1, symbol *arg2, symbol *result);

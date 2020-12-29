@@ -30,6 +30,15 @@ struct symbol
 	int token; // TODO 这个是干嘛的
 	// TreeNode* node;
 	symbolType type;
+	inline string getSymbolName(){
+		return this->name;
+	}
+	bool init(string n, int t, symbolType st){
+		this->name = n;
+		this->token = t;
+		this->type = st;
+		return true;
+	}
 };
 
 class SymbolTable
@@ -39,11 +48,12 @@ private:
 	int size;
 
 public:
+	SymbolTable();
 	int lookup(string name);
 	int insert(string , int, symbolType);
 	int insert(symbol);
 	int gettoken(string name);
-	string &getname(int pos);
+	string getname(int pos);
 	int set_type(int pos, symbolType type);
 	symbolType get_type(int pos);
 };

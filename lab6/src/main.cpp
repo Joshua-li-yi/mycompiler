@@ -30,7 +30,8 @@ int main(int argc, char *argv[])
         cout<<endl;
         // root->PrintSymbolTable();
         InterMediate im(root);
-        im.Generate(root,GlobalSymTable);
+        im.Generate(root);
+        im.printQuads();
     }
     return 0;
 }

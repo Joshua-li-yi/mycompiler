@@ -134,6 +134,7 @@ symbolType nodeTypetoSymbolType(TreeNode *t)
     }
     return unset;
 }
+
 void TreeNode::genSymbolTable()
 {
     if (!this)
@@ -141,21 +142,16 @@ void TreeNode::genSymbolTable()
     TreeNode *cur = this;
     if (cur->nodeType == NODE_STMT && cur->stype == STMT_DECL)
     {
+        symbolType tmp_type;
         if (cur->child != nullptr)
         {
-            if (cur->child->nodeType == NODE_VAR)
-            {
-                // GlobalVarSymbolTable[cur->child->var_name] = cur->child;
-                GlobalSymTable->insert(cur->child->var_name, cur->child->nodeID, nodeTypetoSymbolType(cur->child));
-            }
+            if (cur->child->nodeType == NODE_TYPE)
+                tmp_type = nodeTypetoSymbolType(cur->child);
             TreeNode *tmp = cur->child->sibling;
             while (tmp != nullptr)
             {
                 if (tmp->nodeType == NODE_VAR)
                 {
-                    // GlobalVarSymbolTable[tmp->var_name] = tmp;
-                    // 插入符号表
-                    symbolType tmp_type = nodeTypetoSymbolType(tmp);
                     GlobalSymTable->insert(tmp->var_name, tmp->nodeID, tmp_type);
                 }
                 tmp = tmp->sibling;

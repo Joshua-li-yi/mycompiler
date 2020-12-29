@@ -1,17 +1,13 @@
 #include "InterMediate.h"
 #include <typeinfo>
 #include <cstdio>
+
 InterMediate::InterMediate(TreeNode *rootNode)
 {
-    // 这个存放符号表的数组
-    // vector<symbol *> tempVar;
-    // TODO 翻转符号变量？
-    // tempVar.reserve(100);
     this->root = rootNode;
-    // this->rootTable = new SymbolTable(false, SymbolTable);
 }
 
-void InterMediate::Generate(TreeNode *node, SymbolTable *symbolTable)
+void InterMediate::Generate(TreeNode *node)
 {
     if (node == nullptr)
     {
@@ -22,35 +18,44 @@ void InterMediate::Generate(TreeNode *node, SymbolTable *symbolTable)
     {
     case NODE_STMT:
     {
-        // switch (node->stype)
-        // {
-        // case /* constant-expression */:
-        //     /* code */
-        //     break;
+        TreeNode *cur = node;
+        if (cur->stype == STMT_DECL)
+        {
+            symbolType tmp_type;
+            if (cur->child != nullptr)
+            {
+                if (cur->child->nodeType == NODE_TYPE)
+                    tmp_type = nodeTypetoSymbolType(cur->child);
+                TreeNode *tmp = cur->child->sibling;
+                while (tmp != nullptr)
+                {
+                    if (tmp->nodeType == NODE_VAR)
+                    {
+                        struct symbol *sym = new symbol();
+                        sym->name = tmp->var_name;
+                        sym->token = tmp->nodeID;
+                        sym->type = tmp_type;
 
-        // default:
-        //     break;
-        // }
+                        Quad quad_int = Quad(OpCode_VAR_DECL, nullptr, sym);
+                        this->quads.push_back(quad_int);
+                    }
+                    tmp = tmp->sibling;
+                }
+            }
+        }
+        delete cur;
         break;
     }
     case NODE_VAR:
     {
-        if (node->type == TYPE_INT)
-        // TODO
-        {
-            struct symbol *sym=new symbol();
-            sym->name = node->var_name;
-            sym->token = node->nodeID;
-            sym->type = integer;
-            Quad quad_int = Quad(OpCode_VAR_DECL, sym);
-        }
-        break;
     }
     case NODE_CONST:
         break;
     default:
         break;
     }
+    for (TreeNode *t = node->child; t; t = t->sibling)
+        Generate(t);
     // TreeNode *p = node->getChild();
     // switch (node->getNodeType())
     // {
@@ -1130,15 +1135,15 @@ void InterMediate::Generate(TreeNode *node, SymbolTable *symbolTable)
 //     }
 //     return;
 // }
-// void InterMediate::printQuads()
-// {
-//     vector<Quad>::iterator it;
-//     cout << "\t   Operator   \targ1\targ2\tresult" << endl;
-//     int count = 0;
-//     for (it = this->quads.begin(); it != this->quads.end(); it++)
-//     {
-//         cout << count++ << "\t";
-//         it->printQuad();
-//     }
-//     return;
-// }
+
+void InterMediate::printQuads()
+{
+    // vector<Quad>::iterator it;
+    cout << "\t   Operator   \targ1\targ2\tresult" << endl;
+    int count = 0;
+    for(auto it:this->quads){
+        cout << count++ << "\t";
+        it.printQuad();
+    }
+    return;
+}

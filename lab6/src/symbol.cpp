@@ -2,7 +2,9 @@
 #include "symbol.h"
 using namespace std;
 
-
+SymbolTable::SymbolTable(){
+	this->size = 0;
+}
 // SymbolTable symtbl;
 // 按变量名遍历表寻找变量
 int SymbolTable::lookup(string name)
@@ -41,7 +43,7 @@ int SymbolTable::gettoken(string name)
 	return -1;
 }
 
-string& SymbolTable::getname(int pos)
+string SymbolTable::getname(int pos)
 {
 	return table[pos].name;
 }

@@ -2,6 +2,9 @@
 #define TREE_H
 
 #include "pch.h"
+#include "type.h"
+#include "symbol.h"
+#include "debug.h"
 using std::cerr;
 using std::cout;
 using std::endl;
@@ -9,9 +12,8 @@ using std::list;
 using std::stack;
 using std::string;
 using std::unordered_map;
-#include "type.h"
-#include "symbol.h"
 using std::ostream;
+
 enum NodeType
 {
     NODE_CONST,
@@ -72,25 +74,9 @@ enum StmtType
 
 };
 
-enum
-{
-    TYPE_EXPR = 0,
-    OP_EXPR,
-    CONST_EXPR,
-    ID_EXPR
-};
 
-// enum
-// {
-//     VAR_DECL = 0,
-// };
 
-enum
-{
-    Notype = 0,
-    Integer,
-    Boolean,
-};
+
 
 #define MAX_CHILDREN 4
 
@@ -211,6 +197,6 @@ TreeNode *forNode(int, TreeNode *, TreeNode *, TreeNode *, TreeNode *);
 symbolType nodeTypetoSymbolType(TreeNode *);
 
 // static map<string, TreeNode *> GlobalVarSymbolTable;
-static SymbolTable *GlobalSymTable;
+static SymbolTable *GlobalSymTable = new SymbolTable();
 
 #endif
