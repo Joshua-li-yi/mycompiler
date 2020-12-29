@@ -1,7 +1,9 @@
 %{
     #include "common.h"
-    #define YYSTYPE TreeNode *  
+    #include "./tree.h"
+    #include "./main.tab.h"
     TreeNode* root;
+
     extern int lineno;
     int yylex();
     int yyerror( char const * );

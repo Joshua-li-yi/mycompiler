@@ -1,7 +1,8 @@
 #ifndef QUAD_H
 #define QUAD_H
-
-#include "pch.h"
+#define MAX_QUAD 1024
+#include "common.h"
+#include "symbol.h"
 
 /***********************
  * Operation Code for a Quad:
@@ -31,36 +32,37 @@
  * @enum GET_STRUCT:GET the value of a struct
  ************************
 */
-enum class OpCode
+enum OpCode
 {
-    JUMP,
-    JUMP_SMALL,
-    JUMP_EQ_SMALL,
-    JUMP_GREAT,
-    JUMP_EQ_GREAT,
-    JUMP_EQUAL,
-    JUMP_NOT_EQUAL,
-    PLUS,
-    MINUS,
-    TIMES,
-    DIV,
-    MOD,
-    POWER,
-    NEGATIVE,
-    ASSIGN,
-    ASSIGN_ARRAY,
-    ASSIGN_STRUCT,
-    ASSIGN_POINTER,
-    GET_ADDRESS,
-    PARAM,
-    CALL,
-    RETURN,
-    FUNC_DEF,
-    END_FUNCTION,
-    LABEL,
-    GET_VALUE,
-    GET_ARRAY,
-    GET_STRUCT
+    OpCode_JUMP,
+    OpCode_JUMP_SMALL,
+    OpCode_JUMP_EQ_SMALL,
+    OpCode_JUMP_GREAT,
+    OpCode_JUMP_EQ_GREAT,
+    OpCode_JUMP_EQUAL,
+    OpCode_JUMP_NOT_EQUAL,
+    OpCode_PLUS,
+    OpCode_MINUS,
+    OpCode_TIMES,
+    OpCode_DIV,
+    OpCode_MOD,
+    OpCode_POWER,
+    OpCode_NEGATIVE,
+    OpCode_ASSIGN,
+    OpCode_VAR_DECL,
+    OpCode_ASSIGN_ARRAY,
+    OpCode_ASSIGN_STRUCT,
+    OpCode_ASSIGN_POINTER,
+    OpCode_GET_ADDRESS,
+    OpCode_PARAM,
+    OpCode_CALL,
+    OpCode_RETURN,
+    OpCode_FUNC_DEF,
+    OpCode_END_FUNCTION,
+    OpCode_LABEL,
+    OpCode_GET_VALUE,
+    OpCode_GET_ARRAY,
+    OpCode_GET_STRUCT
 };
 
 union Arg {// arg是联合类型，可以代表一个符号或者一个变量
@@ -86,7 +88,8 @@ private:
 
 public:
     // Jump to the target
-    Quad(OpCode op, int result);
+    // Quad(OpCode op, int result);
+    Quad(OpCode op, symbol *result);
     Quad(OpCode op, symbol *arg1, symbol *result); // assign variable to variable
     Quad(OpCode op, int arg1, symbol *result);     // assign literals to variable
     Quad(OpCode op, symbol *arg1, symbol *arg2, symbol *result);

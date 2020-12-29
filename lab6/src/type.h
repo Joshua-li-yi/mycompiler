@@ -1,6 +1,13 @@
 #ifndef TYPESYSTEM_H
 #define TYPESYSTEM_H
-#include "./pch.h"
+#include "pch.h"
+using std::cerr;
+using std::cout;
+using std::endl;
+using std::list;
+using std::stack;
+using std::string;
+using std::unordered_map;
 using namespace std;
 
 enum ValueType

@@ -1,14 +1,11 @@
-#include <iostream>
-#include <string>
-
-using namespace ::std;
 
 #include "symbol.h"
-#include "tree.h"
+using namespace std;
 
-symbol_table symtbl;
+
+// SymbolTable symtbl;
 // 按变量名遍历表寻找变量
-int symbol_table::lookup(string name)
+int SymbolTable::lookup(string name)
 {
 	for (int i = 0; i < size; i++)
 		if (table[i].name == name)
@@ -16,18 +13,27 @@ int symbol_table::lookup(string name)
 	return -1;
 }
 
-int symbol_table::insert(string name, int token)
+int SymbolTable::insert(string name, int t, symbolType st)
 {
 	if (size >= MAX_ID)
 		return -1;
 	table[size].name = name;
-	table[size].token = token;
-	table[size].type = Notype;
+	table[size].token = t;
+	// table[size].node = t;
+	table[size].type = st;
+	
 	size++;
 	return size - 1;
 }
-
-int symbol_table::gettoken(string name)
+int SymbolTable::insert(symbol s){
+	if(size >= MAX_ID)
+		return -1;
+	table[size] = s;
+	
+	size++;
+	return size -1;
+}
+int SymbolTable::gettoken(string name)
 {
 	for (int i = 0; i < size; i++)
 		if (table[i].name == name)
@@ -35,12 +41,12 @@ int symbol_table::gettoken(string name)
 	return -1;
 }
 
-string& symbol_table::getname(int pos)
+string& SymbolTable::getname(int pos)
 {
 	return table[pos].name;
 }
 
-int symbol_table::set_type(int pos, symbolType type)
+int SymbolTable::set_type(int pos, symbolType type)
 {
 	if (pos < 0 || pos >= size)
 	{
@@ -52,12 +58,12 @@ int symbol_table::set_type(int pos, symbolType type)
 	return 0;
 }
 
-symbolType symbol_table::get_type(int pos)
+symbolType SymbolTable::get_type(int pos)
 {
 	if (pos < 0 || pos >= size)
 	{
 		cerr << "Bad identifier" << endl;
-		return -1;
+		return unset;
 	}
 
 	return table[pos].type;

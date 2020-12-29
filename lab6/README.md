@@ -19,11 +19,10 @@
 + else if can't identify
 
 ## todo
-+ distinguish different scopes of var
++ int 类型的数组，指针和引用
 + error check
++ 支持 breakcontinue
++ DAG 代码优化， 借助计时函数衡量
++ 支持中间代码生成
 
-作用域
-直接找declartion的语句，找其父节点, 如果其父节点为STMT DOMAIN 就创建一个符号表
-遍历树遇到STMT_DOMAIN语句就遍历其子节点，如果有declaration 就插入这个符号表当中
-符号表只需要插入数据无需删除
 ……

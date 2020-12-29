@@ -11,15 +11,12 @@
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
+#include <ostream>
 #include <string>
 #include <list>
 #include <assert.h>
-#include "symbol.h"
 #include <map>
 #include <stack>
 #include <unordered_map>
-#include "symbol.h"
-#include "tree.h"
 #include <vector>
-#include "Quad.h"
 #endif

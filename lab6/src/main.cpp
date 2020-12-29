@@ -1,4 +1,6 @@
 #include "common.h"
+#include "tree.h"
+#include "InterMediate.h"
 #include <fstream>
 
 extern TreeNode *root;
@@ -26,7 +28,9 @@ int main(int argc, char *argv[])
         root->genSymbolTable();
         root->printAST();
         cout<<endl;
-        root->PrintSymbolTable();
+        // root->PrintSymbolTable();
+        InterMediate im(root);
+        im.Generate(root,GlobalSymTable);
     }
     return 0;
 }

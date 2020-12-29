@@ -11,9 +11,14 @@ using std::string;
 using std::list;
 using std::stack;
 using std::unordered_map;
-#define YYSTYPE TreeNode *
+#define YYSTYPE TreeNode*
 
 #include "./tree.h"
 #include "./main.tab.h"
 
+// #include "symbol.h"
+// #include "tree.h"
+// #include "Quad.h"
+// #include "type.h"
+// #include "InterMediate.h"
 #endif

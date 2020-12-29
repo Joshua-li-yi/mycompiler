@@ -1,7 +1,9 @@
 %option nounput
 %{
 #include "common.h"
-#include "main.tab.h"  // yacc header
+#include "./tree.h"
+#include "./main.tab.h"
+
 int lineno=1;
 %}
 BLOCKCOMMENT \/\*([^\*^\/]*|[\*^\/*]*|[^\**\/]*)*\*\/

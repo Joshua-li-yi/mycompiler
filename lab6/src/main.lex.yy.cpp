@@ -527,10 +527,12 @@ char *yytext;
 #line 1 "src/main.l"
 #line 3 "src/main.l"
 #include "common.h"
-#include "main.tab.h"  // yacc header
+#include "./tree.h"
+#include "./main.tab.h"
+
 int lineno=1;
-#line 533 "src/main.lex.yy.cpp"
-#line 534 "src/main.lex.yy.cpp"
+#line 535 "src/main.lex.yy.cpp"
+#line 536 "src/main.lex.yy.cpp"
 
 #define INITIAL 0
 
@@ -745,10 +747,10 @@ YY_DECL
 		}
 
 	{
-#line 31 "src/main.l"
+#line 33 "src/main.l"
 
 
-#line 752 "src/main.lex.yy.cpp"
+#line 754 "src/main.lex.yy.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -808,72 +810,72 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 33 "src/main.l"
+#line 35 "src/main.l"
 /* do nothing */
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 34 "src/main.l"
+#line 36 "src/main.l"
 /* do nothing */
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 37 "src/main.l"
+#line 39 "src/main.l"
 return IF;
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 38 "src/main.l"
+#line 40 "src/main.l"
 return ELSE;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 39 "src/main.l"
+#line 41 "src/main.l"
 return FOR;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 40 "src/main.l"
+#line 42 "src/main.l"
 return LOP_ASSIGN;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 41 "src/main.l"
+#line 43 "src/main.l"
 {return T_INT;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 42 "src/main.l"
+#line 44 "src/main.l"
 {return T_BOOL;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 43 "src/main.l"
+#line 45 "src/main.l"
 {return T_CHAR;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 44 "src/main.l"
+#line 46 "src/main.l"
 {return T_DOUBLE;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 45 "src/main.l"
+#line 47 "src/main.l"
 { return T_VOID;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 46 "src/main.l"
+#line 48 "src/main.l"
 return  SEMICOLON;
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 47 "src/main.l"
+#line 49 "src/main.l"
 return COMMA;
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 48 "src/main.l"
+#line 50 "src/main.l"
 {    
     TreeNode* node = new TreeNode(lineno, NODE_MAIN);
     yylval = node;
@@ -882,7 +884,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 53 "src/main.l"
+#line 55 "src/main.l"
 {    
     TreeNode* node = new TreeNode(lineno, NODE_STMT);
     node->stype = STMT_RETURN;
@@ -892,7 +894,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 59 "src/main.l"
+#line 61 "src/main.l"
 {
     TreeNode* node = new TreeNode(lineno, NODE_STMT);
     node->stype = STMT_PRINTF;
@@ -902,7 +904,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 65 "src/main.l"
+#line 67 "src/main.l"
 {
     TreeNode* node = new TreeNode(lineno, NODE_STMT);
     node->stype = STMT_SCANF;
@@ -912,12 +914,12 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 71 "src/main.l"
+#line 73 "src/main.l"
 {return WHILE;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 73 "src/main.l"
+#line 75 "src/main.l"
 {
     TreeNode* node = new TreeNode(lineno, NODE_EXPR);
     node->optype = OP_EQU;
@@ -927,7 +929,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 79 "src/main.l"
+#line 81 "src/main.l"
 {
     TreeNode* node = new TreeNode(lineno, NODE_EXPR);
     node->optype = OP_GTR;
@@ -937,7 +939,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 85 "src/main.l"
+#line 87 "src/main.l"
 {
     TreeNode* node = new TreeNode(lineno, NODE_EXPR);
     node->optype = OP_LSS;
@@ -947,7 +949,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 91 "src/main.l"
+#line 93 "src/main.l"
 {
     TreeNode* node = new TreeNode(lineno, NODE_EXPR);
     node->optype = OP_GEQ;
@@ -957,7 +959,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 97 "src/main.l"
+#line 99 "src/main.l"
 {
     TreeNode* node = new TreeNode(lineno, NODE_EXPR);
     node->optype = OP_LEQ;
@@ -967,7 +969,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 103 "src/main.l"
+#line 105 "src/main.l"
 {
     TreeNode* node = new TreeNode(lineno, NODE_EXPR);
     node->optype = OP_NEQ;
@@ -977,7 +979,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 109 "src/main.l"
+#line 111 "src/main.l"
 {
     TreeNode* node = new TreeNode(lineno, NODE_EXPR);
     node->optype = OP_LOGICAL_AND;
@@ -987,7 +989,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 115 "src/main.l"
+#line 117 "src/main.l"
 {
     TreeNode* node = new TreeNode(lineno, NODE_EXPR);
     node->optype = OP_LOGICAL_OR;
@@ -997,7 +999,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 121 "src/main.l"
+#line 123 "src/main.l"
 {
     TreeNode* node = new TreeNode(lineno, NODE_EXPR);
     node->optype = OP_LOGICAL_NOT;
@@ -1007,7 +1009,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 129 "src/main.l"
+#line 131 "src/main.l"
 {
     TreeNode* node = new TreeNode(lineno, NODE_EXPR);
     node->optype = OP_PLUS;
@@ -1017,7 +1019,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 135 "src/main.l"
+#line 137 "src/main.l"
 {    
     TreeNode* node = new TreeNode(lineno, NODE_EXPR);
     node->optype = OP_MINUS;
@@ -1027,7 +1029,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 141 "src/main.l"
+#line 143 "src/main.l"
 {
     TreeNode* node = new TreeNode(lineno, NODE_EXPR);
     node->optype = OP_TIMES;
@@ -1037,7 +1039,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 147 "src/main.l"
+#line 149 "src/main.l"
 {
     TreeNode* node = new TreeNode(lineno, NODE_EXPR);
     node->optype = OP_DIVIDE;
@@ -1047,7 +1049,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 153 "src/main.l"
+#line 155 "src/main.l"
 {
     TreeNode* node = new TreeNode(lineno, NODE_EXPR);
     node->optype = OP_MOD;
@@ -1057,7 +1059,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 159 "src/main.l"
+#line 161 "src/main.l"
 {
     TreeNode* node = new TreeNode(lineno, NODE_EXPR);
     node->optype = OP_AND;
@@ -1067,7 +1069,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 165 "src/main.l"
+#line 167 "src/main.l"
 {
     TreeNode* node = new TreeNode(lineno, NODE_EXPR);
     node->optype = OP_OR;
@@ -1077,7 +1079,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 171 "src/main.l"
+#line 173 "src/main.l"
 {
     TreeNode* node = new TreeNode(lineno, NODE_EXPR);
     node->optype = OP_NOT;
@@ -1087,7 +1089,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 177 "src/main.l"
+#line 179 "src/main.l"
 {
     TreeNode* node = new TreeNode(lineno, NODE_EXPR);
     node->optype = OP_PPLUS;
@@ -1097,7 +1099,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 183 "src/main.l"
+#line 185 "src/main.l"
 {
     TreeNode* node = new TreeNode(lineno, NODE_EXPR);
     node->optype = OP_MMINUS;
@@ -1108,42 +1110,42 @@ YY_RULE_SETUP
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 190 "src/main.l"
+#line 192 "src/main.l"
 {
     return PLUS_ASSIGN;
 }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 193 "src/main.l"
+#line 195 "src/main.l"
 {
     return MIN_ASSIGN;
 }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 196 "src/main.l"
+#line 198 "src/main.l"
 {
     return DIV_ASSIGN;
 }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 199 "src/main.l"
+#line 201 "src/main.l"
 {
     return MOD_ASSIGN;
 }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 202 "src/main.l"
+#line 204 "src/main.l"
 {
     return TIM_ASSIGN;
 }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 205 "src/main.l"
+#line 207 "src/main.l"
 {
     TreeNode* node = new TreeNode(lineno, NODE_CONST);
     node->type = TYPE_INT;
@@ -1155,7 +1157,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 213 "src/main.l"
+#line 215 "src/main.l"
 {
     TreeNode* node = new TreeNode(lineno, NODE_CONST);
     node->type = TYPE_STRING;
@@ -1166,7 +1168,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 220 "src/main.l"
+#line 222 "src/main.l"
 {
     TreeNode* node = new TreeNode(lineno, NODE_CONST);
     node->type = TYPE_CHAR;
@@ -1177,7 +1179,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 227 "src/main.l"
+#line 229 "src/main.l"
 {
     TreeNode* node = new TreeNode(lineno, NODE_CONST);
     node->type = TYPE_DOUBLE;
@@ -1188,7 +1190,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 234 "src/main.l"
+#line 236 "src/main.l"
 {
     TreeNode* node = new TreeNode(lineno, NODE_VAR);
     node->var_name = string(yytext);
@@ -1198,48 +1200,48 @@ YY_RULE_SETUP
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 240 "src/main.l"
+#line 242 "src/main.l"
 { return LB; }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 241 "src/main.l"
+#line 243 "src/main.l"
 { return RB; }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 242 "src/main.l"
+#line 244 "src/main.l"
 { return LP; }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 243 "src/main.l"
+#line 245 "src/main.l"
 { return RP; }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 244 "src/main.l"
+#line 246 "src/main.l"
 /* do nothing */
 	YY_BREAK
 case 53:
 /* rule 53 can match eol */
 YY_RULE_SETUP
-#line 246 "src/main.l"
+#line 248 "src/main.l"
 lineno++;
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 248 "src/main.l"
+#line 250 "src/main.l"
 {
     cerr << "[line "<< lineno <<" ] unknown character:" << yytext << endl;
 }
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 251 "src/main.l"
+#line 253 "src/main.l"
 ECHO;
 	YY_BREAK
-#line 1243 "src/main.lex.yy.cpp"
+#line 1245 "src/main.lex.yy.cpp"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2207,5 +2209,5 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 251 "src/main.l"
+#line 253 "src/main.l"
 

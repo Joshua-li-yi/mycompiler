@@ -2,11 +2,19 @@
 #define TREE_H
 
 #include "pch.h"
+using std::cerr;
+using std::cout;
+using std::endl;
+using std::list;
+using std::stack;
+using std::string;
+using std::unordered_map;
 #include "type.h"
-
+#include "symbol.h"
+using std::ostream;
 enum NodeType
 {
-    NODE_CONST, 
+    NODE_CONST,
     NODE_VAR,
     NODE_EXPR,
     NODE_TYPE,
@@ -59,6 +67,9 @@ enum StmtType
     STMT_SCANF,
     STMT_PRINTF,
     STMT_DOMAIN,
+    STMT_BREAK,    // break
+    STMT_CONTINUE, // continue
+
 };
 
 enum
@@ -69,10 +80,10 @@ enum
     ID_EXPR
 };
 
-enum
-{
-    VAR_DECL = 0,
-};
+// enum
+// {
+//     VAR_DECL = 0,
+// };
 
 enum
 {
@@ -147,29 +158,32 @@ public:
     void gen_code(ostream &out);
 };
 
-struct TreeNode {
+struct TreeNode
+{
 public:
-    int nodeID;  // 用于作业的序号输出
+    int nodeID; // 用于作业的序号输出
     int lineno;
     NodeType nodeType;
 
-    TreeNode* child = nullptr;
-    TreeNode* sibling = nullptr;
+    TreeNode *child = nullptr;
+    TreeNode *sibling = nullptr;
 
-    void addChild(TreeNode*);
-    void addSibling(TreeNode*);
-    
-    void printNodeInfo(TreeNode*);
-    void printChildrenId(TreeNode*);
+    void addChild(TreeNode *);
+    void addSibling(TreeNode *);
+
+    void printNodeInfo(TreeNode *);
+    void printChildrenId(TreeNode *);
 
     void printAST(); // 先输出自己 + 孩子们的id；再依次让每个孩子输出AST。
     void printSpecialInfo();
     void genSymbolTable();
     void genNodeId();
     void PrintSymbolTable();
-public:
-    OperatorType optype;  // 如果是表达式
-    Type *type;  // 变量、类型、表达式结点，有类型。
+    inline NodeType getNodeType() { return this->nodeType; }
+
+    public : 
+    OperatorType optype; // 如果是表达式
+    Type *type;                          // 变量、类型、表达式结点，有类型。
     StmtType stype;
     int int_val;
     char ch_val;
@@ -177,18 +191,26 @@ public:
     double d_val;
     string str_val;
     string var_name;
+
+    Label label;
+
 public:
-    static string nodeType2String (NodeType type);
-    static string opType2String (OperatorType type);
-    static string sType2String (StmtType type);
-public: 
+    static string nodeType2String(NodeType type);
+    static string opType2String(OperatorType type);
+    static string sType2String(StmtType type);
+
+public:
     TreeNode(int lineno, NodeType type);
 };
 
 // 表达式节点
-TreeNode *expNode(TreeNode*, TreeNode*, TreeNode*);
+TreeNode *expNode(TreeNode *, TreeNode *, TreeNode *);
 // for语句节点
-TreeNode *forNode(int, TreeNode*, TreeNode*, TreeNode*, TreeNode*);
+TreeNode *forNode(int, TreeNode *, TreeNode *, TreeNode *, TreeNode *);
 
-static map<string, TreeNode *> GlobalVarSymbolTable;
+symbolType nodeTypetoSymbolType(TreeNode *);
+
+// static map<string, TreeNode *> GlobalVarSymbolTable;
+static SymbolTable *GlobalSymTable;
+
 #endif
