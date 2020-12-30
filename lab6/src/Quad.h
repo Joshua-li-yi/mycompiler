@@ -1,7 +1,16 @@
 #ifndef QUAD_H
 #define QUAD_H
 #define MAX_QUAD 1024
-#include "common.h"
+// #include "common.h"
+#include "pch.h"
+using std::cerr;
+using std::cout;
+using std::endl;
+using std::list;
+using std::stack;
+using std::string;
+using std::unordered_map;
+
 #include "symbol.h"
 
 /***********************
@@ -13,6 +22,7 @@
  * @enum JUMP_EQ_GREAT: if arg1 >= arg2, JUMP
  * @enum JUMP_EQUAL:    if arg1 == arg2, JUMP
  * @enum JUMP_NOT_EQUAL:if arg1 != arg2, JUMP
+ * @enum JUMP_CONDITION if arg1(临时变量), JUMP result
  * @enum PLUS:  arg1 + arg2 to result
  * @enum MINUS: arg1 - arg2 to result
  * @enum TIMES: arg1 * arg2 to result
@@ -32,6 +42,7 @@
  * @enum GET_STRUCT:GET the value of a struct
  ************************
 */
+// 操作码
 enum OpCode
 {
     OpCode_JUMP,
@@ -41,6 +52,7 @@ enum OpCode
     OpCode_JUMP_EQ_GREAT,
     OpCode_JUMP_EQUAL,
     OpCode_JUMP_NOT_EQUAL,
+    OpCode_JUMP_CONDITION,
     OpCode_PLUS,
     OpCode_MINUS,
     OpCode_TIMES,
@@ -65,7 +77,17 @@ enum OpCode
     OpCode_GET_STRUCT
 };
 
-union Arg {// arg是联合类型，可以代表一个符号或者一个变量
+enum Arg_state
+{
+    arg_var,
+    arg_int,
+    arg_bool,
+    arg_char,
+    arg_double,
+};
+
+union Arg
+{ // arg是联合类型，可以代表一个符号或者一个变量
     symbol *var;
     int int_target;
     bool bool_target;
@@ -74,44 +96,42 @@ union Arg {// arg是联合类型，可以代表一个符号或者一个变量
     // string string_target;
 };
 
+struct OpObject
+{
+    Arg arg;
+    Arg_state arg_state;
+    Arg_state getState(){
+        return arg_state;
+    }
+};
+
+void printOpObject(OpObject *);
+
 class Quad
 {
 private:
     OpCode op;
-    Arg arg1;
-    Arg arg2;
-    Arg result;
+    OpObject *arg1;
+    OpObject *arg2;
+    OpObject *result;
     /********************************
  * |      | arg1 | arg2 | result|
- * | int  |  0   |   0  |   0   |
- * |symbol|  1   |   2  |   4   |
  * *******************************
 */
     int flag;
     string printOp();
 
 public:
-    // Jump to the int_target
-    Quad(OpCode op, int result);
-    // Quad(OpCode op, symbol *result);
-    Quad(OpCode op, symbol *arg1, symbol *result); // assign variable to variable
-    Quad(OpCode op, int arg1, symbol *result);     // assign literals to variable
-    Quad(OpCode op, symbol *arg1, symbol *arg2, symbol *result);
-    Quad(OpCode op, int arg1, symbol *arg2, symbol *result);
-    Quad(OpCode op, symbol *arg1, int arg2, symbol *result);
-    Quad(OpCode op, int arg1, int arg2, symbol *result);
+    Quad(OpCode, OpObject*, OpObject*, OpObject*);
 
-    Quad(OpCode op, symbol *arg1, symbol *arg2, int result);
-    Quad(OpCode op, symbol *arg1, int arg2, int result);
-    Quad(OpCode op, int arg1, int arg2, int result);
-
-    inline void backpatch(int int_target) { this->result.int_target = int_target; }; 
+    // inline void backpatch(int int_target) { this->result.int_target = int_target; };
     // 上面的是回填函数，将传入参数填入到int_target里面，代表跳转的目标地址
-    inline int getResult() { return this->result.int_target == 0 ? 1 : 0; }
+    // inline int getResult() { return this->result.int_target == 0 ? 1 : 0; }
     // 是0就返回1,不是0就返回0
     inline int getFlag() { return this->flag; }
     inline OpCode getOpCode() { return this->op; }
-    inline Arg getArg(int index)
+
+    inline OpObject* getArg(int index)
     {
         if (index == 1)
             return this->arg1;

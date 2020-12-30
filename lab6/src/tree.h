@@ -5,6 +5,8 @@
 #include "type.h"
 #include "symbol.h"
 #include "debug.h"
+#include "Quad.h"
+
 using std::cerr;
 using std::cout;
 using std::endl;
@@ -46,6 +48,7 @@ enum OperatorType
     OP_NOT,
     OP_PPLUS,
     OP_MMINUS,
+    EXPR_COMBINE,
 };
 
 enum StmtType
@@ -56,6 +59,7 @@ enum StmtType
     STMT_WHILE,
     STMT_ELSE,
     STMT_ASSIGN,
+    STMT_VAR_INIT,
     STMT_MIN_ASSIGN,
     STMT_PLUS_ASSIGN,
     STMT_MOD_ASSIGN,
@@ -73,8 +77,6 @@ enum StmtType
     STMT_CONTINUE, // continue
 
 };
-
-
 
 
 
@@ -187,6 +189,20 @@ public:
 
 public:
     TreeNode(int lineno, NodeType type);
+
+public:
+    int tmpVarCounter=0;
+    int label_seq = 0;
+    SymbolTable *symTabel;
+public:
+    void generate_inter_code();
+    void expr_inter_code_generate();
+    string new_label(void);
+    void recursive_get_label();
+    void stmt_get_label();
+    void expr_get_label();
+    void get_label(void);
+    void printQuads();
 };
 
 // 表达式节点
@@ -196,7 +212,5 @@ TreeNode *forNode(int, TreeNode *, TreeNode *, TreeNode *, TreeNode *);
 
 symbolType nodeTypetoSymbolType(TreeNode *);
 
-// static map<string, TreeNode *> GlobalVarSymbolTable;
-static SymbolTable *GlobalSymTable = new SymbolTable();
-
+extern vector<Quad> quads;
 #endif

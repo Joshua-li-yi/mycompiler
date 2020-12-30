@@ -1,5 +1,23 @@
 #include "tree.h"
 
+vector<Quad> quads;
+OpCode expTypeToOpCode(OperatorType t)
+{
+    switch (t)
+    {
+    case OP_PLUS:
+        return OpCode_PLUS;
+    case OP_DIVIDE:
+        return OpCode_DIV;
+    case OP_MINUS:
+        return OpCode_MINUS;
+    case OP_TIMES:
+        return OpCode_TIMES;
+    default:
+        break;
+    }
+}
+
 void TreeNode::addChild(TreeNode *child)
 {
     if (this->child == nullptr)
@@ -140,8 +158,9 @@ void TreeNode::genSymbolTable()
     if (!this)
         return;
     TreeNode *cur = this;
-    if (cur->nodeType == NODE_STMT && cur->stype == STMT_DECL)
+    if ((cur->nodeType == NODE_STMT) && ((cur->stype == STMT_DECL) || (cur->stype == STMT_VAR_INIT)))
     {
+        test(333);
         symbolType tmp_type;
         if (cur->child != nullptr)
         {
@@ -234,6 +253,8 @@ string TreeNode::sType2String(StmtType type)
         return "printf";
     case STMT_DOMAIN:
         return "STMT DOMAIN";
+    case STMT_VAR_INIT:
+        return "STMT VAR INIT";
     default:
         return "???";
         break;
@@ -308,6 +329,8 @@ string TreeNode::opType2String(OperatorType type)
         return "&&";
     case OP_LOGICAL_OR:
         return "||";
+    case EXPR_COMBINE:
+        return "EXPR combine";
     default:
         return "???";
         break;
@@ -336,6 +359,214 @@ TreeNode *forNode(int lno, TreeNode *exp1, TreeNode *exp2, TreeNode *exp3, TreeN
     return node;
 }
 
+// TODO 有问题
+void TreeNode::expr_inter_code_generate()
+{
+    TreeNode *cur = this;
+    TreeNode *tmp = cur->child;
+    while (tmp)
+    {
+        if (tmp->nodeType == NODE_EXPR) // 如果是操作符
+        {
+            symbol *sym = new symbol();
+            sym->genTmpVar(this->tmpVarCounter++, unset);
+            GlobalSymTable->insert(*sym);
+
+            OpObject *tmp_res = new OpObject();
+            tmp_res->arg.var = sym;
+            tmp_res->arg_state = arg_var;
+            if (tmp->child != nullptr)
+                tmp->child->expr_inter_code_generate();
+            if (tmp->child->sibling != nullptr)
+                tmp->child->sibling->expr_inter_code_generate();
+
+            symbol *tmp_sym1;
+            symbol *tmp_sym2;
+            OpObject *tmp_arg1 = new OpObject();
+            OpObject *tmp_arg2 = new OpObject();
+            if (tmp->child->nodeType == NODE_VAR)
+            {
+                tmp_sym1 = GlobalSymTable->lookup(tmp->child->var_name);
+                tmp_arg1->arg.var = tmp_sym1;
+                tmp_arg1->arg_state = arg_var;
+            }
+            else if (tmp->child->nodeType == NODE_CONST)
+            {
+                tmp_arg1->arg.int_target = tmp->child->int_val;
+                tmp_arg1->arg_state = arg_int;
+            }
+            else
+            {
+                tmp_sym1 = GlobalSymTable->lookup("t" + intTostring(tmpVarCounter - 1));
+                tmp_arg1->arg.var = tmp_sym1;
+                tmp_arg1->arg_state = arg_var;
+            }
+
+            if (tmp->child->sibling->nodeType == NODE_VAR)
+            {
+                tmp_sym2 = GlobalSymTable->lookup(tmp->child->sibling->var_name);
+                tmp_arg2->arg.var = tmp_sym2;
+                tmp_arg2->arg_state = arg_var;
+            }
+            else if (tmp->child->sibling->nodeType == NODE_CONST)
+            {
+                tmp_arg2->arg.int_target = tmp->child->sibling->int_val;
+                tmp_arg2->arg_state = arg_int;
+            }
+            else
+            {
+                tmp_sym2 = GlobalSymTable->lookup("t" + intTostring(tmpVarCounter - 2));
+                tmp_arg2->arg.var = tmp_sym2;
+                tmp_arg2->arg_state = arg_var;
+            }
+            Quad quad_int = Quad(expTypeToOpCode(tmp->optype), tmp_arg1, tmp_arg2, tmp_res);
+            quads.push_back(quad_int);
+        }
+        tmp = tmp->sibling;
+    }
+}
+
+void TreeNode::generate_inter_code()
+{
+    for (TreeNode *t = this->child; t; t = t->sibling)
+        t->generate_inter_code();
+    if (this == nullptr)
+    {
+        cout << "nullptr" << endl;
+        return;
+    }
+    switch (this->getNodeType())
+    {
+    case NODE_STMT:
+    {
+        TreeNode *cur = this;
+        if (cur->stype == STMT_DECL)
+        {
+            symbolType tmp_type;
+            if (cur->child != nullptr)
+            {
+                // TODO 这块儿类型有问题
+                if (cur->child->nodeType == NODE_TYPE)
+                    tmp_type = nodeTypetoSymbolType(cur->child);
+
+                TreeNode *tmp = cur->child->sibling;
+                while (tmp != nullptr)
+                {
+                    if (tmp->nodeType == NODE_VAR)
+                    {
+                        struct symbol *sym = GlobalSymTable->lookup(tmp->var_name);
+
+                        OpObject *tmp_ob = new OpObject();
+                        tmp_ob->arg_state = arg_var;
+                        tmp_ob->arg.var = sym;
+                        Quad quad_int = Quad(OpCode_VAR_DECL, nullptr, nullptr, tmp_ob);
+                        quads.push_back(quad_int);
+                    }
+                    tmp = tmp->sibling;
+                }
+            }
+        } // 只能是const
+        else if (cur->stype == STMT_ASSIGN)
+        {
+            symbolType tmp_type;
+            if (cur->child != nullptr)
+            {
+                symbol *tmp_res;
+                if (cur->child->nodeType == NODE_VAR)
+                    tmp_res = GlobalSymTable->lookup(cur->child->var_name);
+                OpObject *tmp_ob3 = new OpObject();
+                tmp_ob3->arg.var = tmp_res;
+                tmp_ob3->arg_state = arg_var;
+
+                OpObject *tmp_ob1 = new OpObject();
+                TreeNode *tmp = cur->child->sibling->child;
+                if (tmp->type = TYPE_INT)
+                {
+                    tmp_ob1->arg.int_target = tmp->int_val;
+                    tmp_ob1->arg_state = arg_int;
+                }
+                else if (tmp->type == TYPE_CHAR)
+                {
+                    tmp_ob1->arg.char_target = tmp->ch_val;
+                    tmp_ob1->arg_state = arg_char;
+                }
+                else if (tmp->type == TYPE_DOUBLE)
+                {
+                    tmp_ob1->arg.double_target = tmp->d_val;
+                    tmp_ob1->arg_state = arg_double;
+                }
+
+                Quad quad_int = Quad(OpCode_ASSIGN, tmp_ob1, nullptr, tmp_ob3);
+                quads.push_back(quad_int);
+            }
+        } // 只能是const
+        else if (cur->stype == STMT_VAR_INIT)
+        {
+            TreeNode *tmp = cur->child->sibling;
+            symbol *tmp_res;
+            if (tmp->nodeType == NODE_VAR)
+                tmp_res = GlobalSymTable->lookup(tmp->var_name);
+            OpObject *tmp_ob3 = new OpObject();
+            tmp_ob3->arg.var = tmp_res;
+            tmp_ob3->arg_state = arg_var;
+            OpObject *tmp_ob1 = new OpObject();
+            tmp = tmp->sibling->child;
+
+            if (tmp->type = TYPE_INT)
+            {
+                tmp_ob1->arg.int_target = tmp->int_val;
+                tmp_ob1->arg_state = arg_int;
+            }
+            else if (tmp->type == TYPE_CHAR)
+            {
+                tmp_ob1->arg.char_target = tmp->ch_val;
+                tmp_ob1->arg_state = arg_char;
+            }
+            else if (tmp->type == TYPE_DOUBLE)
+            {
+                tmp_ob1->arg.double_target = tmp->d_val;
+                tmp_ob1->arg_state = arg_double;
+            }
+
+            Quad quad_int = Quad(OpCode_VAR_DECL, tmp_ob1, nullptr, tmp_ob3);
+            quads.push_back(quad_int);
+        }
+        delete cur;
+        break;
+    }
+    case NODE_VAR:
+    {
+
+        break;
+    }
+    case NODE_CONST:
+    {
+
+        break;
+    }
+    case NODE_EXPR:
+    {
+        if (this->optype == EXPR_COMBINE)
+            expr_inter_code_generate();
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+void TreeNode::printQuads()
+{
+    cout << "\t   Operator   \targ1\targ2\tresult" << endl;
+    int count = 0;
+    for (auto it : quads)
+    {
+        cout << count++ << "\t";
+        it.printQuad();
+        cout << endl;
+    }
+    return;
+}
 // extern int lineno;
 // extern symbol_table symtbl;
 

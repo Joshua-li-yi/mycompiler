@@ -87,8 +87,12 @@ assignment_stmt
 : IDENTIFIER LOP_ASSIGN expr SEMICOLON{
     TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
     node->stype = STMT_ASSIGN;
+
+    TreeNode* node2 = new TreeNode($1->lineno, NODE_EXPR);
+    node2->optype = EXPR_COMBINE;
+    node2->addChild($3);
     node->addChild($1);
-    node->addChild($3);
+    node->addChild(node2);
     $$ = node;}
 | IDENTIFIER PLUS_ASSIGN expr SEMICOLON{
     TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
@@ -140,8 +144,14 @@ if_stmt
     node->stype = STMT_IF;
     TreeNode* node2 = new TreeNode($1->lineno, NODE_STMT);
     node2->stype = STMT_DOMAIN;
-    node2->addChild($3);
+
+    TreeNode* node3 = new TreeNode($1->lineno, NODE_EXPR);
+    node3->optype = EXPR_COMBINE;
+
+    // node2->addChild($3);
+    node3->addChild($3);
     node2->addChild($5);
+    node->addChild(node3);
     node->addChild(node2);
     $$ = node;}
 ;
@@ -195,10 +205,15 @@ while_stmt
 declaration
 : T IDENTIFIER LOP_ASSIGN expr{  // declare and init
     TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
-    node->stype = STMT_DECL;
+    node->stype = STMT_VAR_INIT;
+
+    TreeNode* node2 = new TreeNode($1->lineno, NODE_EXPR);
+    node2->optype = EXPR_COMBINE;
+    node2->addChild($4);
+
     node->addChild($1);
     node->addChild($2);
-    node->addChild($4);
+    node->addChild(node2);
     $$ = node;
 } 
 | T IDLIST {

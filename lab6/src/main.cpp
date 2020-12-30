@@ -1,6 +1,5 @@
 #include "common.h"
 #include "tree.h"
-#include "InterMediate.h"
 #include <fstream>
 
 extern TreeNode *root;
@@ -24,14 +23,14 @@ int main(int argc, char *argv[])
     }
     yyparse();
     if(root != NULL) {
+
         root->genNodeId();
         root->genSymbolTable();
         root->printAST();
         cout<<endl;
-        // root->PrintSymbolTable();
-        InterMediate im(root);
-        im.Generate(root);
-        im.printQuads();
+        GlobalSymTable->printTable();
+        root->generate_inter_code();
+        root->printQuads();
     }
     return 0;
 }

@@ -1,11 +1,29 @@
-lno@0  @0  NODE PROG    children:[@1 ]
-lno@11  @1  NODE STMT  STMT DECL  children:[@2 @3 @4 ]
-lno@11  @2  NODE TYPE  int  children:[]
-lno@11  @3  NODE VAR  var name: a  children:[]
-lno@11  @4  NODE EXPR  OP: +  children:[@5 @6 ]
-lno@11  @5  NODE CONST  int: 2  children:[]
-lno@11  @6  NODE CONST  int: 3  children:[]
+test: 333
+test: 333
+lno@0  @0  NODE PROG    children:[@1 @4 @8 @13 ]
+lno@25  @1  NODE STMT  STMT DECL  children:[@2 @3 ]
+lno@25  @2  NODE TYPE  int  children:[]
+lno@25  @3  NODE VAR  var name: a  children:[]
+lno@26  @4  NODE STMT  =  children:[@5 @6 ]
+lno@26  @5  NODE VAR  var name: a  children:[]
+lno@26  @6  NODE EXPR  OP: EXPR combine  children:[@7 ]
+lno@26  @7  NODE CONST  int: 1  children:[]
+lno@27  @8  NODE STMT  STMT VAR INIT  children:[@9 @10 @11 ]
+lno@27  @9  NODE TYPE  char  children:[]
+lno@27  @10  NODE VAR  var name: c  children:[]
+lno@27  @11  NODE EXPR  OP: EXPR combine  children:[@12 ]
+lno@27  @12  NODE CONST  char: 0  children:[]
+lno@28  @13  NODE STMT  =  children:[@14 @15 ]
+lno@28  @14  NODE VAR  var name: c  children:[]
+lno@28  @15  NODE EXPR  OP: EXPR combine  children:[@16 ]
+lno@28  @16  NODE CONST  char: 0  children:[]
 
+==========symbol table=======
+name: a token: 3 type: -1
+name: c token: 10 type: -1
+===========================
 	   Operator   	arg1	arg2	result
-0	  VAR_DECL  	-	-	a
-1	     PLUS     	2	3	t0
+0	  VAR_DECL  	-	-	a	
+1	    ASSIGN    	1	-	a	
+2	  VAR_DECL  	97	-	c	
+3	    ASSIGN    	97	-	c	

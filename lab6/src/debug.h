@@ -17,7 +17,7 @@ public:
     Debug(int);
     Debug(string);
 };
-
+extern int debugflag;
 template <class T>
 void test(T t, bool debug=true)
 {

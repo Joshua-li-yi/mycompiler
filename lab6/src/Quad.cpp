@@ -3,19 +3,7 @@
 
 // flag的不同值如下:
 /* 
-enum class symbolType
-{
-    unset = -1,
-    integer = 0,
-    function = 1,
-    pointer = 2,
-    boolean = 3,
-    Void = 4,
-    Struct = 5,
-    Array = 6,
-    literal = 7
-};
-*/
+
 
 // 四元式：
 /*
@@ -59,110 +47,40 @@ char a[100] = "111223";
  * @enum GET_STRUCT:GET the value of a struct
  ************************
 */
-Quad::Quad(OpCode op, int result) // bool 运算符,代表正负
-{
-    this->op = op;
-    this->arg1.var = NULL;
-    this->arg2.var = NULL;
-    this->result.int_target = result;
-    this->flag = 3;
-}
-// Quad::Quad(OpCode op, symbol *result) // bool 运算符,代表正负
-// {
-//     this->op = op;
-//     this->arg1.var = NULL;
-//     this->arg2.var = NULL;
-//     this->result.var = result;
-//     this->flag = 3;
-// }
 
-Quad::Quad(OpCode op, symbol *arg1, symbol *result)
-// assign variable to variable
+void printOpObject(OpObject *ob)
 {
-    this->op = op;
-    this->arg1.var = arg1;
-    this->arg2.var = NULL;
-    this->result.var = result;
-    this->flag = 7;
+    switch (ob->getState())
+    {
+    case arg_int:
+        cout << ob->arg.int_target << "\t";
+        break;
+    case arg_double:
+        cout << ob->arg.double_target << "\t";
+        break;
+    case arg_bool:
+        cout << ob->arg.bool_target << "\t";
+        break;
+    case arg_char:
+        cout << ob->arg.char_target << "\t";
+        break;
+    case arg_var:
+        cout << ob->arg.var->name << "\t";
+        break;
+    default:
+        cout << '-' << "\t";
+        break;
+    }
 }
-
-Quad::Quad(OpCode op, int arg1, symbol *result)
-// assign literals to variable
-// 字面量到变量
-{
-    this->op = op;
-    this->arg1.int_target = arg1;
-    this->arg2.var = NULL;
-    this->result.var = result;
-    this->flag = 6;
-}
-
-Quad::Quad(OpCode op, symbol *arg1, symbol *arg2, symbol *result)
-// 二元运算符，两个变量运算
-{
-    this->op = op;
-    this->arg1.var = arg1;
-    this->arg2.var = arg2;
-    this->result.var = result;
-    this->flag = 7;
-}
-
-Quad::Quad(OpCode op, int arg1, symbol *arg2, symbol *result)
-// 变量跟字面量运算：2*a
-{
-    this->op = op;
-    this->arg1.int_target = arg1;
-    this->arg2.var = arg2;
-    this->result.var = result;
-    this->flag = 6;
-}
-
-Quad::Quad(OpCode op, symbol *arg1, int arg2, symbol *result)
-// 变量跟字面量运算：a*2
-{
-    this->op = op;
-    this->arg1.var = arg1;
-    this->arg2.int_target = arg2;
-    this->result.var = result;
-    this->flag = 5;
-}
-Quad::Quad(OpCode op, int arg1, int arg2, symbol *result)
-// 字面量跟字面量运算：2*2
-{
-    this->op = op;
-    this->arg1.int_target = arg1;
-    this->arg2.int_target = arg2;
-    this->result.var = result;
-    this->flag = 4;
-}
-
-Quad::Quad(OpCode op, symbol *arg1, symbol *arg2, int result)
+Quad::Quad(OpCode op, OpObject *arg1, OpObject *arg2, OpObject *result)
 // 变量跟变量运算，值为int
 {
     this->op = op;
-    this->arg1.var = arg1;
-    this->arg2.var = arg2;
-    this->result.int_target = result;
-    this->flag = 3;
+    this->arg1 = arg1;
+    this->arg2 = arg2;
+    this->result = result;
 }
-Quad::Quad(OpCode op, symbol *arg1, int arg2, int result)
-// 变量跟字面量运算，值为int
-{
-    this->op = op;
-    this->arg1.var = arg1;
-    this->arg2.int_target = arg2;
-    this->result.int_target = result;
-    this->flag = 1;
-}
-Quad::Quad(OpCode op, int arg1, int arg2, int result)
-// 都是字面量： 5 = 1*5
-{
-    this->op = op;
-    this->arg1.int_target = arg1;
-    this->arg2.int_target = arg2;
-    this->result.int_target = result;
-    this->flag = 0;
-}
+
 // 打印生成的运算符
 string Quad::printOp()
 {
@@ -233,100 +151,20 @@ string Quad::printOp()
 void Quad::printQuad()
 // 打印生成的四元式
 {
-    switch (this->flag)
-    {
-    case 0:
-    {
-        cout << this->printOp() << "\t" << this->arg1.int_target << "\t" << this->arg2.int_target << "\t" << this->result.int_target << std::endl;
-        // Quad::Quad(OpCode op, int arg1, int arg2, int result)
-        // 都是字面量： 5 = 1*5
-        break;
-    }
-    case 1:
-    {
-        // Quad::Quad(OpCode op, symbol *arg1, int arg2, int result)
-        // 变量跟字面量运算，值为int
-        if (arg1.var == NULL)
-            cout << this->printOp() << "\t-\t" << this->arg2.int_target << "\t" << this->result.int_target << std::endl;
-        else
-            cout << this->printOp() << "\t" << this->arg1.var->getSymbolName() << "\t" << this->arg2.int_target << "\t" << this->result.int_target << std::endl;
-        break;
-    }
-    case 2:
-    {
-        if (arg2.var == NULL)
-            cout << this->printOp() << "\t" << this->arg1.int_target << "\t" << this->arg2.var->getSymbolName() << "\t" << this->result.int_target << std::endl;
-        else
-            cout << this->printOp() << "\t" << this->arg1.int_target << "\t-\t" << this->result.int_target << std::endl;
-        break;
-    }
-    case 3:
-    {
-        if (arg1.var == NULL)
-        {
-            if (arg2.var == NULL)
-                cout << this->printOp() << "\t-\t-\t" << this->result.int_target << std::endl;
-            else
-                cout << this->printOp() << "\t-\t" << this->arg2.var->getSymbolName() << "\t" << this->result.int_target << std::endl;
-        }
-        else
-        {
-            if (arg2.var == NULL)
-                cout << this->printOp() << "\t" << this->arg1.var->getSymbolName() << "\t-\t" << this->result.int_target << std::endl;
-            else
-                cout << this->printOp() << "\t" << this->arg1.var->getSymbolName() << "\t" << this->arg2.var->getSymbolName() << "\t" << this->result.int_target << std::endl;
-        }
-        break;
-    }
-    case 4:
-    {
-        if (result.var == NULL)
-            cout << this->printOp() << "\t" << this->arg1.int_target << "\t" << this->arg2.int_target << "\t-" << std::endl;
-        else
-            cout << this->printOp() << "\t" << this->arg1.int_target << "\t" << this->arg2.int_target << "\t" << this->result.var->getSymbolName() << std::endl;
-    }
-    break;
-    case 5:
-    {
-        if (arg1.var == NULL)
-            cout << this->printOp() << "\t-\t" << this->arg2.int_target << "\t";
-        else
-            cout << this->printOp() << "\t" << this->arg1.var->getSymbolName() << "\t" << this->arg2.int_target << "\t";
-
-        if (result.var == NULL)
-            cout << "-" << std::endl;
-        else
-            cout << this->result.var->getSymbolName() << std::endl;
-    }
-    break;
-    case 6:
-    {
-        if (arg2.var == NULL)
-            cout << this->printOp() << "\t" << this->arg1.int_target << "\t-\t";
-        else
-            cout << this->printOp() << "\t" << this->arg1.int_target << "\t" << this->arg2.var->getSymbolName() << "\t";
-        if (result.var == NULL)
-            cout << "-" << std::endl;
-        else
-            cout << this->result.var->getSymbolName() << std::endl;
-    }
-    break;
-    case 7:
-    {
-        if (arg1.var == NULL)
-            cout << this->printOp() << "\t-\t";
-        else
-            cout << this->printOp() << "\t" << this->arg1.var->getSymbolName() << "\t";
-        if (arg2.var == NULL)
-            cout << "-\t";
-        else
-            cout << this->arg2.var->getSymbolName() << "\t";
-        if (result.var == NULL)
-            cout << "-" << std::endl;
-        else
-            cout << this->result.var->getSymbolName() << std::endl;
-        }
-    default:
-        break;
-    }
+    cout << this->printOp() << "\t";
+    if (this->arg1 != nullptr)
+        printOpObject(this->arg1);
+    else
+        cout << "-"
+             << "\t";
+    if (this->arg2 != nullptr)
+        printOpObject(this->arg2);
+    else
+        cout << "-"
+             << "\t";
+    if (this->result != nullptr)
+        printOpObject(this->result);
+    else
+        cout << "-"
+             << "\t";
 }
