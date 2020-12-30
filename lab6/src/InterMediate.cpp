@@ -1,10 +1,22 @@
 #include "InterMediate.h"
 #include <typeinfo>
 #include <cstdio>
+OpCode expToOpCode(OperatorType t)
+{
+    switch (t)
+    {
+    case OP_PLUS:
+        return OpCode_PLUS;
+        break;
 
+    default:
+        break;
+    }
+}
 InterMediate::InterMediate(TreeNode *rootNode)
 {
     this->root = rootNode;
+    this->tmpVarCounter = 0;
 }
 
 // TODO
@@ -19,24 +31,19 @@ void InterMediate::Generate(TreeNode *node)
     {
     case NODE_STMT:
     {
-        test(0);
-
         TreeNode *cur = node;
         if (cur->stype == STMT_DECL)
         {
-            test(3);
 
             symbolType tmp_type;
             if (cur->child != nullptr)
             {
                 if (cur->child->nodeType == NODE_TYPE)
                     tmp_type = nodeTypetoSymbolType(cur->child);
-                test(3);
 
                 TreeNode *tmp = cur->child->sibling;
                 while (tmp != nullptr)
                 {
-                    test(5);
 
                     if (tmp->nodeType == NODE_VAR)
                     {
@@ -44,11 +51,9 @@ void InterMediate::Generate(TreeNode *node)
                         sym->name = tmp->var_name;
                         sym->token = tmp->nodeID;
                         sym->type = tmp_type;
-                        test(1);
-                        if ((tmp->sibling->nodeType != NODE_CONST) | (tmp->sibling==nullptr))
-                        {
-                            test(2);
 
+                        if ((tmp->sibling == nullptr) || (tmp->sibling->nodeType != NODE_CONST))
+                        {
                             Quad quad_int = Quad(OpCode_VAR_DECL, nullptr, sym);
                             this->quads.push_back(quad_int);
                         }
@@ -57,7 +62,6 @@ void InterMediate::Generate(TreeNode *node)
                             Quad quad_int = Quad(OpCode_VAR_DECL, tmp->sibling->int_val, sym);
                             this->quads.push_back(quad_int);
                         }
-
                     }
                     tmp = tmp->sibling;
                 }
@@ -68,9 +72,30 @@ void InterMediate::Generate(TreeNode *node)
     }
     case NODE_VAR:
     {
+        break;
     }
     case NODE_CONST:
         break;
+    case NODE_EXPR:
+    {
+        TreeNode *cur = node;
+        if (cur->child != nullptr)
+        {
+            symbolType tmp_type;
+            if (cur->child->nodeType == NODE_TYPE)
+                tmp_type = nodeTypetoSymbolType(cur->child);
+            struct symbol *sym = new symbol();
+            sym->genTmpVar(this->tmpVarCounter++, tmp_type);
+            if ((cur->child->nodeType == NODE_CONST) && (cur->child->sibling->nodeType == NODE_CONST))
+            {
+                Quad quad_int = Quad(OpCode_PLUS, cur->child->int_val, cur->child->sibling->int_val, sym);
+                this->quads.push_back(quad_int);
+            }
+
+            delete cur;
+            break;
+        }
+    }
     default:
         break;
     }

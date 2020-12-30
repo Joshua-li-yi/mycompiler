@@ -16,7 +16,7 @@ private:
     vector<Quad> quads;
 
     // SymbolTable *varTable;// 应该是不需要符号表的参与
-    
+    int tmpVarCounter;
     stack<list<int>> trueList;
     stack<list<int>> falseList;
     stack<int> signal;
@@ -44,4 +44,6 @@ public:
 
     void printQuads();
 };
+
+OpCode expToOpCode(OperatorType);
 #endif

@@ -33,3 +33,6 @@ test:
 test2: 
 	./bin/main tests/test.c >result2.txt
 
+t:
+	g++ -o ./tests/test.out ./tests/test.cpp
+	./tests/test.out

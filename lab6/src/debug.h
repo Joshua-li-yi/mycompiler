@@ -19,7 +19,7 @@ public:
 };
 
 template <class T>
-void test(T t, bool debug=false)
+void test(T t, bool debug=true)
 {
     if (debug)
         cout << "test: " << t << endl;

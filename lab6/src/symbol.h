@@ -39,6 +39,9 @@ struct symbol
 		this->type = st;
 		return true;
 	}
+	void genTmpVar(int num, symbolType st){
+		this->init("t"+intTostring(num), num, st);
+	}
 };
 
 class SymbolTable
