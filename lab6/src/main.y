@@ -195,8 +195,12 @@ while_stmt
     node->stype = STMT_WHILE;
     TreeNode* node2 = new TreeNode($1->lineno, NODE_STMT);
     node2->stype = STMT_DOMAIN;
-    node2->addChild($3);
+
+    TreeNode* node3 = new TreeNode($1->lineno, NODE_EXPR);
+    node3->optype = EXPR_COMBINE;
+    node3->addChild($3);
     node2->addChild($5);
+    node->addChild(node3);
     node->addChild(node2);
     $$ = node;}
 ;

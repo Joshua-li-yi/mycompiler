@@ -89,6 +89,7 @@ enum OpCode
     OpCode_NOT,
     OpCode_PPLUS,
     OpCode_MMINUS,
+    OpCode_IF,
 };
 
 enum Arg_state

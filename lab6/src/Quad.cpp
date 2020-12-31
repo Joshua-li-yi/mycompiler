@@ -67,6 +67,9 @@ void printOpObject(OpObject *ob)
     case arg_var:
         cout << ob->arg.var->name << "\t";
         break;
+    case arg_char_star:
+        cout<<ob->arg.char_star_target<<"\t";
+        break;
     default:
         cout << '-' << "\t";
         break;
@@ -172,6 +175,8 @@ string Quad::printOp()
         return "  PPLUS  ";
     case OpCode_MMINUS:
         return "  MMINUS  ";
+    case OpCode_IF:
+        return "  IF  ";
     default:
         break;
     }

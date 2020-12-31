@@ -2,7 +2,7 @@
 
 vector<Quad> quads;
 stack<OpObject *> tmpVarStack;
-
+int label_seq = 0;
 OpCode
 expTypeToOpCode(OperatorType t)
 {
@@ -540,7 +540,8 @@ void TreeNode::generate_inter_code()
         }
         else if (cur->stype == STMT_IF)
         {
-            test(1);
+            OpObject *tmp_ob = new OpObject();
+            // if开始的label
             if (!this->label.begin_label.empty())
             {
                 OpObject *tmp_res = new OpObject();
@@ -549,12 +550,31 @@ void TreeNode::generate_inter_code()
                 char *strc = new char[strlen(tmp_s.c_str()) + 1];
                 strcpy(strc, tmp_s.c_str());
                 tmp_res->arg.char_star_target = strc;
+                tmp_ob = tmp_res;
                 Quad quad_int = Quad(OpCode_LABEL, nullptr, nullptr, tmp_res);
                 quads.push_back(quad_int);
             }
-            test(2);
-
+            // 生成表达式
             this->child->expr_inter_code_generate();
+            OpObject *tmp_ob1 = new OpObject();
+            tmp_ob1 = tmpVarStack.top();
+            tmpVarStack.pop();
+            // 如果有else
+            OpObject *tmp_else = new OpObject();
+
+            if (this->sibling->stype == STMT_ELSE)
+            {
+                if (!this->sibling->label.begin_label.empty())
+                {
+                    tmp_else->arg_state = arg_char_star;
+
+                    string tmp_s = this->sibling->label.begin_label + ":";
+                    char *strc = new char[strlen(tmp_s.c_str()) + 1];
+                    strcpy(strc, tmp_s.c_str());
+                    tmp_else->arg.char_star_target = strc;
+                }
+            }
+            // 开始if
             if (!this->child->label.true_label.empty())
             {
                 OpObject *tmp_res = new OpObject();
@@ -565,12 +585,72 @@ void TreeNode::generate_inter_code()
                 strcpy(strc, tmp_s.c_str());
                 tmp_res->arg.char_star_target = strc;
 
+                Quad quad_int2 = Quad(OpCode_IF, tmp_ob1, nullptr, tmp_else);
+                quads.push_back(quad_int2);
+
                 Quad quad_int = Quad(OpCode_LABEL, nullptr, nullptr, tmp_res);
                 quads.push_back(quad_int);
             }
-            test(4);
-
+            // 生成if 中的语句
             this->child->sibling->generate_inter_code();
+            // TODO 跳到else的next label
+            Quad quad_int = Quad(OpCode_JUMP, nullptr, nullptr, tmp_ob);
+            quads.push_back(quad_int);
+            // else的label
+            if (this->sibling->stype == STMT_ELSE)
+            {
+                if (!this->sibling->label.begin_label.empty())
+                {
+                    Quad quad_int = Quad(OpCode_LABEL, nullptr, nullptr, tmp_else);
+                    quads.push_back(quad_int);
+                }
+                this->sibling->generate_inter_code();
+            }
+        }
+        else if (cur->stype == STMT_WHILE)
+        {
+            OpObject *tmp_begin = new OpObject();
+            // if开始的label
+            if (!this->label.begin_label.empty())
+            {
+                OpObject *tmp_res = new OpObject();
+                tmp_res->arg_state = arg_char_star;
+                string tmp_s = this->label.begin_label + ":";
+                char *strc = new char[strlen(tmp_s.c_str()) + 1];
+                strcpy(strc, tmp_s.c_str());
+                tmp_res->arg.char_star_target = strc;
+                tmp_begin = tmp_res;
+                Quad quad_int = Quad(OpCode_LABEL, nullptr, nullptr, tmp_res);
+                quads.push_back(quad_int);
+            }
+
+            // 生成表达式
+            this->child->expr_inter_code_generate();
+            OpObject *tmp_ob1 = new OpObject();
+            tmp_ob1 = tmpVarStack.top();
+            tmpVarStack.pop();
+            // 开始if
+            if (!this->child->label.true_label.empty())
+            {
+                OpObject *tmp_res = new OpObject();
+                tmp_res->arg_state = arg_char_star;
+
+                string tmp_s = this->child->label.true_label + ":";
+                char *strc = new char[strlen(tmp_s.c_str()) + 1];
+                strcpy(strc, tmp_s.c_str());
+                tmp_res->arg.char_star_target = strc;
+                // TODO 跳到while之后
+                Quad quad_int2 = Quad(OpCode_IF, tmp_ob1, nullptr, tmp_begin);
+                quads.push_back(quad_int2);
+
+                Quad quad_int = Quad(OpCode_LABEL, nullptr, nullptr, tmp_res);
+                quads.push_back(quad_int);
+            }
+            // 生成if 中的语句
+            this->child->sibling->generate_inter_code();
+
+            Quad quad_int = Quad(OpCode_JUMP, nullptr, nullptr, tmp_begin);
+            quads.push_back(quad_int);
         }
         delete cur;
         break;
@@ -598,7 +678,7 @@ void TreeNode::printQuads()
 string TreeNode::new_label()
 {
     char tmp[20];
-    sprintf(tmp, "@%d", TreeNode::label_seq);
+    sprintf(tmp, "@%d", label_seq);
     label_seq++;
     return tmp;
 }
@@ -640,6 +720,7 @@ void TreeNode::stmt_get_label()
         if (this->label.next_label == "")
             this->label.next_label = new_label();
         e->label.false_label = this->label.next_label;
+
         if (this->sibling)
             this->sibling->label.begin_label = this->label.next_label;
 
@@ -654,14 +735,16 @@ void TreeNode::stmt_get_label()
 
         if (this->label.begin_label.empty())
             this->label.begin_label = new_label();
+
         s->label.next_label = this->label.begin_label;
 
         s->label.begin_label = e->label.true_label = new_label();
 
-        if (this->label.next_label == "")
+        if (this->label.next_label.empty())
             this->label.next_label = new_label();
         e->label.false_label = this->label.next_label;
-        if (this->sibling)
+        // 如果有else
+        if ((this->sibling) && (this->sibling->stype == STMT_ELSE))
             this->sibling->label.begin_label = this->label.next_label;
 
         e->recursive_get_label();
@@ -753,11 +836,12 @@ void TreeNode::recursive_get_label()
             cur = cur->sibling;
         }
     }
+    for (TreeNode *t = this->child; t; t = t->sibling)
+        t->recursive_get_label();
 }
 
 void TreeNode::get_label()
 {
-
     this->recursive_get_label();
 }
 

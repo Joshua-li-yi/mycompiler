@@ -193,7 +193,7 @@ public:
 
 public:
     int tmpVarCounter=0;
-    int label_seq = 0;
+    
     SymbolTable *symTabel;
     
 public:
@@ -227,4 +227,5 @@ symbolType nodeTypetoSymbolType(TreeNode *);
 
 extern vector<Quad> quads;
 extern stack<OpObject *> tmpVarStack;
+extern int label_seq;
 #endif
