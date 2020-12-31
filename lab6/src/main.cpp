@@ -30,6 +30,7 @@ int main(int argc, char *argv[])
         cout<<endl;
         GlobalSymTable->printTable();
         root->generate_inter_code();
+        test(1111);
         root->printQuads();
     }
     return 0;

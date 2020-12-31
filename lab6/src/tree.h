@@ -194,6 +194,7 @@ public:
     int tmpVarCounter=0;
     int label_seq = 0;
     SymbolTable *symTabel;
+    
 public:
     void generate_inter_code();
     void expr_inter_code_generate();
@@ -213,4 +214,5 @@ TreeNode *forNode(int, TreeNode *, TreeNode *, TreeNode *, TreeNode *);
 symbolType nodeTypetoSymbolType(TreeNode *);
 
 extern vector<Quad> quads;
+extern stack<OpObject *> tmpVarStack;
 #endif

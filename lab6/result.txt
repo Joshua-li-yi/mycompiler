@@ -1,6 +1,5 @@
 test: 333
-test: 333
-lno@0  @0  NODE PROG    children:[@1 @4 @8 @13 ]
+lno@0  @0  NODE PROG    children:[@1 @4 @8 ]
 lno@25  @1  NODE STMT  STMT DECL  children:[@2 @3 ]
 lno@25  @2  NODE TYPE  int  children:[]
 lno@25  @3  NODE VAR  var name: a  children:[]
@@ -8,22 +7,27 @@ lno@26  @4  NODE STMT  =  children:[@5 @6 ]
 lno@26  @5  NODE VAR  var name: a  children:[]
 lno@26  @6  NODE EXPR  OP: EXPR combine  children:[@7 ]
 lno@26  @7  NODE CONST  int: 1  children:[]
-lno@27  @8  NODE STMT  STMT VAR INIT  children:[@9 @10 @11 ]
-lno@27  @9  NODE TYPE  char  children:[]
-lno@27  @10  NODE VAR  var name: c  children:[]
-lno@27  @11  NODE EXPR  OP: EXPR combine  children:[@12 ]
-lno@27  @12  NODE CONST  char: 0  children:[]
-lno@28  @13  NODE STMT  =  children:[@14 @15 ]
-lno@28  @14  NODE VAR  var name: c  children:[]
-lno@28  @15  NODE EXPR  OP: EXPR combine  children:[@16 ]
-lno@28  @16  NODE CONST  char: 0  children:[]
+lno@27  @8  NODE STMT  =  children:[@9 @10 ]
+lno@27  @9  NODE VAR  var name: a  children:[]
+lno@27  @10  NODE EXPR  OP: EXPR combine  children:[@11 ]
+lno@27  @11  NODE EXPR  OP: +  children:[@12 @17 ]
+lno@27  @12  NODE EXPR  OP: +  children:[@13 @16 ]
+lno@27  @13  NODE EXPR  OP: +  children:[@14 @15 ]
+lno@27  @14  NODE CONST  int: 11  children:[]
+lno@27  @15  NODE CONST  int: 11  children:[]
+lno@27  @16  NODE CONST  int: 1  children:[]
+lno@27  @17  NODE CONST  int: 2  children:[]
 
 ==========symbol table=======
 name: a token: 3 type: -1
-name: c token: 10 type: -1
 ===========================
+test: 3
+test: 1111
 	   Operator   	arg1	arg2	result
 0	  VAR_DECL  	-	-	a	
-1	    ASSIGN    	1	-	a	
-2	  VAR_DECL  	97	-	c	
-3	    ASSIGN    	97	-	c	
+1	    ASSIGN    	1	-	t0	
+2	    ASSIGN    	t0	-	a	
+3	     PLUS     	11	11	t0	
+4	     PLUS     	t0	1	t0	
+5	     PLUS     	t0	2	t0	
+6	    ASSIGN    	t0	-	a	

@@ -1,7 +1,10 @@
 #include "tree.h"
 
 vector<Quad> quads;
-OpCode expTypeToOpCode(OperatorType t)
+stack<OpObject *> tmpVarStack;
+
+OpCode
+expTypeToOpCode(OperatorType t)
 {
     switch (t)
     {
@@ -359,77 +362,104 @@ TreeNode *forNode(int lno, TreeNode *exp1, TreeNode *exp2, TreeNode *exp3, TreeN
     return node;
 }
 
-// TODO 有问题
+
 void TreeNode::expr_inter_code_generate()
 {
+    if ((this->child != nullptr) && (this->child->nodeType == NODE_EXPR) && (this->child->optype != EXPR_COMBINE))
+        this->child->expr_inter_code_generate();
+    if ((this->child->sibling != nullptr) && (this->child->sibling->nodeType == NODE_EXPR) && (this->child->sibling->optype != EXPR_COMBINE))
+        this->child->sibling->expr_inter_code_generate();
+    
     TreeNode *cur = this;
-    TreeNode *tmp = cur->child;
-    while (tmp)
+    if ((cur->nodeType == NODE_EXPR) && (cur->optype == EXPR_COMBINE) && (cur->child->child == nullptr))
     {
-        if (tmp->nodeType == NODE_EXPR) // 如果是操作符
+        symbol *sym = new symbol();
+        sym->genTmpVar(this->tmpVarCounter++, unset);
+        GlobalSymTable->insert(*sym);
+
+        OpObject *tmp_res = new OpObject();
+        tmp_res->arg.var = sym;
+        tmp_res->arg_state = arg_var;
+        symbol *tmp_sym1;
+        OpObject *tmp_arg1 = new OpObject();
+        TreeNode *tmp = cur->child;
+        if (tmp->nodeType == NODE_VAR)
         {
-            symbol *sym = new symbol();
-            sym->genTmpVar(this->tmpVarCounter++, unset);
-            GlobalSymTable->insert(*sym);
 
-            OpObject *tmp_res = new OpObject();
-            tmp_res->arg.var = sym;
-            tmp_res->arg_state = arg_var;
-            if (tmp->child != nullptr)
-                tmp->child->expr_inter_code_generate();
-            if (tmp->child->sibling != nullptr)
-                tmp->child->sibling->expr_inter_code_generate();
-
-            symbol *tmp_sym1;
-            symbol *tmp_sym2;
-            OpObject *tmp_arg1 = new OpObject();
-            OpObject *tmp_arg2 = new OpObject();
-            if (tmp->child->nodeType == NODE_VAR)
-            {
-                tmp_sym1 = GlobalSymTable->lookup(tmp->child->var_name);
-                tmp_arg1->arg.var = tmp_sym1;
-                tmp_arg1->arg_state = arg_var;
-            }
-            else if (tmp->child->nodeType == NODE_CONST)
-            {
-                tmp_arg1->arg.int_target = tmp->child->int_val;
-                tmp_arg1->arg_state = arg_int;
-            }
-            else
-            {
-                tmp_sym1 = GlobalSymTable->lookup("t" + intTostring(tmpVarCounter - 1));
-                tmp_arg1->arg.var = tmp_sym1;
-                tmp_arg1->arg_state = arg_var;
-            }
-
-            if (tmp->child->sibling->nodeType == NODE_VAR)
-            {
-                tmp_sym2 = GlobalSymTable->lookup(tmp->child->sibling->var_name);
-                tmp_arg2->arg.var = tmp_sym2;
-                tmp_arg2->arg_state = arg_var;
-            }
-            else if (tmp->child->sibling->nodeType == NODE_CONST)
-            {
-                tmp_arg2->arg.int_target = tmp->child->sibling->int_val;
-                tmp_arg2->arg_state = arg_int;
-            }
-            else
-            {
-                tmp_sym2 = GlobalSymTable->lookup("t" + intTostring(tmpVarCounter - 2));
-                tmp_arg2->arg.var = tmp_sym2;
-                tmp_arg2->arg_state = arg_var;
-            }
-            Quad quad_int = Quad(expTypeToOpCode(tmp->optype), tmp_arg1, tmp_arg2, tmp_res);
-            quads.push_back(quad_int);
+            tmp_sym1 = GlobalSymTable->lookup(tmp->var_name);
+            tmp_arg1->arg.var = tmp_sym1;
+            tmp_arg1->arg_state = arg_var;
         }
-        tmp = tmp->sibling;
+        else if (tmp->nodeType == NODE_CONST)
+        {
+            tmp_arg1->arg.int_target = tmp->int_val;
+            tmp_arg1->arg_state = arg_int;
+        }
+
+        Quad quad_int = Quad(OpCode_ASSIGN, tmp_arg1, nullptr, tmp_res);
+        quads.push_back(quad_int);
+
+        tmpVarStack.push(tmp_res);
+    }
+    if ((cur->nodeType == NODE_EXPR) && (cur->optype != EXPR_COMBINE))
+    {
+        symbol *sym = new symbol();
+        sym->genTmpVar(this->tmpVarCounter++, unset);
+        GlobalSymTable->insert(*sym);
+
+        OpObject *tmp_res = new OpObject();
+        tmp_res->arg.var = sym;
+        tmp_res->arg_state = arg_var;
+
+        symbol *tmp_sym1;
+        symbol *tmp_sym2;
+        OpObject *tmp_arg1 = new OpObject();
+        OpObject *tmp_arg2 = new OpObject();
+        TreeNode *tmp = cur->child;
+        if (tmp->nodeType == NODE_VAR)
+        {
+
+            tmp_sym1 = GlobalSymTable->lookup(tmp->var_name);
+            tmp_arg1->arg.var = tmp_sym1;
+            tmp_arg1->arg_state = arg_var;
+        }
+        else if (tmp->nodeType == NODE_CONST)
+        {
+            tmp_arg1->arg.int_target = tmp->int_val;
+            tmp_arg1->arg_state = arg_int;
+        }
+        else
+        {
+            tmp_arg1 = tmpVarStack.top();
+            tmpVarStack.pop();
+        }
+
+        if (tmp->sibling->nodeType == NODE_VAR)
+        {
+            tmp_sym2 = GlobalSymTable->lookup(tmp->sibling->var_name);
+            tmp_arg2->arg.var = tmp_sym2;
+            tmp_arg2->arg_state = arg_var;
+        }
+        else if (tmp->sibling->nodeType == NODE_CONST)
+        {
+            tmp_arg2->arg.int_target = tmp->sibling->int_val;
+            tmp_arg2->arg_state = arg_int;
+        }
+        else
+        {
+            tmp_arg2 = tmpVarStack.top();
+            tmpVarStack.pop();
+        }
+        Quad quad_int = Quad(expTypeToOpCode(cur->optype), tmp_arg1, tmp_arg2, tmp_res);
+        quads.push_back(quad_int);
+
+        tmpVarStack.push(tmp_res);
     }
 }
 
 void TreeNode::generate_inter_code()
 {
-    for (TreeNode *t = this->child; t; t = t->sibling)
-        t->generate_inter_code();
+
     if (this == nullptr)
     {
         cout << "nullptr" << endl;
@@ -465,7 +495,7 @@ void TreeNode::generate_inter_code()
                     tmp = tmp->sibling;
                 }
             }
-        } // 只能是const
+        }
         else if (cur->stype == STMT_ASSIGN)
         {
             symbolType tmp_type;
@@ -479,27 +509,16 @@ void TreeNode::generate_inter_code()
                 tmp_ob3->arg_state = arg_var;
 
                 OpObject *tmp_ob1 = new OpObject();
-                TreeNode *tmp = cur->child->sibling->child;
-                if (tmp->type = TYPE_INT)
-                {
-                    tmp_ob1->arg.int_target = tmp->int_val;
-                    tmp_ob1->arg_state = arg_int;
-                }
-                else if (tmp->type == TYPE_CHAR)
-                {
-                    tmp_ob1->arg.char_target = tmp->ch_val;
-                    tmp_ob1->arg_state = arg_char;
-                }
-                else if (tmp->type == TYPE_DOUBLE)
-                {
-                    tmp_ob1->arg.double_target = tmp->d_val;
-                    tmp_ob1->arg_state = arg_double;
-                }
+                TreeNode *tmp = cur->child->sibling;
+                if (tmp->optype == EXPR_COMBINE)
+                    tmp->expr_inter_code_generate();
+                tmp_ob1 = tmpVarStack.top();
+                tmpVarStack.pop();
 
                 Quad quad_int = Quad(OpCode_ASSIGN, tmp_ob1, nullptr, tmp_ob3);
                 quads.push_back(quad_int);
             }
-        } // 只能是const
+        } 
         else if (cur->stype == STMT_VAR_INIT)
         {
             TreeNode *tmp = cur->child->sibling;
@@ -510,49 +529,23 @@ void TreeNode::generate_inter_code()
             tmp_ob3->arg.var = tmp_res;
             tmp_ob3->arg_state = arg_var;
             OpObject *tmp_ob1 = new OpObject();
-            tmp = tmp->sibling->child;
+            tmp = tmp->sibling;
 
-            if (tmp->type = TYPE_INT)
-            {
-                tmp_ob1->arg.int_target = tmp->int_val;
-                tmp_ob1->arg_state = arg_int;
-            }
-            else if (tmp->type == TYPE_CHAR)
-            {
-                tmp_ob1->arg.char_target = tmp->ch_val;
-                tmp_ob1->arg_state = arg_char;
-            }
-            else if (tmp->type == TYPE_DOUBLE)
-            {
-                tmp_ob1->arg.double_target = tmp->d_val;
-                tmp_ob1->arg_state = arg_double;
-            }
-
+            if (tmp->optype == EXPR_COMBINE)
+                tmp->expr_inter_code_generate();
+            tmp_ob1 = tmpVarStack.top();
+            tmpVarStack.pop();
             Quad quad_int = Quad(OpCode_VAR_DECL, tmp_ob1, nullptr, tmp_ob3);
             quads.push_back(quad_int);
         }
         delete cur;
         break;
     }
-    case NODE_VAR:
-    {
-
-        break;
-    }
-    case NODE_CONST:
-    {
-
-        break;
-    }
-    case NODE_EXPR:
-    {
-        if (this->optype == EXPR_COMBINE)
-            expr_inter_code_generate();
-        break;
-    }
     default:
         break;
     }
+    for (TreeNode *t = this->child; t; t = t->sibling)
+        t->generate_inter_code();
 }
 
 void TreeNode::printQuads()

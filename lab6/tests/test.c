@@ -24,5 +24,17 @@
 // test6
 int a;
 a = 1;
-char c = 'a';
-c = 'a';
+a = 11+11+1+2;
+// char c = 'a';
+// c = 'a';
+
+// int a,s;
+// a = 10;
+// s = 0;
+// char ch;
+// scanf("%c",&ch);
+// printf("%c", ch);
+
+
+
+
