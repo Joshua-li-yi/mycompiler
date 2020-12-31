@@ -36,3 +36,10 @@ test2:
 t:
 	g++ -o ./tests/test.out ./tests/test.cpp
 	./tests/test.out
+
+showassem:
+	g++ -E ./tests/test2.cpp -o ./tests/test2.i
+	g++ -S ./tests/test2.i -o ./tests/test2.s
+
+a:
+	gcc -c hello.s -o hello.o
