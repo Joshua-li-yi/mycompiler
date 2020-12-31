@@ -4,17 +4,24 @@ using namespace std;
 #include "debug.h"
 
 SymbolTable *GlobalSymTable = new SymbolTable();
-SymbolTable::SymbolTable(){
+SymbolTable::SymbolTable()
+{
 	this->size = 0;
 }
 // SymbolTable symtbl;
 // 按变量名遍历表寻找变量
-symbol* SymbolTable::lookup(string name)
+symbol *SymbolTable::lookup(string name)
 {
 	for (int i = 0; i < size; i++)
 		if (table[i].name == name)
 			return &table[i];
 	return nullptr;
+}
+symbol *SymbolTable::get_symbol(int pos)
+{
+	if (pos >= size)
+		return nullptr;
+	return &table[pos];
 }
 
 int SymbolTable::insert(string name, int t, symbolType st)
@@ -29,14 +36,15 @@ int SymbolTable::insert(string name, int t, symbolType st)
 	size++;
 	return size - 1;
 }
-int SymbolTable::insert(symbol s){
-	if(size >= MAX_ID)
+int SymbolTable::insert(symbol s)
+{
+	if (size >= MAX_ID)
 		return -1;
 	table[size] = s;
-	
+
 	size++;
-	
-	return size -1;
+
+	return size - 1;
 }
 int SymbolTable::gettoken(string name)
 {
@@ -46,9 +54,10 @@ int SymbolTable::gettoken(string name)
 	return -1;
 }
 
-void SymbolTable::printTable(){
-	cout<<"==========symbol table======="<<endl;
-	for(int i=0;i<size;i++)
+void SymbolTable::printTable()
+{
+	cout << "==========symbol table=======" << endl;
+	for (int i = 0; i < size; i++)
 		table[i].printSymbol();
 	cout << "===========================" << endl;
 }

@@ -27,7 +27,6 @@ name: a token: 3 type: -1
 name: b token: 4 type: -1
 name: c token: 5 type: -1
 ===========================
-test: 1111
 	   Operator   	arg1	arg2	result
 0	  VAR_DECL  	-	-	a	
 1	  VAR_DECL  	-	-	b	

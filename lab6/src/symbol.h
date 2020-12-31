@@ -69,8 +69,10 @@ public:
 	string getname(int pos);
 	int set_type(int pos, symbolType type);
 	symbolType get_type(int pos);
+	symbol *get_symbol(int pos);
 	// 打印符号表
 	void printTable();
+	inline int get_size(){return size;}
 };
 // 全局符号表
 extern SymbolTable *GlobalSymTable;

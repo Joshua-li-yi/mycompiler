@@ -375,7 +375,6 @@ void TreeNode::expr_inter_code_generate()
     {
         symbol *sym = new symbol();
         sym->genTmpVar(this->tmpVarCounter++, unset);
-        GlobalSymTable->insert(*sym);
 
         OpObject *tmp_res = new OpObject();
         tmp_res->arg.var = sym;
@@ -405,7 +404,6 @@ void TreeNode::expr_inter_code_generate()
     {
         symbol *sym = new symbol();
         sym->genTmpVar(this->tmpVarCounter++, unset);
-        GlobalSymTable->insert(*sym);
 
         OpObject *tmp_res = new OpObject();
         tmp_res->arg.var = sym;
@@ -851,44 +849,28 @@ void TreeNode::gen_header(ostream &out)
     /*your code here*/
 }
 
-// void TreeNode::gen_decl(ostream &out)
-// {
-//     if (this->stype == STMT_DECL)
-//     {
-//         TreeNode *p = this->child;
-//         if (p->type->type == VALUE_INT)
-//         {
-//             p = p->sibling;
-//             while (p)
-//             {
-//                 out << "_" << p->var_name << p->var_id << ":" << endl;
-//                 out << "\t.zero\t4" << endl;
-//                 out << "\t.align\t4" << endl;
-//                 p = p->sibling;
-//             }
-//         }
-//     }
-//     TreeNode *cur = this->child;
-//     while (cur)
-//     {
-//         cur->gen_decl(out);
-//         cur = cur->sibling;
-//     }
-// }
-// void TreeNode::gen_code(ostream &out)
-// {
-//     gen_header(out);
-//     //  Node *p = root->children[0];
-//     //  if (p->kind == DECL_NODE)
-//     this->gen_decl(out);
-//     this->gen_temp_var(out);
-//     out << endl
-//         << endl
-//         << "# your asm code here" << endl;
-//     out << "\t.text" << endl;
-//     out << "\t.globl _start" << endl;
-//     this->recursive_gen_code(out);
-//     //  if (root->label.next_label != "")
-//     //    out << root->label.next_label << ":" << endl;
-//     //  out << "\tret" << endl;
-// }
+void TreeNode::gen_decl(ostream &out)
+{
+    for (int i = 0; i < GlobalSymTable->get_size(); i++)
+    {
+        out << "_" << GlobalSymTable->get_symbol(i)->name << ":" << endl;
+        out << "\t.zero\t4" << endl;
+        out << "\t.align\t4" << endl;
+    }
+}
+void TreeNode::gen_code(ostream &out)
+{
+    gen_header(out);
+
+    this->gen_decl(out);
+    // this->gen_temp_var(out);
+    out << endl;
+    out << endl;
+    out << "# your asm code here" << endl;
+    out << "\t.text" << endl;
+    out << "\t.globl _start" << endl;
+    // this->recursive_gen_code(out);
+    //  if (root->label.next_label != "")
+    //    out << root->label.next_label << ":" << endl;
+    //  out << "\tret" << endl;
+}

@@ -31,8 +31,10 @@ int main(int argc, char *argv[])
         GlobalSymTable->printTable();
         root->get_label();
         root->generate_inter_code();
-        test(1111);
+        ofstream out("out.s", ofstream::out | ios::binary);
+        
         root->printQuads();
+        root->gen_code(out);
     }
     return 0;
 }
