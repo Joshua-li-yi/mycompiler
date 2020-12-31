@@ -3,6 +3,33 @@
 vector<Quad> quads;
 stack<OpObject *> tmpVarStack;
 int label_seq = 0;
+void printOpObject(OpObject *ob, ostream &out)
+{
+    switch (ob->getState())
+    {
+    case arg_int:
+        out << ob->arg.int_target;
+        break;
+    case arg_double:
+        out << ob->arg.double_target;
+        break;
+    case arg_bool:
+        out << ob->arg.bool_target;
+        break;
+    case arg_char:
+        out << ob->arg.char_target;
+        break;
+    case arg_var:
+        out << "_" << ob->arg.var->name;
+        break;
+    case arg_char_star:
+        out << ob->arg.char_star_target;
+        break;
+    default:
+        out << '-';
+        break;
+    }
+}
 OpCode
 expTypeToOpCode(OperatorType t)
 {
@@ -858,6 +885,7 @@ void TreeNode::gen_decl(ostream &out)
         out << "\t.align\t4" << endl;
     }
 }
+
 void TreeNode::gen_code(ostream &out)
 {
     gen_header(out);
@@ -869,8 +897,41 @@ void TreeNode::gen_code(ostream &out)
     out << "# your asm code here" << endl;
     out << "\t.text" << endl;
     out << "\t.globl _start" << endl;
-    // this->recursive_gen_code(out);
-    //  if (root->label.next_label != "")
-    //    out << root->label.next_label << ":" << endl;
-    //  out << "\tret" << endl;
+
+    int count = 0;
+    // TODO
+    for (auto it : quads)
+    {
+        switch (it.getOpCode())
+        {
+        case OpCode_PLUS:
+            out << ASM_MOV << " ";
+            printOpObject(it.getArg(1), out);
+            out << " "
+                << "%eax";
+
+            out
+                << endl
+                << ASM_ADD << " ";
+            printOpObject(it.getArg(2), out);
+            out << " "
+                << "%eax";
+
+            out << endl
+                << ASM_MOV << " "
+                << "%eax"
+                << " ";
+            printOpObject(it.getArg(3), out);
+            break;
+        case OpCode_ASSIGN:
+            out << endl
+                << ASM_MOV << " ";
+            printOpObject(it.getArg(1), out);
+            out << " ";
+            printOpObject(it.getArg(3), out);
+            break;
+        default:
+            break;
+        }
+    }
 }

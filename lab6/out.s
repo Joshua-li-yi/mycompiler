@@ -13,3 +13,7 @@ _c:
 # your asm code here
 	.text
 	.globl _start
+movl 1 %eax
+addl 1 %eax
+movl %eax _t0
+movl _t0 _a

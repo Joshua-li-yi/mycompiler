@@ -7,6 +7,7 @@
 #include "debug.h"
 #include "Quad.h"
 #include "util.h"
+#include "asmcode.h"
 
 using std::cerr;
 using std::cout;

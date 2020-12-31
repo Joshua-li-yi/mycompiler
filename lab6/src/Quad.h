@@ -123,6 +123,7 @@ struct OpObject
 };
 
 void printOpObject(OpObject *);
+// void printOpObject(OpObject *, ofstream &out);
 
 class Quad
 {

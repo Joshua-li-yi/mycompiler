@@ -2,8 +2,8 @@
 #define ASMCODE_H
 
 // Asm instructor
-#define ASM_MOV "mov"
-#define ASM_ADD "add"
+#define ASM_MOV "movl"
+#define ASM_ADD "addl"
 #define ASM_XOR "xor"
 #define ASM_NEG "neg"
 #define ASM_SUB "sub"

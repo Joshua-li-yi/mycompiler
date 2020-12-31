@@ -1,26 +1,18 @@
 lno@0  @0  NODE PROG    children:[@1 @6 ]
-lno@53  @1  NODE STMT  STMT DECL  children:[@2 @3 @4 @5 ]
-lno@53  @2  NODE TYPE  int  children:[]
-lno@53  @3  NODE VAR  var name: a  children:[]
-lno@53  @4  NODE VAR  var name: b  children:[]
-lno@53  @5  NODE VAR  var name: c  children:[]
-lno@54  @6  main    children:[@7 @8 ]
-lno@54  @7  NODE TYPE  int  children:[]
-lno@54  @8  NODE STMT  STMT DOMAIN  children:[@9 ]
-lno@54  @9  NODE STMT  STMT WHILE  children:[@10 @14 ]
-lno@54  @10  NODE EXPR  OP: EXPR combine  children:[@11 ]
-lno@56  @11  NODE EXPR  OP: ==  children:[@12 @13 ]
-lno@56  @12  NODE VAR  var name: b  children:[]
-lno@56  @13  NODE CONST  int: 0  children:[]
-lno@54  @14  NODE STMT  STMT DOMAIN  children:[@15 ]
-lno@58  @15  NODE STMT  =  children:[@16 @17 ]
-lno@58  @16  NODE VAR  var name: a  children:[]
-lno@58  @17  NODE EXPR  OP: EXPR combine  children:[@18 ]
-lno@58  @18  NODE EXPR  OP: +  children:[@19 @22 ]
-lno@58  @19  NODE EXPR  OP: *  children:[@20 @21 ]
-lno@58  @20  NODE VAR  var name: b  children:[]
-lno@58  @21  NODE VAR  var name: a  children:[]
-lno@58  @22  NODE CONST  int: 1  children:[]
+lno@64  @1  NODE STMT  STMT DECL  children:[@2 @3 @4 @5 ]
+lno@64  @2  NODE TYPE  int  children:[]
+lno@64  @3  NODE VAR  var name: a  children:[]
+lno@64  @4  NODE VAR  var name: b  children:[]
+lno@64  @5  NODE VAR  var name: c  children:[]
+lno@65  @6  main    children:[@7 @8 ]
+lno@65  @7  NODE TYPE  int  children:[]
+lno@65  @8  NODE STMT  STMT DOMAIN  children:[@9 ]
+lno@67  @9  NODE STMT  =  children:[@10 @11 ]
+lno@67  @10  NODE VAR  var name: a  children:[]
+lno@67  @11  NODE EXPR  OP: EXPR combine  children:[@12 ]
+lno@67  @12  NODE EXPR  OP: +  children:[@13 @14 ]
+lno@67  @13  NODE CONST  int: 1  children:[]
+lno@67  @14  NODE CONST  int: 1  children:[]
 
 ==========symbol table=======
 name: a token: 3 type: -1
@@ -31,11 +23,5 @@ name: c token: 5 type: -1
 0	  VAR_DECL  	-	-	a	
 1	  VAR_DECL  	-	-	b	
 2	  VAR_DECL  	-	-	c	
-3	     LABEL    	-	-	@0:	
-4	  EQU  	b	0	t0	
-5	  IF  	t0	-	@0:	
-6	     LABEL    	-	-	@3:	
-7	    TIMES     	b	a	t0	
-8	     PLUS     	t0	1	t0	
-9	    ASSIGN    	t0	-	a	
-10	     JUMP     	-	-	@0:	
+3	     PLUS     	1	1	t0	
+4	    ASSIGN    	t0	-	a	

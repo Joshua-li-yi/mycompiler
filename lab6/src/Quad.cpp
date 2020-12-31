@@ -53,28 +53,29 @@ void printOpObject(OpObject *ob)
     switch (ob->getState())
     {
     case arg_int:
-        cout << ob->arg.int_target << "\t";
+        cout << ob->arg.int_target;
         break;
     case arg_double:
-        cout << ob->arg.double_target << "\t";
+        cout << ob->arg.double_target;
         break;
     case arg_bool:
-        cout << ob->arg.bool_target << "\t";
+        cout << ob->arg.bool_target;
         break;
     case arg_char:
-        cout << ob->arg.char_target << "\t";
+        cout << ob->arg.char_target;
         break;
     case arg_var:
-        cout << ob->arg.var->name << "\t";
+        cout << ob->arg.var->name;
         break;
     case arg_char_star:
-        cout<<ob->arg.char_star_target<<"\t";
+        cout << ob->arg.char_star_target;
         break;
     default:
-        cout << '-' << "\t";
+        cout << '-';
         break;
     }
 }
+
 Quad::Quad(OpCode op, OpObject *arg1, OpObject *arg2, OpObject *result)
 // 变量跟变量运算，值为int
 {
@@ -186,17 +187,26 @@ void Quad::printQuad()
 {
     cout << this->printOp() << "\t";
     if (this->arg1 != nullptr)
+    {
         printOpObject(this->arg1);
+        cout << "\t";
+    }
     else
         cout << "-"
              << "\t";
     if (this->arg2 != nullptr)
+    {
         printOpObject(this->arg2);
+        cout << "\t";
+    }
     else
         cout << "-"
              << "\t";
     if (this->result != nullptr)
+    {
         printOpObject(this->result);
+        cout << "\t";
+    }
     else
         cout << "-"
              << "\t";

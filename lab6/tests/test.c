@@ -50,13 +50,19 @@
 //     //  c=a+b;
 // }
 // test 8
+// int a, b, c;
+// int main()
+// {
+//     while(b==0)
+//     {
+//         a = b * a + 1;
+//     }
+//     //  int c=a+b;
+//     //  c=a+b;
+// }
+
 int a, b, c;
 int main()
 {
-    while(b==0)
-    {
-        a = b * a + 1;
-    }
-    //  int c=a+b;
-    //  c=a+b;
+    a = 1+1;
 }
