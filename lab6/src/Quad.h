@@ -74,7 +74,21 @@ enum OpCode
     OpCode_LABEL,
     OpCode_GET_VALUE,
     OpCode_GET_ARRAY,
-    OpCode_GET_STRUCT
+    OpCode_GET_STRUCT,
+    OpCode_EQU,
+    OpCode_GTR,
+    OpCode_LSS,
+    OpCode_GEQ,
+    OpCode_LEQ,
+    OpCode_NEQ,
+    OpCode_LOGICAL_AND,
+    OpCode_LOGICAL_OR,
+    OpCode_LOGICAL_NOT,
+    OpCode_AND,
+    OpCode_OR,
+    OpCode_NOT,
+    OpCode_PPLUS,
+    OpCode_MMINUS,
 };
 
 enum Arg_state
@@ -84,6 +98,7 @@ enum Arg_state
     arg_bool,
     arg_char,
     arg_double,
+    arg_char_star,
 };
 
 union Arg
@@ -93,6 +108,7 @@ union Arg
     bool bool_target;
     double double_target;
     char char_target;
+    char* char_star_target;
     // string string_target;
 };
 

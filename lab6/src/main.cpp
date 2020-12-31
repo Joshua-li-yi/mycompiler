@@ -29,6 +29,7 @@ int main(int argc, char *argv[])
         root->printAST();
         cout<<endl;
         GlobalSymTable->printTable();
+        root->get_label();
         root->generate_inter_code();
         test(1111);
         root->printQuads();

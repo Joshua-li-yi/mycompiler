@@ -148,7 +148,6 @@ if_stmt
     TreeNode* node3 = new TreeNode($1->lineno, NODE_EXPR);
     node3->optype = EXPR_COMBINE;
 
-    // node2->addChild($3);
     node3->addChild($3);
     node2->addChild($5);
     node->addChild(node3);
@@ -391,14 +390,8 @@ T
 | T_BOOL {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_BOOL;}
 | T_DOUBLE {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_DOUBLE;}
 | T_VOID {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_VOID;}
-| T_INT TIMES {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_POINT;}
-| T_INT AND {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_CITE;}
-| T_CHAR TIMES {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_POINT;}
-| T_CHAR AND {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_CITE;}
-| T_BOOL TIMES {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_POINT;}
-| T_BOOL AND {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_CITE;}
-| T_DOUBLE TIMES {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_POINT;}
-| T_DOUBLE AND {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_CITE;}
+| T TIMES {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_POINT;}
+| T AND {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_CITE;}
 ;
 
 %%

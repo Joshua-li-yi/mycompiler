@@ -144,6 +144,34 @@ string Quad::printOp()
         return "  GET_STRUCT  ";
     case OpCode_VAR_DECL:
         return "  VAR_DECL  ";
+    case OpCode_EQU:
+        return "  EQU  ";
+    case OpCode_GTR:
+        return "  GTR  ";
+    case OpCode_LSS:
+        return "  LSS  ";
+    case OpCode_GEQ:
+        return "  GEQ  ";
+    case OpCode_LEQ:
+        return "  LEQ  ";
+    case OpCode_NEQ:
+        return "  NEQ  ";
+    case OpCode_LOGICAL_AND:
+        return "  LOGICAL_AND  ";
+    case OpCode_LOGICAL_OR:
+        return "  LOGICAL_OR  ";
+    case OpCode_LOGICAL_NOT:
+        return "  LOGICAL_NOT  ";
+    case OpCode_AND:
+        return "  AND  ";
+    case OpCode_OR:
+        return "  OR  ";
+    case OpCode_NOT:
+        return "  NOT  ";
+    case OpCode_PPLUS:
+        return "  PPLUS  ";
+    case OpCode_MMINUS:
+        return "  MMINUS  ";
     default:
         break;
     }

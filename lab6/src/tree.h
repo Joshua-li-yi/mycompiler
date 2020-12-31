@@ -6,6 +6,7 @@
 #include "symbol.h"
 #include "debug.h"
 #include "Quad.h"
+#include "util.h"
 
 using std::cerr;
 using std::cout;
@@ -198,12 +199,23 @@ public:
 public:
     void generate_inter_code();
     void expr_inter_code_generate();
-    string new_label(void);
+    void printQuads();
+
+public:
+    void gen_header(ostream &out);
+    void gen_decl(ostream &out);
+    void gen_temp_var(ostream &out);
+    void recursive_gen_code(ostream &out);
+    void stmt_gen_code(ostream &out);
+    void expr_gen_code(ostream &out);
+
+    string new_label();
+    void get_label();
     void recursive_get_label();
     void stmt_get_label();
     void expr_get_label();
-    void get_label(void);
-    void printQuads();
+    void gen_code(ostream &out);
+
 };
 
 // 表达式节点

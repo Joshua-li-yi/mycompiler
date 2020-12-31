@@ -22,9 +22,9 @@
 // }
 
 // test6
-int a;
-a = 1;
-a = 11+11+1+2;
+// int a;
+// a = 1;
+// a = 11+11+1+2;
 // char c = 'a';
 // c = 'a';
 
@@ -35,6 +35,14 @@ a = 11+11+1+2;
 // scanf("%c",&ch);
 // printf("%c", ch);
 
-
-
-
+// test 7
+int a, b, c;
+int main()
+{
+    if (b == 0)
+    {
+        a = b * a + 1;
+    }
+    //  int c=a+b;
+    //  c=a+b;
+}

@@ -11,8 +11,8 @@ Terminals unused in grammar
 
 State 17 conflicts: 14 shift/reduce
 State 21 conflicts: 1 shift/reduce
-State 187 conflicts: 2 reduce/reduce
-State 217 conflicts: 2 reduce/reduce
+State 181 conflicts: 2 reduce/reduce
+State 211 conflicts: 2 reduce/reduce
 
 
 Grammar
@@ -141,25 +141,19 @@ Grammar
    96  | T_BOOL
    97  | T_DOUBLE
    98  | T_VOID
-   99  | T_INT TIMES
-  100  | T_INT AND
-  101  | T_CHAR TIMES
-  102  | T_CHAR AND
-  103  | T_BOOL TIMES
-  104  | T_BOOL AND
-  105  | T_DOUBLE TIMES
-  106  | T_DOUBLE AND
+   99  | T TIMES
+  100  | T AND
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
 error (256)
-T_CHAR (258) 95 101 102
-T_INT (259) 94 99 100
+T_CHAR (258) 95
+T_INT (259) 94
 T_STRING (260)
-T_BOOL (261) 96 103 104
-T_DOUBLE (262) 97 105 106
+T_BOOL (261) 96
+T_DOUBLE (262) 97
 T_VOID (263) 98
 LOP_ASSIGN (264) 23 42 46 53
 PLUS_ASSIGN (265) 24
@@ -185,12 +179,12 @@ STRING (280) 93
 NUMBER (281) 91
 PLUS (282) 68
 MINUS (283) 69 87
-TIMES (284) 63 70 99 101 103 105
+TIMES (284) 63 70 99
 DIVIDE (285) 71
 MOD (286) 72
 PPLUS (287) 74
 MMINUS (288) 73
-AND (289) 62 75 100 102 104 106
+AND (289) 62 75 100
 OR (290) 76
 NOT (291) 77
 EQU (292) 78
@@ -275,8 +269,8 @@ expr (84)
     35 36 37 38 39 41 42 46 52 53 61 68 69 70 71 72 73 74 75 76 77
     78 79 80 81 82 83 84 85 86 87 88
 T (85)
-    on left: 94 95 96 97 98 99 100 101 102 103 104 105 106, on right:
-    5 42 43 46 47 48 53 54 57 58 59 60
+    on left: 94 95 96 97 98 99 100, on right: 5 42 43 46 47 48 53 54
+    57 58 59 60 99 100
 
 
 State 0
@@ -319,11 +313,6 @@ State 0
 State 1
 
    95 T: T_CHAR .
-  101  | T_CHAR . TIMES
-  102  | T_CHAR . AND
-
-    TIMES  shift, and go to state 31
-    AND    shift, and go to state 32
 
     $default  reduce using rule 95 (T)
 
@@ -331,11 +320,6 @@ State 1
 State 2
 
    94 T: T_INT .
-   99  | T_INT . TIMES
-  100  | T_INT . AND
-
-    TIMES  shift, and go to state 33
-    AND    shift, and go to state 34
 
     $default  reduce using rule 94 (T)
 
@@ -343,11 +327,6 @@ State 2
 State 3
 
    96 T: T_BOOL .
-  103  | T_BOOL . TIMES
-  104  | T_BOOL . AND
-
-    TIMES  shift, and go to state 35
-    AND    shift, and go to state 36
 
     $default  reduce using rule 96 (T)
 
@@ -355,11 +334,6 @@ State 3
 State 4
 
    97 T: T_DOUBLE .
-  105  | T_DOUBLE . TIMES
-  106  | T_DOUBLE . AND
-
-    TIMES  shift, and go to state 37
-    AND    shift, and go to state 38
 
     $default  reduce using rule 97 (T)
 
@@ -397,7 +371,7 @@ State 7
     SCANF       shift, and go to state 13
     PRINTF      shift, and go to state 14
 
-    statements            go to state 39
+    statements            go to state 31
     statement             go to state 17
     scanf_function        go to state 18
     printf_function       go to state 19
@@ -425,13 +399,13 @@ State 8
    66 function_call: IDENTIFIER . LP function_call_idlist RP SEMICOLON
    67              | IDENTIFIER . LP RP SEMICOLON
 
-    LOP_ASSIGN   shift, and go to state 40
-    PLUS_ASSIGN  shift, and go to state 41
-    MIN_ASSIGN   shift, and go to state 42
-    TIM_ASSIGN   shift, and go to state 43
-    DIV_ASSIGN   shift, and go to state 44
-    MOD_ASSIGN   shift, and go to state 45
-    LP           shift, and go to state 46
+    LOP_ASSIGN   shift, and go to state 32
+    PLUS_ASSIGN  shift, and go to state 33
+    MIN_ASSIGN   shift, and go to state 34
+    TIM_ASSIGN   shift, and go to state 35
+    DIV_ASSIGN   shift, and go to state 36
+    MOD_ASSIGN   shift, and go to state 37
+    LP           shift, and go to state 38
 
 
 State 9
@@ -446,21 +420,21 @@ State 9
    39         | FOR . LP expr SEMICOLON SEMICOLON RP statements
    40         | FOR . LP SEMICOLON SEMICOLON RP statements
 
-    LP  shift, and go to state 47
+    LP  shift, and go to state 39
 
 
 State 10
 
    30 if_stmt: IF . LP expr RP statements
 
-    LP  shift, and go to state 48
+    LP  shift, and go to state 40
 
 
 State 11
 
    41 while_stmt: WHILE . LP expr RP statements
 
-    LP  shift, and go to state 49
+    LP  shift, and go to state 41
 
 
 State 12
@@ -468,18 +442,18 @@ State 12
    51 function_return: RETURN . SEMICOLON
    52                | RETURN . expr SEMICOLON
 
-    SEMICOLON    shift, and go to state 50
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    SEMICOLON    shift, and go to state 42
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
-    expr  go to state 60
+    expr  go to state 52
 
 
 State 13
@@ -487,7 +461,7 @@ State 13
    19 scanf_function: SCANF . LP function_call_idlist RP SEMICOLON
    20               | SCANF . LP RP SEMICOLON
 
-    LP  shift, and go to state 61
+    LP  shift, and go to state 53
 
 
 State 14
@@ -495,14 +469,14 @@ State 14
    21 printf_function: PRINTF . LP function_call_idlist RP SEMICOLON
    22                | PRINTF . LP RP SEMICOLON
 
-    LP  shift, and go to state 62
+    LP  shift, and go to state 54
 
 
 State 15
 
     0 $accept: program . $end
 
-    $end  shift, and go to state 63
+    $end  shift, and go to state 55
 
 
 State 16
@@ -548,7 +522,7 @@ State 17
     PRINTF      [reduce using rule 2 (statements)]
     $default    reduce using rule 2 (statements)
 
-    statements            go to state 64
+    statements            go to state 56
     statement             go to state 17
     scanf_function        go to state 18
     printf_function       go to state 19
@@ -591,12 +565,12 @@ State 21
     7 statement: if_stmt .
    31 if_else_stmt: if_stmt . else_stmt
 
-    ELSE  shift, and go to state 65
+    ELSE  shift, and go to state 57
 
     ELSE      [reduce using rule 7 (statement)]
     $default  reduce using rule 7 (statement)
 
-    else_stmt  go to state 66
+    else_stmt  go to state 58
 
 
 State 22
@@ -624,7 +598,7 @@ State 25
 
    16 statement: declaration . SEMICOLON
 
-    SEMICOLON  shift, and go to state 67
+    SEMICOLON  shift, and go to state 59
 
 
 State 26
@@ -664,202 +638,150 @@ State 30
    58                     | T . IDENTIFIER LP RP SEMICOLON
    59 function_definition: T . IDENTIFIER LP function_definition_idlist RP LB statements RB
    60                    | T . IDENTIFIER LP RP LB statements RB
+   99 T: T . TIMES
+  100  | T . AND
 
-    IDENTIFIER  shift, and go to state 68
-    MAIN        shift, and go to state 69
+    IDENTIFIER  shift, and go to state 60
+    TIMES       shift, and go to state 61
+    AND         shift, and go to state 62
+    MAIN        shift, and go to state 63
 
-    IDLIST  go to state 70
+    IDLIST  go to state 64
 
 
 State 31
 
-  101 T: T_CHAR TIMES .
+    4 statements: LB statements . RB
 
-    $default  reduce using rule 101 (T)
+    RB  shift, and go to state 65
 
 
 State 32
 
-  102 T: T_CHAR AND .
+   23 assignment_stmt: IDENTIFIER LOP_ASSIGN . expr SEMICOLON
 
-    $default  reduce using rule 102 (T)
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
+
+    expr  go to state 66
 
 
 State 33
 
-   99 T: T_INT TIMES .
+   24 assignment_stmt: IDENTIFIER PLUS_ASSIGN . expr SEMICOLON
 
-    $default  reduce using rule 99 (T)
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
+
+    expr  go to state 67
 
 
 State 34
 
-  100 T: T_INT AND .
+   25 assignment_stmt: IDENTIFIER MIN_ASSIGN . expr SEMICOLON
 
-    $default  reduce using rule 100 (T)
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
+
+    expr  go to state 68
 
 
 State 35
 
-  103 T: T_BOOL TIMES .
+   26 assignment_stmt: IDENTIFIER TIM_ASSIGN . expr SEMICOLON
 
-    $default  reduce using rule 103 (T)
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
+
+    expr  go to state 69
 
 
 State 36
 
-  104 T: T_BOOL AND .
+   27 assignment_stmt: IDENTIFIER DIV_ASSIGN . expr SEMICOLON
 
-    $default  reduce using rule 104 (T)
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
+
+    expr  go to state 70
 
 
 State 37
 
-  105 T: T_DOUBLE TIMES .
+   28 assignment_stmt: IDENTIFIER MOD_ASSIGN . expr SEMICOLON
 
-    $default  reduce using rule 105 (T)
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
+
+    expr  go to state 71
 
 
 State 38
 
-  106 T: T_DOUBLE AND .
-
-    $default  reduce using rule 106 (T)
-
-
-State 39
-
-    4 statements: LB statements . RB
-
-    RB  shift, and go to state 71
-
-
-State 40
-
-   23 assignment_stmt: IDENTIFIER LOP_ASSIGN . expr SEMICOLON
-
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
-
-    expr  go to state 72
-
-
-State 41
-
-   24 assignment_stmt: IDENTIFIER PLUS_ASSIGN . expr SEMICOLON
-
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
-
-    expr  go to state 73
-
-
-State 42
-
-   25 assignment_stmt: IDENTIFIER MIN_ASSIGN . expr SEMICOLON
-
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
-
-    expr  go to state 74
-
-
-State 43
-
-   26 assignment_stmt: IDENTIFIER TIM_ASSIGN . expr SEMICOLON
-
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
-
-    expr  go to state 75
-
-
-State 44
-
-   27 assignment_stmt: IDENTIFIER DIV_ASSIGN . expr SEMICOLON
-
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
-
-    expr  go to state 76
-
-
-State 45
-
-   28 assignment_stmt: IDENTIFIER MOD_ASSIGN . expr SEMICOLON
-
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
-
-    expr  go to state 77
-
-
-State 46
-
    66 function_call: IDENTIFIER LP . function_call_idlist RP SEMICOLON
    67              | IDENTIFIER LP . RP SEMICOLON
 
-    LP           shift, and go to state 51
-    RP           shift, and go to state 78
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    TIMES        shift, and go to state 79
-    AND          shift, and go to state 80
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    LP           shift, and go to state 43
+    RP           shift, and go to state 72
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    TIMES        shift, and go to state 73
+    AND          shift, and go to state 74
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
-    function_call_id      go to state 81
-    function_call_idlist  go to state 82
-    expr                  go to state 83
+    function_call_id      go to state 75
+    function_call_idlist  go to state 76
+    expr                  go to state 77
 
 
-State 47
+State 39
 
    32 for_stmt: FOR LP . expr SEMICOLON expr SEMICOLON expr RP statements
    33         | FOR LP . declaration SEMICOLON expr SEMICOLON expr RP statements
@@ -876,167 +798,167 @@ State 47
     T_BOOL       shift, and go to state 3
     T_DOUBLE     shift, and go to state 4
     T_VOID       shift, and go to state 5
-    SEMICOLON    shift, and go to state 84
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    SEMICOLON    shift, and go to state 78
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
-    declaration  go to state 85
-    expr         go to state 86
-    T            go to state 87
+    declaration  go to state 79
+    expr         go to state 80
+    T            go to state 81
 
 
-State 48
+State 40
 
    30 if_stmt: IF LP . expr RP statements
 
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
-    expr  go to state 88
+    expr  go to state 82
 
 
-State 49
+State 41
 
    41 while_stmt: WHILE LP . expr RP statements
 
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
-    expr  go to state 89
+    expr  go to state 83
 
 
-State 50
+State 42
 
    51 function_return: RETURN SEMICOLON .
 
     $default  reduce using rule 51 (function_return)
 
 
-State 51
+State 43
 
    88 expr: LP . expr RP
 
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
-    expr  go to state 90
+    expr  go to state 84
 
 
-State 52
+State 44
 
    89 expr: IDENTIFIER .
 
     $default  reduce using rule 89 (expr)
 
 
-State 53
+State 45
 
    90 expr: INTEGER .
 
     $default  reduce using rule 90 (expr)
 
 
-State 54
+State 46
 
    92 expr: CHAR .
 
     $default  reduce using rule 92 (expr)
 
 
-State 55
+State 47
 
    93 expr: STRING .
 
     $default  reduce using rule 93 (expr)
 
 
-State 56
+State 48
 
    91 expr: NUMBER .
 
     $default  reduce using rule 91 (expr)
 
 
-State 57
+State 49
 
    87 expr: MINUS . expr
 
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
-    expr  go to state 91
+    expr  go to state 85
 
 
-State 58
+State 50
 
    77 expr: NOT . expr
 
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
-    expr  go to state 92
+    expr  go to state 86
 
 
-State 59
+State 51
 
    86 expr: LOGICAL_NOT . expr
 
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
-    expr  go to state 93
+    expr  go to state 87
 
 
-State 60
+State 52
 
    52 function_return: RETURN expr . SEMICOLON
    68 expr: expr . PLUS expr
@@ -1057,87 +979,87 @@ State 60
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    SEMICOLON    shift, and go to state 94
-    PLUS         shift, and go to state 95
-    MINUS        shift, and go to state 96
-    TIMES        shift, and go to state 97
-    DIVIDE       shift, and go to state 98
-    MOD          shift, and go to state 99
-    PPLUS        shift, and go to state 100
-    MMINUS       shift, and go to state 101
-    AND          shift, and go to state 102
-    OR           shift, and go to state 103
-    EQU          shift, and go to state 104
-    GTR          shift, and go to state 105
-    LSS          shift, and go to state 106
-    GEQ          shift, and go to state 107
-    LEQ          shift, and go to state 108
-    NEQ          shift, and go to state 109
-    LOGICAL_AND  shift, and go to state 110
-    LOGICAL_OR   shift, and go to state 111
+    SEMICOLON    shift, and go to state 88
+    PLUS         shift, and go to state 89
+    MINUS        shift, and go to state 90
+    TIMES        shift, and go to state 91
+    DIVIDE       shift, and go to state 92
+    MOD          shift, and go to state 93
+    PPLUS        shift, and go to state 94
+    MMINUS       shift, and go to state 95
+    AND          shift, and go to state 96
+    OR           shift, and go to state 97
+    EQU          shift, and go to state 98
+    GTR          shift, and go to state 99
+    LSS          shift, and go to state 100
+    GEQ          shift, and go to state 101
+    LEQ          shift, and go to state 102
+    NEQ          shift, and go to state 103
+    LOGICAL_AND  shift, and go to state 104
+    LOGICAL_OR   shift, and go to state 105
 
 
-State 61
+State 53
 
    19 scanf_function: SCANF LP . function_call_idlist RP SEMICOLON
    20               | SCANF LP . RP SEMICOLON
 
-    LP           shift, and go to state 51
-    RP           shift, and go to state 112
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    TIMES        shift, and go to state 79
-    AND          shift, and go to state 80
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    LP           shift, and go to state 43
+    RP           shift, and go to state 106
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    TIMES        shift, and go to state 73
+    AND          shift, and go to state 74
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
-    function_call_id      go to state 81
-    function_call_idlist  go to state 113
-    expr                  go to state 83
+    function_call_id      go to state 75
+    function_call_idlist  go to state 107
+    expr                  go to state 77
 
 
-State 62
+State 54
 
    21 printf_function: PRINTF LP . function_call_idlist RP SEMICOLON
    22                | PRINTF LP . RP SEMICOLON
 
-    LP           shift, and go to state 51
-    RP           shift, and go to state 114
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    TIMES        shift, and go to state 79
-    AND          shift, and go to state 80
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    LP           shift, and go to state 43
+    RP           shift, and go to state 108
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    TIMES        shift, and go to state 73
+    AND          shift, and go to state 74
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
-    function_call_id      go to state 81
-    function_call_idlist  go to state 115
-    expr                  go to state 83
+    function_call_id      go to state 75
+    function_call_idlist  go to state 109
+    expr                  go to state 77
 
 
-State 63
+State 55
 
     0 $accept: program $end .
 
     $default  accept
 
 
-State 64
+State 56
 
     3 statements: statement statements .
 
     $default  reduce using rule 3 (statements)
 
 
-State 65
+State 57
 
    29 else_stmt: ELSE . statements
 
@@ -1156,7 +1078,7 @@ State 65
     SCANF       shift, and go to state 13
     PRINTF      shift, and go to state 14
 
-    statements            go to state 116
+    statements            go to state 110
     statement             go to state 17
     scanf_function        go to state 18
     printf_function       go to state 19
@@ -1173,21 +1095,21 @@ State 65
     T                     go to state 30
 
 
-State 66
+State 58
 
    31 if_else_stmt: if_stmt else_stmt .
 
     $default  reduce using rule 31 (if_else_stmt)
 
 
-State 67
+State 59
 
    16 statement: declaration SEMICOLON .
 
     $default  reduce using rule 16 (statement)
 
 
-State 68
+State 60
 
    42 declaration: T IDENTIFIER . LOP_ASSIGN expr
    44 IDLIST: IDENTIFIER . COMMA IDLIST
@@ -1197,35 +1119,49 @@ State 68
    59 function_definition: T IDENTIFIER . LP function_definition_idlist RP LB statements RB
    60                    | T IDENTIFIER . LP RP LB statements RB
 
-    LOP_ASSIGN  shift, and go to state 117
-    COMMA       shift, and go to state 118
-    LP          shift, and go to state 119
+    LOP_ASSIGN  shift, and go to state 111
+    COMMA       shift, and go to state 112
+    LP          shift, and go to state 113
 
     $default  reduce using rule 45 (IDLIST)
 
 
-State 69
+State 61
+
+   99 T: T TIMES .
+
+    $default  reduce using rule 99 (T)
+
+
+State 62
+
+  100 T: T AND .
+
+    $default  reduce using rule 100 (T)
+
+
+State 63
 
     5 statement: T MAIN . LP RP statements
 
-    LP  shift, and go to state 120
+    LP  shift, and go to state 114
 
 
-State 70
+State 64
 
    43 declaration: T IDLIST .
 
     $default  reduce using rule 43 (declaration)
 
 
-State 71
+State 65
 
     4 statements: LB statements RB .
 
     $default  reduce using rule 4 (statements)
 
 
-State 72
+State 66
 
    23 assignment_stmt: IDENTIFIER LOP_ASSIGN expr . SEMICOLON
    68 expr: expr . PLUS expr
@@ -1246,27 +1182,27 @@ State 72
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    SEMICOLON    shift, and go to state 121
-    PLUS         shift, and go to state 95
-    MINUS        shift, and go to state 96
-    TIMES        shift, and go to state 97
-    DIVIDE       shift, and go to state 98
-    MOD          shift, and go to state 99
-    PPLUS        shift, and go to state 100
-    MMINUS       shift, and go to state 101
-    AND          shift, and go to state 102
-    OR           shift, and go to state 103
-    EQU          shift, and go to state 104
-    GTR          shift, and go to state 105
-    LSS          shift, and go to state 106
-    GEQ          shift, and go to state 107
-    LEQ          shift, and go to state 108
-    NEQ          shift, and go to state 109
-    LOGICAL_AND  shift, and go to state 110
-    LOGICAL_OR   shift, and go to state 111
+    SEMICOLON    shift, and go to state 115
+    PLUS         shift, and go to state 89
+    MINUS        shift, and go to state 90
+    TIMES        shift, and go to state 91
+    DIVIDE       shift, and go to state 92
+    MOD          shift, and go to state 93
+    PPLUS        shift, and go to state 94
+    MMINUS       shift, and go to state 95
+    AND          shift, and go to state 96
+    OR           shift, and go to state 97
+    EQU          shift, and go to state 98
+    GTR          shift, and go to state 99
+    LSS          shift, and go to state 100
+    GEQ          shift, and go to state 101
+    LEQ          shift, and go to state 102
+    NEQ          shift, and go to state 103
+    LOGICAL_AND  shift, and go to state 104
+    LOGICAL_OR   shift, and go to state 105
 
 
-State 73
+State 67
 
    24 assignment_stmt: IDENTIFIER PLUS_ASSIGN expr . SEMICOLON
    68 expr: expr . PLUS expr
@@ -1287,27 +1223,27 @@ State 73
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    SEMICOLON    shift, and go to state 122
-    PLUS         shift, and go to state 95
-    MINUS        shift, and go to state 96
-    TIMES        shift, and go to state 97
-    DIVIDE       shift, and go to state 98
-    MOD          shift, and go to state 99
-    PPLUS        shift, and go to state 100
-    MMINUS       shift, and go to state 101
-    AND          shift, and go to state 102
-    OR           shift, and go to state 103
-    EQU          shift, and go to state 104
-    GTR          shift, and go to state 105
-    LSS          shift, and go to state 106
-    GEQ          shift, and go to state 107
-    LEQ          shift, and go to state 108
-    NEQ          shift, and go to state 109
-    LOGICAL_AND  shift, and go to state 110
-    LOGICAL_OR   shift, and go to state 111
+    SEMICOLON    shift, and go to state 116
+    PLUS         shift, and go to state 89
+    MINUS        shift, and go to state 90
+    TIMES        shift, and go to state 91
+    DIVIDE       shift, and go to state 92
+    MOD          shift, and go to state 93
+    PPLUS        shift, and go to state 94
+    MMINUS       shift, and go to state 95
+    AND          shift, and go to state 96
+    OR           shift, and go to state 97
+    EQU          shift, and go to state 98
+    GTR          shift, and go to state 99
+    LSS          shift, and go to state 100
+    GEQ          shift, and go to state 101
+    LEQ          shift, and go to state 102
+    NEQ          shift, and go to state 103
+    LOGICAL_AND  shift, and go to state 104
+    LOGICAL_OR   shift, and go to state 105
 
 
-State 74
+State 68
 
    25 assignment_stmt: IDENTIFIER MIN_ASSIGN expr . SEMICOLON
    68 expr: expr . PLUS expr
@@ -1328,27 +1264,27 @@ State 74
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    SEMICOLON    shift, and go to state 123
-    PLUS         shift, and go to state 95
-    MINUS        shift, and go to state 96
-    TIMES        shift, and go to state 97
-    DIVIDE       shift, and go to state 98
-    MOD          shift, and go to state 99
-    PPLUS        shift, and go to state 100
-    MMINUS       shift, and go to state 101
-    AND          shift, and go to state 102
-    OR           shift, and go to state 103
-    EQU          shift, and go to state 104
-    GTR          shift, and go to state 105
-    LSS          shift, and go to state 106
-    GEQ          shift, and go to state 107
-    LEQ          shift, and go to state 108
-    NEQ          shift, and go to state 109
-    LOGICAL_AND  shift, and go to state 110
-    LOGICAL_OR   shift, and go to state 111
+    SEMICOLON    shift, and go to state 117
+    PLUS         shift, and go to state 89
+    MINUS        shift, and go to state 90
+    TIMES        shift, and go to state 91
+    DIVIDE       shift, and go to state 92
+    MOD          shift, and go to state 93
+    PPLUS        shift, and go to state 94
+    MMINUS       shift, and go to state 95
+    AND          shift, and go to state 96
+    OR           shift, and go to state 97
+    EQU          shift, and go to state 98
+    GTR          shift, and go to state 99
+    LSS          shift, and go to state 100
+    GEQ          shift, and go to state 101
+    LEQ          shift, and go to state 102
+    NEQ          shift, and go to state 103
+    LOGICAL_AND  shift, and go to state 104
+    LOGICAL_OR   shift, and go to state 105
 
 
-State 75
+State 69
 
    26 assignment_stmt: IDENTIFIER TIM_ASSIGN expr . SEMICOLON
    68 expr: expr . PLUS expr
@@ -1369,27 +1305,27 @@ State 75
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    SEMICOLON    shift, and go to state 124
-    PLUS         shift, and go to state 95
-    MINUS        shift, and go to state 96
-    TIMES        shift, and go to state 97
-    DIVIDE       shift, and go to state 98
-    MOD          shift, and go to state 99
-    PPLUS        shift, and go to state 100
-    MMINUS       shift, and go to state 101
-    AND          shift, and go to state 102
-    OR           shift, and go to state 103
-    EQU          shift, and go to state 104
-    GTR          shift, and go to state 105
-    LSS          shift, and go to state 106
-    GEQ          shift, and go to state 107
-    LEQ          shift, and go to state 108
-    NEQ          shift, and go to state 109
-    LOGICAL_AND  shift, and go to state 110
-    LOGICAL_OR   shift, and go to state 111
+    SEMICOLON    shift, and go to state 118
+    PLUS         shift, and go to state 89
+    MINUS        shift, and go to state 90
+    TIMES        shift, and go to state 91
+    DIVIDE       shift, and go to state 92
+    MOD          shift, and go to state 93
+    PPLUS        shift, and go to state 94
+    MMINUS       shift, and go to state 95
+    AND          shift, and go to state 96
+    OR           shift, and go to state 97
+    EQU          shift, and go to state 98
+    GTR          shift, and go to state 99
+    LSS          shift, and go to state 100
+    GEQ          shift, and go to state 101
+    LEQ          shift, and go to state 102
+    NEQ          shift, and go to state 103
+    LOGICAL_AND  shift, and go to state 104
+    LOGICAL_OR   shift, and go to state 105
 
 
-State 76
+State 70
 
    27 assignment_stmt: IDENTIFIER DIV_ASSIGN expr . SEMICOLON
    68 expr: expr . PLUS expr
@@ -1410,27 +1346,27 @@ State 76
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    SEMICOLON    shift, and go to state 125
-    PLUS         shift, and go to state 95
-    MINUS        shift, and go to state 96
-    TIMES        shift, and go to state 97
-    DIVIDE       shift, and go to state 98
-    MOD          shift, and go to state 99
-    PPLUS        shift, and go to state 100
-    MMINUS       shift, and go to state 101
-    AND          shift, and go to state 102
-    OR           shift, and go to state 103
-    EQU          shift, and go to state 104
-    GTR          shift, and go to state 105
-    LSS          shift, and go to state 106
-    GEQ          shift, and go to state 107
-    LEQ          shift, and go to state 108
-    NEQ          shift, and go to state 109
-    LOGICAL_AND  shift, and go to state 110
-    LOGICAL_OR   shift, and go to state 111
+    SEMICOLON    shift, and go to state 119
+    PLUS         shift, and go to state 89
+    MINUS        shift, and go to state 90
+    TIMES        shift, and go to state 91
+    DIVIDE       shift, and go to state 92
+    MOD          shift, and go to state 93
+    PPLUS        shift, and go to state 94
+    MMINUS       shift, and go to state 95
+    AND          shift, and go to state 96
+    OR           shift, and go to state 97
+    EQU          shift, and go to state 98
+    GTR          shift, and go to state 99
+    LSS          shift, and go to state 100
+    GEQ          shift, and go to state 101
+    LEQ          shift, and go to state 102
+    NEQ          shift, and go to state 103
+    LOGICAL_AND  shift, and go to state 104
+    LOGICAL_OR   shift, and go to state 105
 
 
-State 77
+State 71
 
    28 assignment_stmt: IDENTIFIER MOD_ASSIGN expr . SEMICOLON
    68 expr: expr . PLUS expr
@@ -1451,65 +1387,65 @@ State 77
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    SEMICOLON    shift, and go to state 126
-    PLUS         shift, and go to state 95
-    MINUS        shift, and go to state 96
-    TIMES        shift, and go to state 97
-    DIVIDE       shift, and go to state 98
-    MOD          shift, and go to state 99
-    PPLUS        shift, and go to state 100
-    MMINUS       shift, and go to state 101
-    AND          shift, and go to state 102
-    OR           shift, and go to state 103
-    EQU          shift, and go to state 104
-    GTR          shift, and go to state 105
-    LSS          shift, and go to state 106
-    GEQ          shift, and go to state 107
-    LEQ          shift, and go to state 108
-    NEQ          shift, and go to state 109
-    LOGICAL_AND  shift, and go to state 110
-    LOGICAL_OR   shift, and go to state 111
+    SEMICOLON    shift, and go to state 120
+    PLUS         shift, and go to state 89
+    MINUS        shift, and go to state 90
+    TIMES        shift, and go to state 91
+    DIVIDE       shift, and go to state 92
+    MOD          shift, and go to state 93
+    PPLUS        shift, and go to state 94
+    MMINUS       shift, and go to state 95
+    AND          shift, and go to state 96
+    OR           shift, and go to state 97
+    EQU          shift, and go to state 98
+    GTR          shift, and go to state 99
+    LSS          shift, and go to state 100
+    GEQ          shift, and go to state 101
+    LEQ          shift, and go to state 102
+    NEQ          shift, and go to state 103
+    LOGICAL_AND  shift, and go to state 104
+    LOGICAL_OR   shift, and go to state 105
 
 
-State 78
+State 72
 
    67 function_call: IDENTIFIER LP RP . SEMICOLON
 
-    SEMICOLON  shift, and go to state 127
+    SEMICOLON  shift, and go to state 121
 
 
-State 79
+State 73
 
    63 function_call_id: TIMES . IDENTIFIER
 
-    IDENTIFIER  shift, and go to state 128
+    IDENTIFIER  shift, and go to state 122
 
 
-State 80
+State 74
 
    62 function_call_id: AND . IDENTIFIER
 
-    IDENTIFIER  shift, and go to state 129
+    IDENTIFIER  shift, and go to state 123
 
 
-State 81
+State 75
 
    64 function_call_idlist: function_call_id .
    65                     | function_call_id . COMMA function_call_idlist
 
-    COMMA  shift, and go to state 130
+    COMMA  shift, and go to state 124
 
     $default  reduce using rule 64 (function_call_idlist)
 
 
-State 82
+State 76
 
    66 function_call: IDENTIFIER LP function_call_idlist . RP SEMICOLON
 
-    RP  shift, and go to state 131
+    RP  shift, and go to state 125
 
 
-State 83
+State 77
 
    61 function_call_id: expr .
    68 expr: expr . PLUS expr
@@ -1530,56 +1466,56 @@ State 83
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    PLUS         shift, and go to state 95
-    MINUS        shift, and go to state 96
-    TIMES        shift, and go to state 97
-    DIVIDE       shift, and go to state 98
-    MOD          shift, and go to state 99
-    PPLUS        shift, and go to state 100
-    MMINUS       shift, and go to state 101
-    AND          shift, and go to state 102
-    OR           shift, and go to state 103
-    EQU          shift, and go to state 104
-    GTR          shift, and go to state 105
-    LSS          shift, and go to state 106
-    GEQ          shift, and go to state 107
-    LEQ          shift, and go to state 108
-    NEQ          shift, and go to state 109
-    LOGICAL_AND  shift, and go to state 110
-    LOGICAL_OR   shift, and go to state 111
+    PLUS         shift, and go to state 89
+    MINUS        shift, and go to state 90
+    TIMES        shift, and go to state 91
+    DIVIDE       shift, and go to state 92
+    MOD          shift, and go to state 93
+    PPLUS        shift, and go to state 94
+    MMINUS       shift, and go to state 95
+    AND          shift, and go to state 96
+    OR           shift, and go to state 97
+    EQU          shift, and go to state 98
+    GTR          shift, and go to state 99
+    LSS          shift, and go to state 100
+    GEQ          shift, and go to state 101
+    LEQ          shift, and go to state 102
+    NEQ          shift, and go to state 103
+    LOGICAL_AND  shift, and go to state 104
+    LOGICAL_OR   shift, and go to state 105
 
     $default  reduce using rule 61 (function_call_id)
 
 
-State 84
+State 78
 
    34 for_stmt: FOR LP SEMICOLON . expr SEMICOLON expr RP statements
    37         | FOR LP SEMICOLON . SEMICOLON expr RP statements
    38         | FOR LP SEMICOLON . expr SEMICOLON RP statements
    40         | FOR LP SEMICOLON . SEMICOLON RP statements
 
-    SEMICOLON    shift, and go to state 132
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    SEMICOLON    shift, and go to state 126
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
-    expr  go to state 133
+    expr  go to state 127
 
 
-State 85
+State 79
 
    33 for_stmt: FOR LP declaration . SEMICOLON expr SEMICOLON expr RP statements
 
-    SEMICOLON  shift, and go to state 134
+    SEMICOLON  shift, and go to state 128
 
 
-State 86
+State 80
 
    32 for_stmt: FOR LP expr . SEMICOLON expr SEMICOLON expr RP statements
    35         | FOR LP expr . SEMICOLON SEMICOLON expr RP statements
@@ -1603,37 +1539,41 @@ State 86
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    SEMICOLON    shift, and go to state 135
-    PLUS         shift, and go to state 95
-    MINUS        shift, and go to state 96
-    TIMES        shift, and go to state 97
-    DIVIDE       shift, and go to state 98
-    MOD          shift, and go to state 99
-    PPLUS        shift, and go to state 100
-    MMINUS       shift, and go to state 101
-    AND          shift, and go to state 102
-    OR           shift, and go to state 103
-    EQU          shift, and go to state 104
-    GTR          shift, and go to state 105
-    LSS          shift, and go to state 106
-    GEQ          shift, and go to state 107
-    LEQ          shift, and go to state 108
-    NEQ          shift, and go to state 109
-    LOGICAL_AND  shift, and go to state 110
-    LOGICAL_OR   shift, and go to state 111
+    SEMICOLON    shift, and go to state 129
+    PLUS         shift, and go to state 89
+    MINUS        shift, and go to state 90
+    TIMES        shift, and go to state 91
+    DIVIDE       shift, and go to state 92
+    MOD          shift, and go to state 93
+    PPLUS        shift, and go to state 94
+    MMINUS       shift, and go to state 95
+    AND          shift, and go to state 96
+    OR           shift, and go to state 97
+    EQU          shift, and go to state 98
+    GTR          shift, and go to state 99
+    LSS          shift, and go to state 100
+    GEQ          shift, and go to state 101
+    LEQ          shift, and go to state 102
+    NEQ          shift, and go to state 103
+    LOGICAL_AND  shift, and go to state 104
+    LOGICAL_OR   shift, and go to state 105
 
 
-State 87
+State 81
 
    42 declaration: T . IDENTIFIER LOP_ASSIGN expr
    43            | T . IDLIST
+   99 T: T . TIMES
+  100  | T . AND
 
-    IDENTIFIER  shift, and go to state 136
+    IDENTIFIER  shift, and go to state 130
+    TIMES       shift, and go to state 61
+    AND         shift, and go to state 62
 
-    IDLIST  go to state 70
+    IDLIST  go to state 64
 
 
-State 88
+State 82
 
    30 if_stmt: IF LP expr . RP statements
    68 expr: expr . PLUS expr
@@ -1654,27 +1594,27 @@ State 88
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    RP           shift, and go to state 137
-    PLUS         shift, and go to state 95
-    MINUS        shift, and go to state 96
-    TIMES        shift, and go to state 97
-    DIVIDE       shift, and go to state 98
-    MOD          shift, and go to state 99
-    PPLUS        shift, and go to state 100
-    MMINUS       shift, and go to state 101
-    AND          shift, and go to state 102
-    OR           shift, and go to state 103
-    EQU          shift, and go to state 104
-    GTR          shift, and go to state 105
-    LSS          shift, and go to state 106
-    GEQ          shift, and go to state 107
-    LEQ          shift, and go to state 108
-    NEQ          shift, and go to state 109
-    LOGICAL_AND  shift, and go to state 110
-    LOGICAL_OR   shift, and go to state 111
+    RP           shift, and go to state 131
+    PLUS         shift, and go to state 89
+    MINUS        shift, and go to state 90
+    TIMES        shift, and go to state 91
+    DIVIDE       shift, and go to state 92
+    MOD          shift, and go to state 93
+    PPLUS        shift, and go to state 94
+    MMINUS       shift, and go to state 95
+    AND          shift, and go to state 96
+    OR           shift, and go to state 97
+    EQU          shift, and go to state 98
+    GTR          shift, and go to state 99
+    LSS          shift, and go to state 100
+    GEQ          shift, and go to state 101
+    LEQ          shift, and go to state 102
+    NEQ          shift, and go to state 103
+    LOGICAL_AND  shift, and go to state 104
+    LOGICAL_OR   shift, and go to state 105
 
 
-State 89
+State 83
 
    41 while_stmt: WHILE LP expr . RP statements
    68 expr: expr . PLUS expr
@@ -1695,27 +1635,27 @@ State 89
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    RP           shift, and go to state 138
-    PLUS         shift, and go to state 95
-    MINUS        shift, and go to state 96
-    TIMES        shift, and go to state 97
-    DIVIDE       shift, and go to state 98
-    MOD          shift, and go to state 99
-    PPLUS        shift, and go to state 100
-    MMINUS       shift, and go to state 101
-    AND          shift, and go to state 102
-    OR           shift, and go to state 103
-    EQU          shift, and go to state 104
-    GTR          shift, and go to state 105
-    LSS          shift, and go to state 106
-    GEQ          shift, and go to state 107
-    LEQ          shift, and go to state 108
-    NEQ          shift, and go to state 109
-    LOGICAL_AND  shift, and go to state 110
-    LOGICAL_OR   shift, and go to state 111
+    RP           shift, and go to state 132
+    PLUS         shift, and go to state 89
+    MINUS        shift, and go to state 90
+    TIMES        shift, and go to state 91
+    DIVIDE       shift, and go to state 92
+    MOD          shift, and go to state 93
+    PPLUS        shift, and go to state 94
+    MMINUS       shift, and go to state 95
+    AND          shift, and go to state 96
+    OR           shift, and go to state 97
+    EQU          shift, and go to state 98
+    GTR          shift, and go to state 99
+    LSS          shift, and go to state 100
+    GEQ          shift, and go to state 101
+    LEQ          shift, and go to state 102
+    NEQ          shift, and go to state 103
+    LOGICAL_AND  shift, and go to state 104
+    LOGICAL_OR   shift, and go to state 105
 
 
-State 90
+State 84
 
    68 expr: expr . PLUS expr
    69     | expr . MINUS expr
@@ -1736,27 +1676,27 @@ State 90
    85     | expr . LOGICAL_OR expr
    88     | LP expr . RP
 
-    RP           shift, and go to state 139
-    PLUS         shift, and go to state 95
-    MINUS        shift, and go to state 96
-    TIMES        shift, and go to state 97
-    DIVIDE       shift, and go to state 98
-    MOD          shift, and go to state 99
-    PPLUS        shift, and go to state 100
-    MMINUS       shift, and go to state 101
-    AND          shift, and go to state 102
-    OR           shift, and go to state 103
-    EQU          shift, and go to state 104
-    GTR          shift, and go to state 105
-    LSS          shift, and go to state 106
-    GEQ          shift, and go to state 107
-    LEQ          shift, and go to state 108
-    NEQ          shift, and go to state 109
-    LOGICAL_AND  shift, and go to state 110
-    LOGICAL_OR   shift, and go to state 111
+    RP           shift, and go to state 133
+    PLUS         shift, and go to state 89
+    MINUS        shift, and go to state 90
+    TIMES        shift, and go to state 91
+    DIVIDE       shift, and go to state 92
+    MOD          shift, and go to state 93
+    PPLUS        shift, and go to state 94
+    MMINUS       shift, and go to state 95
+    AND          shift, and go to state 96
+    OR           shift, and go to state 97
+    EQU          shift, and go to state 98
+    GTR          shift, and go to state 99
+    LSS          shift, and go to state 100
+    GEQ          shift, and go to state 101
+    LEQ          shift, and go to state 102
+    NEQ          shift, and go to state 103
+    LOGICAL_AND  shift, and go to state 104
+    LOGICAL_OR   shift, and go to state 105
 
 
-State 91
+State 85
 
    68 expr: expr . PLUS expr
    69     | expr . MINUS expr
@@ -1777,13 +1717,13 @@ State 91
    85     | expr . LOGICAL_OR expr
    87     | MINUS expr .
 
-    PPLUS   shift, and go to state 100
-    MMINUS  shift, and go to state 101
+    PPLUS   shift, and go to state 94
+    MMINUS  shift, and go to state 95
 
     $default  reduce using rule 87 (expr)
 
 
-State 92
+State 86
 
    68 expr: expr . PLUS expr
    69     | expr . MINUS expr
@@ -1804,13 +1744,13 @@ State 92
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    PPLUS   shift, and go to state 100
-    MMINUS  shift, and go to state 101
+    PPLUS   shift, and go to state 94
+    MMINUS  shift, and go to state 95
 
     $default  reduce using rule 77 (expr)
 
 
-State 93
+State 87
 
    68 expr: expr . PLUS expr
    69     | expr . MINUS expr
@@ -1831,350 +1771,350 @@ State 93
    85     | expr . LOGICAL_OR expr
    86     | LOGICAL_NOT expr .
 
-    PPLUS   shift, and go to state 100
-    MMINUS  shift, and go to state 101
+    PPLUS   shift, and go to state 94
+    MMINUS  shift, and go to state 95
 
     $default  reduce using rule 86 (expr)
 
 
-State 94
+State 88
 
    52 function_return: RETURN expr SEMICOLON .
 
     $default  reduce using rule 52 (function_return)
 
 
-State 95
+State 89
 
    68 expr: expr PLUS . expr
 
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
-    expr  go to state 140
+    expr  go to state 134
 
 
-State 96
+State 90
 
    69 expr: expr MINUS . expr
 
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
-    expr  go to state 141
+    expr  go to state 135
 
 
-State 97
+State 91
 
    70 expr: expr TIMES . expr
 
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
-    expr  go to state 142
+    expr  go to state 136
 
 
-State 98
+State 92
 
    71 expr: expr DIVIDE . expr
 
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
-    expr  go to state 143
+    expr  go to state 137
 
 
-State 99
+State 93
 
    72 expr: expr MOD . expr
 
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
-    expr  go to state 144
+    expr  go to state 138
 
 
-State 100
+State 94
 
    74 expr: expr PPLUS .
 
     $default  reduce using rule 74 (expr)
 
 
-State 101
+State 95
 
    73 expr: expr MMINUS .
 
     $default  reduce using rule 73 (expr)
 
 
-State 102
+State 96
 
    75 expr: expr AND . expr
 
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
+
+    expr  go to state 139
+
+
+State 97
+
+   76 expr: expr OR . expr
+
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
+
+    expr  go to state 140
+
+
+State 98
+
+   78 expr: expr EQU . expr
+
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
+
+    expr  go to state 141
+
+
+State 99
+
+   79 expr: expr GTR . expr
+
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
+
+    expr  go to state 142
+
+
+State 100
+
+   80 expr: expr LSS . expr
+
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
+
+    expr  go to state 143
+
+
+State 101
+
+   81 expr: expr GEQ . expr
+
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
+
+    expr  go to state 144
+
+
+State 102
+
+   82 expr: expr LEQ . expr
+
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
     expr  go to state 145
 
 
 State 103
 
-   76 expr: expr OR . expr
+   83 expr: expr NEQ . expr
 
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
     expr  go to state 146
 
 
 State 104
 
-   78 expr: expr EQU . expr
+   84 expr: expr LOGICAL_AND . expr
 
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
     expr  go to state 147
 
 
 State 105
 
-   79 expr: expr GTR . expr
+   85 expr: expr LOGICAL_OR . expr
 
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
     expr  go to state 148
 
 
 State 106
 
-   80 expr: expr LSS . expr
+   20 scanf_function: SCANF LP RP . SEMICOLON
 
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
-
-    expr  go to state 149
+    SEMICOLON  shift, and go to state 149
 
 
 State 107
 
-   81 expr: expr GEQ . expr
+   19 scanf_function: SCANF LP function_call_idlist . RP SEMICOLON
 
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
-
-    expr  go to state 150
+    RP  shift, and go to state 150
 
 
 State 108
 
-   82 expr: expr LEQ . expr
+   22 printf_function: PRINTF LP RP . SEMICOLON
 
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
-
-    expr  go to state 151
+    SEMICOLON  shift, and go to state 151
 
 
 State 109
 
-   83 expr: expr NEQ . expr
+   21 printf_function: PRINTF LP function_call_idlist . RP SEMICOLON
 
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
-
-    expr  go to state 152
+    RP  shift, and go to state 152
 
 
 State 110
-
-   84 expr: expr LOGICAL_AND . expr
-
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
-
-    expr  go to state 153
-
-
-State 111
-
-   85 expr: expr LOGICAL_OR . expr
-
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
-
-    expr  go to state 154
-
-
-State 112
-
-   20 scanf_function: SCANF LP RP . SEMICOLON
-
-    SEMICOLON  shift, and go to state 155
-
-
-State 113
-
-   19 scanf_function: SCANF LP function_call_idlist . RP SEMICOLON
-
-    RP  shift, and go to state 156
-
-
-State 114
-
-   22 printf_function: PRINTF LP RP . SEMICOLON
-
-    SEMICOLON  shift, and go to state 157
-
-
-State 115
-
-   21 printf_function: PRINTF LP function_call_idlist . RP SEMICOLON
-
-    RP  shift, and go to state 158
-
-
-State 116
 
    29 else_stmt: ELSE statements .
 
     $default  reduce using rule 29 (else_stmt)
 
 
-State 117
+State 111
 
    42 declaration: T IDENTIFIER LOP_ASSIGN . expr
 
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
-    expr  go to state 159
+    expr  go to state 153
 
 
-State 118
+State 112
 
    44 IDLIST: IDENTIFIER COMMA . IDLIST
 
-    IDENTIFIER  shift, and go to state 160
+    IDENTIFIER  shift, and go to state 154
 
-    IDLIST  go to state 161
+    IDLIST  go to state 155
 
 
-State 119
+State 113
 
    57 function_declaration: T IDENTIFIER LP . function_declaration_idlist RP SEMICOLON
    58                     | T IDENTIFIER LP . RP SEMICOLON
@@ -2186,133 +2126,133 @@ State 119
     T_BOOL    shift, and go to state 3
     T_DOUBLE  shift, and go to state 4
     T_VOID    shift, and go to state 5
-    RP        shift, and go to state 162
+    RP        shift, and go to state 156
 
-    function_declaration_id      go to state 163
-    function_declaration_idlist  go to state 164
-    function_definition_id       go to state 165
-    function_definition_idlist   go to state 166
-    T                            go to state 167
+    function_declaration_id      go to state 157
+    function_declaration_idlist  go to state 158
+    function_definition_id       go to state 159
+    function_definition_idlist   go to state 160
+    T                            go to state 161
 
 
-State 120
+State 114
 
     5 statement: T MAIN LP . RP statements
 
-    RP  shift, and go to state 168
+    RP  shift, and go to state 162
 
 
-State 121
+State 115
 
    23 assignment_stmt: IDENTIFIER LOP_ASSIGN expr SEMICOLON .
 
     $default  reduce using rule 23 (assignment_stmt)
 
 
-State 122
+State 116
 
    24 assignment_stmt: IDENTIFIER PLUS_ASSIGN expr SEMICOLON .
 
     $default  reduce using rule 24 (assignment_stmt)
 
 
-State 123
+State 117
 
    25 assignment_stmt: IDENTIFIER MIN_ASSIGN expr SEMICOLON .
 
     $default  reduce using rule 25 (assignment_stmt)
 
 
-State 124
+State 118
 
    26 assignment_stmt: IDENTIFIER TIM_ASSIGN expr SEMICOLON .
 
     $default  reduce using rule 26 (assignment_stmt)
 
 
-State 125
+State 119
 
    27 assignment_stmt: IDENTIFIER DIV_ASSIGN expr SEMICOLON .
 
     $default  reduce using rule 27 (assignment_stmt)
 
 
-State 126
+State 120
 
    28 assignment_stmt: IDENTIFIER MOD_ASSIGN expr SEMICOLON .
 
     $default  reduce using rule 28 (assignment_stmt)
 
 
-State 127
+State 121
 
    67 function_call: IDENTIFIER LP RP SEMICOLON .
 
     $default  reduce using rule 67 (function_call)
 
 
-State 128
+State 122
 
    63 function_call_id: TIMES IDENTIFIER .
 
     $default  reduce using rule 63 (function_call_id)
 
 
-State 129
+State 123
 
    62 function_call_id: AND IDENTIFIER .
 
     $default  reduce using rule 62 (function_call_id)
 
 
-State 130
+State 124
 
    65 function_call_idlist: function_call_id COMMA . function_call_idlist
 
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    TIMES        shift, and go to state 79
-    AND          shift, and go to state 80
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    TIMES        shift, and go to state 73
+    AND          shift, and go to state 74
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
-    function_call_id      go to state 81
-    function_call_idlist  go to state 169
-    expr                  go to state 83
+    function_call_id      go to state 75
+    function_call_idlist  go to state 163
+    expr                  go to state 77
 
 
-State 131
+State 125
 
    66 function_call: IDENTIFIER LP function_call_idlist RP . SEMICOLON
 
-    SEMICOLON  shift, and go to state 170
+    SEMICOLON  shift, and go to state 164
 
 
-State 132
+State 126
 
    37 for_stmt: FOR LP SEMICOLON SEMICOLON . expr RP statements
    40         | FOR LP SEMICOLON SEMICOLON . RP statements
 
-    LP           shift, and go to state 51
-    RP           shift, and go to state 171
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    LP           shift, and go to state 43
+    RP           shift, and go to state 165
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
-    expr  go to state 172
+    expr  go to state 166
 
 
-State 133
+State 127
 
    34 for_stmt: FOR LP SEMICOLON expr . SEMICOLON expr RP statements
    38         | FOR LP SEMICOLON expr . SEMICOLON RP statements
@@ -2334,77 +2274,77 @@ State 133
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    SEMICOLON    shift, and go to state 173
-    PLUS         shift, and go to state 95
-    MINUS        shift, and go to state 96
-    TIMES        shift, and go to state 97
-    DIVIDE       shift, and go to state 98
-    MOD          shift, and go to state 99
-    PPLUS        shift, and go to state 100
-    MMINUS       shift, and go to state 101
-    AND          shift, and go to state 102
-    OR           shift, and go to state 103
-    EQU          shift, and go to state 104
-    GTR          shift, and go to state 105
-    LSS          shift, and go to state 106
-    GEQ          shift, and go to state 107
-    LEQ          shift, and go to state 108
-    NEQ          shift, and go to state 109
-    LOGICAL_AND  shift, and go to state 110
-    LOGICAL_OR   shift, and go to state 111
+    SEMICOLON    shift, and go to state 167
+    PLUS         shift, and go to state 89
+    MINUS        shift, and go to state 90
+    TIMES        shift, and go to state 91
+    DIVIDE       shift, and go to state 92
+    MOD          shift, and go to state 93
+    PPLUS        shift, and go to state 94
+    MMINUS       shift, and go to state 95
+    AND          shift, and go to state 96
+    OR           shift, and go to state 97
+    EQU          shift, and go to state 98
+    GTR          shift, and go to state 99
+    LSS          shift, and go to state 100
+    GEQ          shift, and go to state 101
+    LEQ          shift, and go to state 102
+    NEQ          shift, and go to state 103
+    LOGICAL_AND  shift, and go to state 104
+    LOGICAL_OR   shift, and go to state 105
 
 
-State 134
+State 128
 
    33 for_stmt: FOR LP declaration SEMICOLON . expr SEMICOLON expr RP statements
 
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
-    expr  go to state 174
+    expr  go to state 168
 
 
-State 135
+State 129
 
    32 for_stmt: FOR LP expr SEMICOLON . expr SEMICOLON expr RP statements
    35         | FOR LP expr SEMICOLON . SEMICOLON expr RP statements
    36         | FOR LP expr SEMICOLON . expr SEMICOLON RP statements
    39         | FOR LP expr SEMICOLON . SEMICOLON RP statements
 
-    SEMICOLON    shift, and go to state 175
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    SEMICOLON    shift, and go to state 169
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
-    expr  go to state 176
+    expr  go to state 170
 
 
-State 136
+State 130
 
    42 declaration: T IDENTIFIER . LOP_ASSIGN expr
    44 IDLIST: IDENTIFIER . COMMA IDLIST
    45       | IDENTIFIER .
 
-    LOP_ASSIGN  shift, and go to state 117
-    COMMA       shift, and go to state 118
+    LOP_ASSIGN  shift, and go to state 111
+    COMMA       shift, and go to state 112
 
     $default  reduce using rule 45 (IDLIST)
 
 
-State 137
+State 131
 
    30 if_stmt: IF LP expr RP . statements
 
@@ -2423,7 +2363,7 @@ State 137
     SCANF       shift, and go to state 13
     PRINTF      shift, and go to state 14
 
-    statements            go to state 177
+    statements            go to state 171
     statement             go to state 17
     scanf_function        go to state 18
     printf_function       go to state 19
@@ -2440,7 +2380,7 @@ State 137
     T                     go to state 30
 
 
-State 138
+State 132
 
    41 while_stmt: WHILE LP expr RP . statements
 
@@ -2459,7 +2399,7 @@ State 138
     SCANF       shift, and go to state 13
     PRINTF      shift, and go to state 14
 
-    statements            go to state 178
+    statements            go to state 172
     statement             go to state 17
     scanf_function        go to state 18
     printf_function       go to state 19
@@ -2476,14 +2416,14 @@ State 138
     T                     go to state 30
 
 
-State 139
+State 133
 
    88 expr: LP expr RP .
 
     $default  reduce using rule 88 (expr)
 
 
-State 140
+State 134
 
    68 expr: expr . PLUS expr
    68     | expr PLUS expr .
@@ -2504,16 +2444,16 @@ State 140
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    TIMES   shift, and go to state 97
-    DIVIDE  shift, and go to state 98
-    MOD     shift, and go to state 99
-    PPLUS   shift, and go to state 100
-    MMINUS  shift, and go to state 101
+    TIMES   shift, and go to state 91
+    DIVIDE  shift, and go to state 92
+    MOD     shift, and go to state 93
+    PPLUS   shift, and go to state 94
+    MMINUS  shift, and go to state 95
 
     $default  reduce using rule 68 (expr)
 
 
-State 141
+State 135
 
    68 expr: expr . PLUS expr
    69     | expr . MINUS expr
@@ -2534,16 +2474,16 @@ State 141
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    TIMES   shift, and go to state 97
-    DIVIDE  shift, and go to state 98
-    MOD     shift, and go to state 99
-    PPLUS   shift, and go to state 100
-    MMINUS  shift, and go to state 101
+    TIMES   shift, and go to state 91
+    DIVIDE  shift, and go to state 92
+    MOD     shift, and go to state 93
+    PPLUS   shift, and go to state 94
+    MMINUS  shift, and go to state 95
 
     $default  reduce using rule 69 (expr)
 
 
-State 142
+State 136
 
    68 expr: expr . PLUS expr
    69     | expr . MINUS expr
@@ -2564,13 +2504,13 @@ State 142
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    PPLUS   shift, and go to state 100
-    MMINUS  shift, and go to state 101
+    PPLUS   shift, and go to state 94
+    MMINUS  shift, and go to state 95
 
     $default  reduce using rule 70 (expr)
 
 
-State 143
+State 137
 
    68 expr: expr . PLUS expr
    69     | expr . MINUS expr
@@ -2591,13 +2531,13 @@ State 143
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    PPLUS   shift, and go to state 100
-    MMINUS  shift, and go to state 101
+    PPLUS   shift, and go to state 94
+    MMINUS  shift, and go to state 95
 
     $default  reduce using rule 71 (expr)
 
 
-State 144
+State 138
 
    68 expr: expr . PLUS expr
    69     | expr . MINUS expr
@@ -2618,13 +2558,13 @@ State 144
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    PPLUS   shift, and go to state 100
-    MMINUS  shift, and go to state 101
+    PPLUS   shift, and go to state 94
+    MMINUS  shift, and go to state 95
 
     $default  reduce using rule 72 (expr)
 
 
-State 145
+State 139
 
    68 expr: expr . PLUS expr
    69     | expr . MINUS expr
@@ -2645,24 +2585,24 @@ State 145
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    PLUS    shift, and go to state 95
-    MINUS   shift, and go to state 96
-    TIMES   shift, and go to state 97
-    DIVIDE  shift, and go to state 98
-    MOD     shift, and go to state 99
-    PPLUS   shift, and go to state 100
-    MMINUS  shift, and go to state 101
-    EQU     shift, and go to state 104
-    GTR     shift, and go to state 105
-    LSS     shift, and go to state 106
-    GEQ     shift, and go to state 107
-    LEQ     shift, and go to state 108
-    NEQ     shift, and go to state 109
+    PLUS    shift, and go to state 89
+    MINUS   shift, and go to state 90
+    TIMES   shift, and go to state 91
+    DIVIDE  shift, and go to state 92
+    MOD     shift, and go to state 93
+    PPLUS   shift, and go to state 94
+    MMINUS  shift, and go to state 95
+    EQU     shift, and go to state 98
+    GTR     shift, and go to state 99
+    LSS     shift, and go to state 100
+    GEQ     shift, and go to state 101
+    LEQ     shift, and go to state 102
+    NEQ     shift, and go to state 103
 
     $default  reduce using rule 75 (expr)
 
 
-State 146
+State 140
 
    68 expr: expr . PLUS expr
    69     | expr . MINUS expr
@@ -2683,25 +2623,25 @@ State 146
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    PLUS    shift, and go to state 95
-    MINUS   shift, and go to state 96
-    TIMES   shift, and go to state 97
-    DIVIDE  shift, and go to state 98
-    MOD     shift, and go to state 99
-    PPLUS   shift, and go to state 100
-    MMINUS  shift, and go to state 101
-    AND     shift, and go to state 102
-    EQU     shift, and go to state 104
-    GTR     shift, and go to state 105
-    LSS     shift, and go to state 106
-    GEQ     shift, and go to state 107
-    LEQ     shift, and go to state 108
-    NEQ     shift, and go to state 109
+    PLUS    shift, and go to state 89
+    MINUS   shift, and go to state 90
+    TIMES   shift, and go to state 91
+    DIVIDE  shift, and go to state 92
+    MOD     shift, and go to state 93
+    PPLUS   shift, and go to state 94
+    MMINUS  shift, and go to state 95
+    AND     shift, and go to state 96
+    EQU     shift, and go to state 98
+    GTR     shift, and go to state 99
+    LSS     shift, and go to state 100
+    GEQ     shift, and go to state 101
+    LEQ     shift, and go to state 102
+    NEQ     shift, and go to state 103
 
     $default  reduce using rule 76 (expr)
 
 
-State 147
+State 141
 
    68 expr: expr . PLUS expr
    69     | expr . MINUS expr
@@ -2722,22 +2662,22 @@ State 147
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    PLUS    shift, and go to state 95
-    MINUS   shift, and go to state 96
-    TIMES   shift, and go to state 97
-    DIVIDE  shift, and go to state 98
-    MOD     shift, and go to state 99
-    PPLUS   shift, and go to state 100
-    MMINUS  shift, and go to state 101
-    GTR     shift, and go to state 105
-    LSS     shift, and go to state 106
-    GEQ     shift, and go to state 107
-    LEQ     shift, and go to state 108
+    PLUS    shift, and go to state 89
+    MINUS   shift, and go to state 90
+    TIMES   shift, and go to state 91
+    DIVIDE  shift, and go to state 92
+    MOD     shift, and go to state 93
+    PPLUS   shift, and go to state 94
+    MMINUS  shift, and go to state 95
+    GTR     shift, and go to state 99
+    LSS     shift, and go to state 100
+    GEQ     shift, and go to state 101
+    LEQ     shift, and go to state 102
 
     $default  reduce using rule 78 (expr)
 
 
-State 148
+State 142
 
    68 expr: expr . PLUS expr
    69     | expr . MINUS expr
@@ -2758,18 +2698,18 @@ State 148
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    PLUS    shift, and go to state 95
-    MINUS   shift, and go to state 96
-    TIMES   shift, and go to state 97
-    DIVIDE  shift, and go to state 98
-    MOD     shift, and go to state 99
-    PPLUS   shift, and go to state 100
-    MMINUS  shift, and go to state 101
+    PLUS    shift, and go to state 89
+    MINUS   shift, and go to state 90
+    TIMES   shift, and go to state 91
+    DIVIDE  shift, and go to state 92
+    MOD     shift, and go to state 93
+    PPLUS   shift, and go to state 94
+    MMINUS  shift, and go to state 95
 
     $default  reduce using rule 79 (expr)
 
 
-State 149
+State 143
 
    68 expr: expr . PLUS expr
    69     | expr . MINUS expr
@@ -2790,18 +2730,18 @@ State 149
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    PLUS    shift, and go to state 95
-    MINUS   shift, and go to state 96
-    TIMES   shift, and go to state 97
-    DIVIDE  shift, and go to state 98
-    MOD     shift, and go to state 99
-    PPLUS   shift, and go to state 100
-    MMINUS  shift, and go to state 101
+    PLUS    shift, and go to state 89
+    MINUS   shift, and go to state 90
+    TIMES   shift, and go to state 91
+    DIVIDE  shift, and go to state 92
+    MOD     shift, and go to state 93
+    PPLUS   shift, and go to state 94
+    MMINUS  shift, and go to state 95
 
     $default  reduce using rule 80 (expr)
 
 
-State 150
+State 144
 
    68 expr: expr . PLUS expr
    69     | expr . MINUS expr
@@ -2822,18 +2762,18 @@ State 150
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    PLUS    shift, and go to state 95
-    MINUS   shift, and go to state 96
-    TIMES   shift, and go to state 97
-    DIVIDE  shift, and go to state 98
-    MOD     shift, and go to state 99
-    PPLUS   shift, and go to state 100
-    MMINUS  shift, and go to state 101
+    PLUS    shift, and go to state 89
+    MINUS   shift, and go to state 90
+    TIMES   shift, and go to state 91
+    DIVIDE  shift, and go to state 92
+    MOD     shift, and go to state 93
+    PPLUS   shift, and go to state 94
+    MMINUS  shift, and go to state 95
 
     $default  reduce using rule 81 (expr)
 
 
-State 151
+State 145
 
    68 expr: expr . PLUS expr
    69     | expr . MINUS expr
@@ -2854,18 +2794,18 @@ State 151
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    PLUS    shift, and go to state 95
-    MINUS   shift, and go to state 96
-    TIMES   shift, and go to state 97
-    DIVIDE  shift, and go to state 98
-    MOD     shift, and go to state 99
-    PPLUS   shift, and go to state 100
-    MMINUS  shift, and go to state 101
+    PLUS    shift, and go to state 89
+    MINUS   shift, and go to state 90
+    TIMES   shift, and go to state 91
+    DIVIDE  shift, and go to state 92
+    MOD     shift, and go to state 93
+    PPLUS   shift, and go to state 94
+    MMINUS  shift, and go to state 95
 
     $default  reduce using rule 82 (expr)
 
 
-State 152
+State 146
 
    68 expr: expr . PLUS expr
    69     | expr . MINUS expr
@@ -2886,22 +2826,22 @@ State 152
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    PLUS    shift, and go to state 95
-    MINUS   shift, and go to state 96
-    TIMES   shift, and go to state 97
-    DIVIDE  shift, and go to state 98
-    MOD     shift, and go to state 99
-    PPLUS   shift, and go to state 100
-    MMINUS  shift, and go to state 101
-    GTR     shift, and go to state 105
-    LSS     shift, and go to state 106
-    GEQ     shift, and go to state 107
-    LEQ     shift, and go to state 108
+    PLUS    shift, and go to state 89
+    MINUS   shift, and go to state 90
+    TIMES   shift, and go to state 91
+    DIVIDE  shift, and go to state 92
+    MOD     shift, and go to state 93
+    PPLUS   shift, and go to state 94
+    MMINUS  shift, and go to state 95
+    GTR     shift, and go to state 99
+    LSS     shift, and go to state 100
+    GEQ     shift, and go to state 101
+    LEQ     shift, and go to state 102
 
     $default  reduce using rule 83 (expr)
 
 
-State 153
+State 147
 
    68 expr: expr . PLUS expr
    69     | expr . MINUS expr
@@ -2922,26 +2862,26 @@ State 153
    84     | expr LOGICAL_AND expr .
    85     | expr . LOGICAL_OR expr
 
-    PLUS    shift, and go to state 95
-    MINUS   shift, and go to state 96
-    TIMES   shift, and go to state 97
-    DIVIDE  shift, and go to state 98
-    MOD     shift, and go to state 99
-    PPLUS   shift, and go to state 100
-    MMINUS  shift, and go to state 101
-    AND     shift, and go to state 102
-    OR      shift, and go to state 103
-    EQU     shift, and go to state 104
-    GTR     shift, and go to state 105
-    LSS     shift, and go to state 106
-    GEQ     shift, and go to state 107
-    LEQ     shift, and go to state 108
-    NEQ     shift, and go to state 109
+    PLUS    shift, and go to state 89
+    MINUS   shift, and go to state 90
+    TIMES   shift, and go to state 91
+    DIVIDE  shift, and go to state 92
+    MOD     shift, and go to state 93
+    PPLUS   shift, and go to state 94
+    MMINUS  shift, and go to state 95
+    AND     shift, and go to state 96
+    OR      shift, and go to state 97
+    EQU     shift, and go to state 98
+    GTR     shift, and go to state 99
+    LSS     shift, and go to state 100
+    GEQ     shift, and go to state 101
+    LEQ     shift, and go to state 102
+    NEQ     shift, and go to state 103
 
     $default  reduce using rule 84 (expr)
 
 
-State 154
+State 148
 
    68 expr: expr . PLUS expr
    69     | expr . MINUS expr
@@ -2962,55 +2902,55 @@ State 154
    85     | expr . LOGICAL_OR expr
    85     | expr LOGICAL_OR expr .
 
-    PLUS         shift, and go to state 95
-    MINUS        shift, and go to state 96
-    TIMES        shift, and go to state 97
-    DIVIDE       shift, and go to state 98
-    MOD          shift, and go to state 99
-    PPLUS        shift, and go to state 100
-    MMINUS       shift, and go to state 101
-    AND          shift, and go to state 102
-    OR           shift, and go to state 103
-    EQU          shift, and go to state 104
-    GTR          shift, and go to state 105
-    LSS          shift, and go to state 106
-    GEQ          shift, and go to state 107
-    LEQ          shift, and go to state 108
-    NEQ          shift, and go to state 109
-    LOGICAL_AND  shift, and go to state 110
+    PLUS         shift, and go to state 89
+    MINUS        shift, and go to state 90
+    TIMES        shift, and go to state 91
+    DIVIDE       shift, and go to state 92
+    MOD          shift, and go to state 93
+    PPLUS        shift, and go to state 94
+    MMINUS       shift, and go to state 95
+    AND          shift, and go to state 96
+    OR           shift, and go to state 97
+    EQU          shift, and go to state 98
+    GTR          shift, and go to state 99
+    LSS          shift, and go to state 100
+    GEQ          shift, and go to state 101
+    LEQ          shift, and go to state 102
+    NEQ          shift, and go to state 103
+    LOGICAL_AND  shift, and go to state 104
 
     $default  reduce using rule 85 (expr)
 
 
-State 155
+State 149
 
    20 scanf_function: SCANF LP RP SEMICOLON .
 
     $default  reduce using rule 20 (scanf_function)
 
 
-State 156
+State 150
 
    19 scanf_function: SCANF LP function_call_idlist RP . SEMICOLON
 
-    SEMICOLON  shift, and go to state 179
+    SEMICOLON  shift, and go to state 173
 
 
-State 157
+State 151
 
    22 printf_function: PRINTF LP RP SEMICOLON .
 
     $default  reduce using rule 22 (printf_function)
 
 
-State 158
+State 152
 
    21 printf_function: PRINTF LP function_call_idlist RP . SEMICOLON
 
-    SEMICOLON  shift, and go to state 180
+    SEMICOLON  shift, and go to state 174
 
 
-State 159
+State 153
 
    42 declaration: T IDENTIFIER LOP_ASSIGN expr .
    68 expr: expr . PLUS expr
@@ -3031,101 +2971,105 @@ State 159
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    PLUS         shift, and go to state 95
-    MINUS        shift, and go to state 96
-    TIMES        shift, and go to state 97
-    DIVIDE       shift, and go to state 98
-    MOD          shift, and go to state 99
-    PPLUS        shift, and go to state 100
-    MMINUS       shift, and go to state 101
-    AND          shift, and go to state 102
-    OR           shift, and go to state 103
-    EQU          shift, and go to state 104
-    GTR          shift, and go to state 105
-    LSS          shift, and go to state 106
-    GEQ          shift, and go to state 107
-    LEQ          shift, and go to state 108
-    NEQ          shift, and go to state 109
-    LOGICAL_AND  shift, and go to state 110
-    LOGICAL_OR   shift, and go to state 111
+    PLUS         shift, and go to state 89
+    MINUS        shift, and go to state 90
+    TIMES        shift, and go to state 91
+    DIVIDE       shift, and go to state 92
+    MOD          shift, and go to state 93
+    PPLUS        shift, and go to state 94
+    MMINUS       shift, and go to state 95
+    AND          shift, and go to state 96
+    OR           shift, and go to state 97
+    EQU          shift, and go to state 98
+    GTR          shift, and go to state 99
+    LSS          shift, and go to state 100
+    GEQ          shift, and go to state 101
+    LEQ          shift, and go to state 102
+    NEQ          shift, and go to state 103
+    LOGICAL_AND  shift, and go to state 104
+    LOGICAL_OR   shift, and go to state 105
 
     $default  reduce using rule 42 (declaration)
 
 
-State 160
+State 154
 
    44 IDLIST: IDENTIFIER . COMMA IDLIST
    45       | IDENTIFIER .
 
-    COMMA  shift, and go to state 118
+    COMMA  shift, and go to state 112
 
     $default  reduce using rule 45 (IDLIST)
 
 
-State 161
+State 155
 
    44 IDLIST: IDENTIFIER COMMA IDLIST .
 
     $default  reduce using rule 44 (IDLIST)
 
 
-State 162
+State 156
 
    58 function_declaration: T IDENTIFIER LP RP . SEMICOLON
    60 function_definition: T IDENTIFIER LP RP . LB statements RB
 
-    SEMICOLON  shift, and go to state 181
-    LB         shift, and go to state 182
+    SEMICOLON  shift, and go to state 175
+    LB         shift, and go to state 176
 
 
-State 163
+State 157
 
    49 function_declaration_idlist: function_declaration_id .
    50                            | function_declaration_id . COMMA function_declaration_idlist
 
-    COMMA  shift, and go to state 183
+    COMMA  shift, and go to state 177
 
     $default  reduce using rule 49 (function_declaration_idlist)
 
 
-State 164
+State 158
 
    57 function_declaration: T IDENTIFIER LP function_declaration_idlist . RP SEMICOLON
 
-    RP  shift, and go to state 184
+    RP  shift, and go to state 178
 
 
-State 165
+State 159
 
    55 function_definition_idlist: function_definition_id .
    56                           | function_definition_id . COMMA function_definition_idlist
 
-    COMMA  shift, and go to state 185
+    COMMA  shift, and go to state 179
 
     $default  reduce using rule 55 (function_definition_idlist)
 
 
-State 166
+State 160
 
    59 function_definition: T IDENTIFIER LP function_definition_idlist . RP LB statements RB
 
-    RP  shift, and go to state 186
+    RP  shift, and go to state 180
 
 
-State 167
+State 161
 
    46 function_declaration_id: T . IDENTIFIER LOP_ASSIGN expr
    47                        | T . IDENTIFIER
    48                        | T .
    53 function_definition_id: T . IDENTIFIER LOP_ASSIGN expr
    54                       | T . IDENTIFIER
+   99 T: T . TIMES
+  100  | T . AND
 
-    IDENTIFIER  shift, and go to state 187
+    IDENTIFIER  shift, and go to state 181
+    TIMES       shift, and go to state 61
+    AND         shift, and go to state 62
 
     $default  reduce using rule 48 (function_declaration_id)
 
 
-State 168
+State 162
 
     5 statement: T MAIN LP RP . statements
 
@@ -3144,7 +3088,7 @@ State 168
     SCANF       shift, and go to state 13
     PRINTF      shift, and go to state 14
 
-    statements            go to state 188
+    statements            go to state 182
     statement             go to state 17
     scanf_function        go to state 18
     printf_function       go to state 19
@@ -3161,21 +3105,21 @@ State 168
     T                     go to state 30
 
 
-State 169
+State 163
 
    65 function_call_idlist: function_call_id COMMA function_call_idlist .
 
     $default  reduce using rule 65 (function_call_idlist)
 
 
-State 170
+State 164
 
    66 function_call: IDENTIFIER LP function_call_idlist RP SEMICOLON .
 
     $default  reduce using rule 66 (function_call)
 
 
-State 171
+State 165
 
    40 for_stmt: FOR LP SEMICOLON SEMICOLON RP . statements
 
@@ -3194,7 +3138,7 @@ State 171
     SCANF       shift, and go to state 13
     PRINTF      shift, and go to state 14
 
-    statements            go to state 189
+    statements            go to state 183
     statement             go to state 17
     scanf_function        go to state 18
     printf_function       go to state 19
@@ -3211,7 +3155,7 @@ State 171
     T                     go to state 30
 
 
-State 172
+State 166
 
    37 for_stmt: FOR LP SEMICOLON SEMICOLON expr . RP statements
    68 expr: expr . PLUS expr
@@ -3232,46 +3176,46 @@ State 172
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    RP           shift, and go to state 190
-    PLUS         shift, and go to state 95
-    MINUS        shift, and go to state 96
-    TIMES        shift, and go to state 97
-    DIVIDE       shift, and go to state 98
-    MOD          shift, and go to state 99
-    PPLUS        shift, and go to state 100
-    MMINUS       shift, and go to state 101
-    AND          shift, and go to state 102
-    OR           shift, and go to state 103
-    EQU          shift, and go to state 104
-    GTR          shift, and go to state 105
-    LSS          shift, and go to state 106
-    GEQ          shift, and go to state 107
-    LEQ          shift, and go to state 108
-    NEQ          shift, and go to state 109
-    LOGICAL_AND  shift, and go to state 110
-    LOGICAL_OR   shift, and go to state 111
+    RP           shift, and go to state 184
+    PLUS         shift, and go to state 89
+    MINUS        shift, and go to state 90
+    TIMES        shift, and go to state 91
+    DIVIDE       shift, and go to state 92
+    MOD          shift, and go to state 93
+    PPLUS        shift, and go to state 94
+    MMINUS       shift, and go to state 95
+    AND          shift, and go to state 96
+    OR           shift, and go to state 97
+    EQU          shift, and go to state 98
+    GTR          shift, and go to state 99
+    LSS          shift, and go to state 100
+    GEQ          shift, and go to state 101
+    LEQ          shift, and go to state 102
+    NEQ          shift, and go to state 103
+    LOGICAL_AND  shift, and go to state 104
+    LOGICAL_OR   shift, and go to state 105
 
 
-State 173
+State 167
 
    34 for_stmt: FOR LP SEMICOLON expr SEMICOLON . expr RP statements
    38         | FOR LP SEMICOLON expr SEMICOLON . RP statements
 
-    LP           shift, and go to state 51
-    RP           shift, and go to state 191
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    LP           shift, and go to state 43
+    RP           shift, and go to state 185
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
-    expr  go to state 192
+    expr  go to state 186
 
 
-State 174
+State 168
 
    33 for_stmt: FOR LP declaration SEMICOLON expr . SEMICOLON expr RP statements
    68 expr: expr . PLUS expr
@@ -3292,46 +3236,46 @@ State 174
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    SEMICOLON    shift, and go to state 193
-    PLUS         shift, and go to state 95
-    MINUS        shift, and go to state 96
-    TIMES        shift, and go to state 97
-    DIVIDE       shift, and go to state 98
-    MOD          shift, and go to state 99
-    PPLUS        shift, and go to state 100
-    MMINUS       shift, and go to state 101
-    AND          shift, and go to state 102
-    OR           shift, and go to state 103
-    EQU          shift, and go to state 104
-    GTR          shift, and go to state 105
-    LSS          shift, and go to state 106
-    GEQ          shift, and go to state 107
-    LEQ          shift, and go to state 108
-    NEQ          shift, and go to state 109
-    LOGICAL_AND  shift, and go to state 110
-    LOGICAL_OR   shift, and go to state 111
+    SEMICOLON    shift, and go to state 187
+    PLUS         shift, and go to state 89
+    MINUS        shift, and go to state 90
+    TIMES        shift, and go to state 91
+    DIVIDE       shift, and go to state 92
+    MOD          shift, and go to state 93
+    PPLUS        shift, and go to state 94
+    MMINUS       shift, and go to state 95
+    AND          shift, and go to state 96
+    OR           shift, and go to state 97
+    EQU          shift, and go to state 98
+    GTR          shift, and go to state 99
+    LSS          shift, and go to state 100
+    GEQ          shift, and go to state 101
+    LEQ          shift, and go to state 102
+    NEQ          shift, and go to state 103
+    LOGICAL_AND  shift, and go to state 104
+    LOGICAL_OR   shift, and go to state 105
 
 
-State 175
+State 169
 
    35 for_stmt: FOR LP expr SEMICOLON SEMICOLON . expr RP statements
    39         | FOR LP expr SEMICOLON SEMICOLON . RP statements
 
-    LP           shift, and go to state 51
-    RP           shift, and go to state 194
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    LP           shift, and go to state 43
+    RP           shift, and go to state 188
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
-    expr  go to state 195
+    expr  go to state 189
 
 
-State 176
+State 170
 
    32 for_stmt: FOR LP expr SEMICOLON expr . SEMICOLON expr RP statements
    36         | FOR LP expr SEMICOLON expr . SEMICOLON RP statements
@@ -3353,62 +3297,62 @@ State 176
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    SEMICOLON    shift, and go to state 196
-    PLUS         shift, and go to state 95
-    MINUS        shift, and go to state 96
-    TIMES        shift, and go to state 97
-    DIVIDE       shift, and go to state 98
-    MOD          shift, and go to state 99
-    PPLUS        shift, and go to state 100
-    MMINUS       shift, and go to state 101
-    AND          shift, and go to state 102
-    OR           shift, and go to state 103
-    EQU          shift, and go to state 104
-    GTR          shift, and go to state 105
-    LSS          shift, and go to state 106
-    GEQ          shift, and go to state 107
-    LEQ          shift, and go to state 108
-    NEQ          shift, and go to state 109
-    LOGICAL_AND  shift, and go to state 110
-    LOGICAL_OR   shift, and go to state 111
+    SEMICOLON    shift, and go to state 190
+    PLUS         shift, and go to state 89
+    MINUS        shift, and go to state 90
+    TIMES        shift, and go to state 91
+    DIVIDE       shift, and go to state 92
+    MOD          shift, and go to state 93
+    PPLUS        shift, and go to state 94
+    MMINUS       shift, and go to state 95
+    AND          shift, and go to state 96
+    OR           shift, and go to state 97
+    EQU          shift, and go to state 98
+    GTR          shift, and go to state 99
+    LSS          shift, and go to state 100
+    GEQ          shift, and go to state 101
+    LEQ          shift, and go to state 102
+    NEQ          shift, and go to state 103
+    LOGICAL_AND  shift, and go to state 104
+    LOGICAL_OR   shift, and go to state 105
 
 
-State 177
+State 171
 
    30 if_stmt: IF LP expr RP statements .
 
     $default  reduce using rule 30 (if_stmt)
 
 
-State 178
+State 172
 
    41 while_stmt: WHILE LP expr RP statements .
 
     $default  reduce using rule 41 (while_stmt)
 
 
-State 179
+State 173
 
    19 scanf_function: SCANF LP function_call_idlist RP SEMICOLON .
 
     $default  reduce using rule 19 (scanf_function)
 
 
-State 180
+State 174
 
    21 printf_function: PRINTF LP function_call_idlist RP SEMICOLON .
 
     $default  reduce using rule 21 (printf_function)
 
 
-State 181
+State 175
 
    58 function_declaration: T IDENTIFIER LP RP SEMICOLON .
 
     $default  reduce using rule 58 (function_declaration)
 
 
-State 182
+State 176
 
    60 function_definition: T IDENTIFIER LP RP LB . statements RB
 
@@ -3427,7 +3371,7 @@ State 182
     SCANF       shift, and go to state 13
     PRINTF      shift, and go to state 14
 
-    statements            go to state 197
+    statements            go to state 191
     statement             go to state 17
     scanf_function        go to state 18
     printf_function       go to state 19
@@ -3444,7 +3388,7 @@ State 182
     T                     go to state 30
 
 
-State 183
+State 177
 
    50 function_declaration_idlist: function_declaration_id COMMA . function_declaration_idlist
 
@@ -3454,19 +3398,19 @@ State 183
     T_DOUBLE  shift, and go to state 4
     T_VOID    shift, and go to state 5
 
-    function_declaration_id      go to state 163
-    function_declaration_idlist  go to state 198
-    T                            go to state 199
+    function_declaration_id      go to state 157
+    function_declaration_idlist  go to state 192
+    T                            go to state 193
 
 
-State 184
+State 178
 
    57 function_declaration: T IDENTIFIER LP function_declaration_idlist RP . SEMICOLON
 
-    SEMICOLON  shift, and go to state 200
+    SEMICOLON  shift, and go to state 194
 
 
-State 185
+State 179
 
    56 function_definition_idlist: function_definition_id COMMA . function_definition_idlist
 
@@ -3476,26 +3420,26 @@ State 185
     T_DOUBLE  shift, and go to state 4
     T_VOID    shift, and go to state 5
 
-    function_definition_id      go to state 165
-    function_definition_idlist  go to state 201
-    T                           go to state 202
+    function_definition_id      go to state 159
+    function_definition_idlist  go to state 195
+    T                           go to state 196
 
 
-State 186
+State 180
 
    59 function_definition: T IDENTIFIER LP function_definition_idlist RP . LB statements RB
 
-    LB  shift, and go to state 203
+    LB  shift, and go to state 197
 
 
-State 187
+State 181
 
    46 function_declaration_id: T IDENTIFIER . LOP_ASSIGN expr
    47                        | T IDENTIFIER .
    53 function_definition_id: T IDENTIFIER . LOP_ASSIGN expr
    54                       | T IDENTIFIER .
 
-    LOP_ASSIGN  shift, and go to state 204
+    LOP_ASSIGN  shift, and go to state 198
 
     COMMA     reduce using rule 47 (function_declaration_id)
     COMMA     [reduce using rule 54 (function_definition_id)]
@@ -3504,21 +3448,21 @@ State 187
     $default  reduce using rule 47 (function_declaration_id)
 
 
-State 188
+State 182
 
     5 statement: T MAIN LP RP statements .
 
     $default  reduce using rule 5 (statement)
 
 
-State 189
+State 183
 
    40 for_stmt: FOR LP SEMICOLON SEMICOLON RP statements .
 
     $default  reduce using rule 40 (for_stmt)
 
 
-State 190
+State 184
 
    37 for_stmt: FOR LP SEMICOLON SEMICOLON expr RP . statements
 
@@ -3537,7 +3481,7 @@ State 190
     SCANF       shift, and go to state 13
     PRINTF      shift, and go to state 14
 
-    statements            go to state 205
+    statements            go to state 199
     statement             go to state 17
     scanf_function        go to state 18
     printf_function       go to state 19
@@ -3554,7 +3498,7 @@ State 190
     T                     go to state 30
 
 
-State 191
+State 185
 
    38 for_stmt: FOR LP SEMICOLON expr SEMICOLON RP . statements
 
@@ -3573,7 +3517,7 @@ State 191
     SCANF       shift, and go to state 13
     PRINTF      shift, and go to state 14
 
-    statements            go to state 206
+    statements            go to state 200
     statement             go to state 17
     scanf_function        go to state 18
     printf_function       go to state 19
@@ -3590,7 +3534,7 @@ State 191
     T                     go to state 30
 
 
-State 192
+State 186
 
    34 for_stmt: FOR LP SEMICOLON expr SEMICOLON expr . RP statements
    68 expr: expr . PLUS expr
@@ -3611,44 +3555,44 @@ State 192
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    RP           shift, and go to state 207
-    PLUS         shift, and go to state 95
-    MINUS        shift, and go to state 96
-    TIMES        shift, and go to state 97
-    DIVIDE       shift, and go to state 98
-    MOD          shift, and go to state 99
-    PPLUS        shift, and go to state 100
-    MMINUS       shift, and go to state 101
-    AND          shift, and go to state 102
-    OR           shift, and go to state 103
-    EQU          shift, and go to state 104
-    GTR          shift, and go to state 105
-    LSS          shift, and go to state 106
-    GEQ          shift, and go to state 107
-    LEQ          shift, and go to state 108
-    NEQ          shift, and go to state 109
-    LOGICAL_AND  shift, and go to state 110
-    LOGICAL_OR   shift, and go to state 111
+    RP           shift, and go to state 201
+    PLUS         shift, and go to state 89
+    MINUS        shift, and go to state 90
+    TIMES        shift, and go to state 91
+    DIVIDE       shift, and go to state 92
+    MOD          shift, and go to state 93
+    PPLUS        shift, and go to state 94
+    MMINUS       shift, and go to state 95
+    AND          shift, and go to state 96
+    OR           shift, and go to state 97
+    EQU          shift, and go to state 98
+    GTR          shift, and go to state 99
+    LSS          shift, and go to state 100
+    GEQ          shift, and go to state 101
+    LEQ          shift, and go to state 102
+    NEQ          shift, and go to state 103
+    LOGICAL_AND  shift, and go to state 104
+    LOGICAL_OR   shift, and go to state 105
 
 
-State 193
+State 187
 
    33 for_stmt: FOR LP declaration SEMICOLON expr SEMICOLON . expr RP statements
 
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
-    expr  go to state 208
+    expr  go to state 202
 
 
-State 194
+State 188
 
    39 for_stmt: FOR LP expr SEMICOLON SEMICOLON RP . statements
 
@@ -3667,7 +3611,7 @@ State 194
     SCANF       shift, and go to state 13
     PRINTF      shift, and go to state 14
 
-    statements            go to state 209
+    statements            go to state 203
     statement             go to state 17
     scanf_function        go to state 18
     printf_function       go to state 19
@@ -3684,7 +3628,7 @@ State 194
     T                     go to state 30
 
 
-State 195
+State 189
 
    35 for_stmt: FOR LP expr SEMICOLON SEMICOLON expr . RP statements
    68 expr: expr . PLUS expr
@@ -3705,93 +3649,101 @@ State 195
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    RP           shift, and go to state 210
-    PLUS         shift, and go to state 95
-    MINUS        shift, and go to state 96
-    TIMES        shift, and go to state 97
-    DIVIDE       shift, and go to state 98
-    MOD          shift, and go to state 99
-    PPLUS        shift, and go to state 100
-    MMINUS       shift, and go to state 101
-    AND          shift, and go to state 102
-    OR           shift, and go to state 103
-    EQU          shift, and go to state 104
-    GTR          shift, and go to state 105
-    LSS          shift, and go to state 106
-    GEQ          shift, and go to state 107
-    LEQ          shift, and go to state 108
-    NEQ          shift, and go to state 109
-    LOGICAL_AND  shift, and go to state 110
-    LOGICAL_OR   shift, and go to state 111
+    RP           shift, and go to state 204
+    PLUS         shift, and go to state 89
+    MINUS        shift, and go to state 90
+    TIMES        shift, and go to state 91
+    DIVIDE       shift, and go to state 92
+    MOD          shift, and go to state 93
+    PPLUS        shift, and go to state 94
+    MMINUS       shift, and go to state 95
+    AND          shift, and go to state 96
+    OR           shift, and go to state 97
+    EQU          shift, and go to state 98
+    GTR          shift, and go to state 99
+    LSS          shift, and go to state 100
+    GEQ          shift, and go to state 101
+    LEQ          shift, and go to state 102
+    NEQ          shift, and go to state 103
+    LOGICAL_AND  shift, and go to state 104
+    LOGICAL_OR   shift, and go to state 105
 
 
-State 196
+State 190
 
    32 for_stmt: FOR LP expr SEMICOLON expr SEMICOLON . expr RP statements
    36         | FOR LP expr SEMICOLON expr SEMICOLON . RP statements
 
-    LP           shift, and go to state 51
-    RP           shift, and go to state 211
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    LP           shift, and go to state 43
+    RP           shift, and go to state 205
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
-    expr  go to state 212
+    expr  go to state 206
 
 
-State 197
+State 191
 
    60 function_definition: T IDENTIFIER LP RP LB statements . RB
 
-    RB  shift, and go to state 213
+    RB  shift, and go to state 207
 
 
-State 198
+State 192
 
    50 function_declaration_idlist: function_declaration_id COMMA function_declaration_idlist .
 
     $default  reduce using rule 50 (function_declaration_idlist)
 
 
-State 199
+State 193
 
    46 function_declaration_id: T . IDENTIFIER LOP_ASSIGN expr
    47                        | T . IDENTIFIER
    48                        | T .
+   99 T: T . TIMES
+  100  | T . AND
 
-    IDENTIFIER  shift, and go to state 214
+    IDENTIFIER  shift, and go to state 208
+    TIMES       shift, and go to state 61
+    AND         shift, and go to state 62
 
     $default  reduce using rule 48 (function_declaration_id)
 
 
-State 200
+State 194
 
    57 function_declaration: T IDENTIFIER LP function_declaration_idlist RP SEMICOLON .
 
     $default  reduce using rule 57 (function_declaration)
 
 
-State 201
+State 195
 
    56 function_definition_idlist: function_definition_id COMMA function_definition_idlist .
 
     $default  reduce using rule 56 (function_definition_idlist)
 
 
-State 202
+State 196
 
    53 function_definition_id: T . IDENTIFIER LOP_ASSIGN expr
    54                       | T . IDENTIFIER
+   99 T: T . TIMES
+  100  | T . AND
 
-    IDENTIFIER  shift, and go to state 215
+    IDENTIFIER  shift, and go to state 209
+    TIMES       shift, and go to state 61
+    AND         shift, and go to state 62
 
 
-State 203
+State 197
 
    59 function_definition: T IDENTIFIER LP function_definition_idlist RP LB . statements RB
 
@@ -3810,7 +3762,7 @@ State 203
     SCANF       shift, and go to state 13
     PRINTF      shift, and go to state 14
 
-    statements            go to state 216
+    statements            go to state 210
     statement             go to state 17
     scanf_function        go to state 18
     printf_function       go to state 19
@@ -3827,39 +3779,39 @@ State 203
     T                     go to state 30
 
 
-State 204
+State 198
 
    46 function_declaration_id: T IDENTIFIER LOP_ASSIGN . expr
    53 function_definition_id: T IDENTIFIER LOP_ASSIGN . expr
 
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
-    expr  go to state 217
+    expr  go to state 211
 
 
-State 205
+State 199
 
    37 for_stmt: FOR LP SEMICOLON SEMICOLON expr RP statements .
 
     $default  reduce using rule 37 (for_stmt)
 
 
-State 206
+State 200
 
    38 for_stmt: FOR LP SEMICOLON expr SEMICOLON RP statements .
 
     $default  reduce using rule 38 (for_stmt)
 
 
-State 207
+State 201
 
    34 for_stmt: FOR LP SEMICOLON expr SEMICOLON expr RP . statements
 
@@ -3878,7 +3830,7 @@ State 207
     SCANF       shift, and go to state 13
     PRINTF      shift, and go to state 14
 
-    statements            go to state 218
+    statements            go to state 212
     statement             go to state 17
     scanf_function        go to state 18
     printf_function       go to state 19
@@ -3895,7 +3847,7 @@ State 207
     T                     go to state 30
 
 
-State 208
+State 202
 
    33 for_stmt: FOR LP declaration SEMICOLON expr SEMICOLON expr . RP statements
    68 expr: expr . PLUS expr
@@ -3916,36 +3868,237 @@ State 208
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    RP           shift, and go to state 219
-    PLUS         shift, and go to state 95
-    MINUS        shift, and go to state 96
-    TIMES        shift, and go to state 97
-    DIVIDE       shift, and go to state 98
-    MOD          shift, and go to state 99
-    PPLUS        shift, and go to state 100
-    MMINUS       shift, and go to state 101
-    AND          shift, and go to state 102
-    OR           shift, and go to state 103
-    EQU          shift, and go to state 104
-    GTR          shift, and go to state 105
-    LSS          shift, and go to state 106
-    GEQ          shift, and go to state 107
-    LEQ          shift, and go to state 108
-    NEQ          shift, and go to state 109
-    LOGICAL_AND  shift, and go to state 110
-    LOGICAL_OR   shift, and go to state 111
+    RP           shift, and go to state 213
+    PLUS         shift, and go to state 89
+    MINUS        shift, and go to state 90
+    TIMES        shift, and go to state 91
+    DIVIDE       shift, and go to state 92
+    MOD          shift, and go to state 93
+    PPLUS        shift, and go to state 94
+    MMINUS       shift, and go to state 95
+    AND          shift, and go to state 96
+    OR           shift, and go to state 97
+    EQU          shift, and go to state 98
+    GTR          shift, and go to state 99
+    LSS          shift, and go to state 100
+    GEQ          shift, and go to state 101
+    LEQ          shift, and go to state 102
+    NEQ          shift, and go to state 103
+    LOGICAL_AND  shift, and go to state 104
+    LOGICAL_OR   shift, and go to state 105
 
 
-State 209
+State 203
 
    39 for_stmt: FOR LP expr SEMICOLON SEMICOLON RP statements .
 
     $default  reduce using rule 39 (for_stmt)
 
 
-State 210
+State 204
 
    35 for_stmt: FOR LP expr SEMICOLON SEMICOLON expr RP . statements
+
+    T_CHAR      shift, and go to state 1
+    T_INT       shift, and go to state 2
+    T_BOOL      shift, and go to state 3
+    T_DOUBLE    shift, and go to state 4
+    T_VOID      shift, and go to state 5
+    SEMICOLON   shift, and go to state 6
+    LB          shift, and go to state 7
+    IDENTIFIER  shift, and go to state 8
+    FOR         shift, and go to state 9
+    IF          shift, and go to state 10
+    WHILE       shift, and go to state 11
+    RETURN      shift, and go to state 12
+    SCANF       shift, and go to state 13
+    PRINTF      shift, and go to state 14
+
+    statements            go to state 214
+    statement             go to state 17
+    scanf_function        go to state 18
+    printf_function       go to state 19
+    assignment_stmt       go to state 20
+    if_stmt               go to state 21
+    if_else_stmt          go to state 22
+    for_stmt              go to state 23
+    while_stmt            go to state 24
+    declaration           go to state 25
+    function_return       go to state 26
+    function_declaration  go to state 27
+    function_definition   go to state 28
+    function_call         go to state 29
+    T                     go to state 30
+
+
+State 205
+
+   36 for_stmt: FOR LP expr SEMICOLON expr SEMICOLON RP . statements
+
+    T_CHAR      shift, and go to state 1
+    T_INT       shift, and go to state 2
+    T_BOOL      shift, and go to state 3
+    T_DOUBLE    shift, and go to state 4
+    T_VOID      shift, and go to state 5
+    SEMICOLON   shift, and go to state 6
+    LB          shift, and go to state 7
+    IDENTIFIER  shift, and go to state 8
+    FOR         shift, and go to state 9
+    IF          shift, and go to state 10
+    WHILE       shift, and go to state 11
+    RETURN      shift, and go to state 12
+    SCANF       shift, and go to state 13
+    PRINTF      shift, and go to state 14
+
+    statements            go to state 215
+    statement             go to state 17
+    scanf_function        go to state 18
+    printf_function       go to state 19
+    assignment_stmt       go to state 20
+    if_stmt               go to state 21
+    if_else_stmt          go to state 22
+    for_stmt              go to state 23
+    while_stmt            go to state 24
+    declaration           go to state 25
+    function_return       go to state 26
+    function_declaration  go to state 27
+    function_definition   go to state 28
+    function_call         go to state 29
+    T                     go to state 30
+
+
+State 206
+
+   32 for_stmt: FOR LP expr SEMICOLON expr SEMICOLON expr . RP statements
+   68 expr: expr . PLUS expr
+   69     | expr . MINUS expr
+   70     | expr . TIMES expr
+   71     | expr . DIVIDE expr
+   72     | expr . MOD expr
+   73     | expr . MMINUS
+   74     | expr . PPLUS
+   75     | expr . AND expr
+   76     | expr . OR expr
+   78     | expr . EQU expr
+   79     | expr . GTR expr
+   80     | expr . LSS expr
+   81     | expr . GEQ expr
+   82     | expr . LEQ expr
+   83     | expr . NEQ expr
+   84     | expr . LOGICAL_AND expr
+   85     | expr . LOGICAL_OR expr
+
+    RP           shift, and go to state 216
+    PLUS         shift, and go to state 89
+    MINUS        shift, and go to state 90
+    TIMES        shift, and go to state 91
+    DIVIDE       shift, and go to state 92
+    MOD          shift, and go to state 93
+    PPLUS        shift, and go to state 94
+    MMINUS       shift, and go to state 95
+    AND          shift, and go to state 96
+    OR           shift, and go to state 97
+    EQU          shift, and go to state 98
+    GTR          shift, and go to state 99
+    LSS          shift, and go to state 100
+    GEQ          shift, and go to state 101
+    LEQ          shift, and go to state 102
+    NEQ          shift, and go to state 103
+    LOGICAL_AND  shift, and go to state 104
+    LOGICAL_OR   shift, and go to state 105
+
+
+State 207
+
+   60 function_definition: T IDENTIFIER LP RP LB statements RB .
+
+    $default  reduce using rule 60 (function_definition)
+
+
+State 208
+
+   46 function_declaration_id: T IDENTIFIER . LOP_ASSIGN expr
+   47                        | T IDENTIFIER .
+
+    LOP_ASSIGN  shift, and go to state 217
+
+    $default  reduce using rule 47 (function_declaration_id)
+
+
+State 209
+
+   53 function_definition_id: T IDENTIFIER . LOP_ASSIGN expr
+   54                       | T IDENTIFIER .
+
+    LOP_ASSIGN  shift, and go to state 218
+
+    $default  reduce using rule 54 (function_definition_id)
+
+
+State 210
+
+   59 function_definition: T IDENTIFIER LP function_definition_idlist RP LB statements . RB
+
+    RB  shift, and go to state 219
+
+
+State 211
+
+   46 function_declaration_id: T IDENTIFIER LOP_ASSIGN expr .
+   53 function_definition_id: T IDENTIFIER LOP_ASSIGN expr .
+   68 expr: expr . PLUS expr
+   69     | expr . MINUS expr
+   70     | expr . TIMES expr
+   71     | expr . DIVIDE expr
+   72     | expr . MOD expr
+   73     | expr . MMINUS
+   74     | expr . PPLUS
+   75     | expr . AND expr
+   76     | expr . OR expr
+   78     | expr . EQU expr
+   79     | expr . GTR expr
+   80     | expr . LSS expr
+   81     | expr . GEQ expr
+   82     | expr . LEQ expr
+   83     | expr . NEQ expr
+   84     | expr . LOGICAL_AND expr
+   85     | expr . LOGICAL_OR expr
+
+    PLUS         shift, and go to state 89
+    MINUS        shift, and go to state 90
+    TIMES        shift, and go to state 91
+    DIVIDE       shift, and go to state 92
+    MOD          shift, and go to state 93
+    PPLUS        shift, and go to state 94
+    MMINUS       shift, and go to state 95
+    AND          shift, and go to state 96
+    OR           shift, and go to state 97
+    EQU          shift, and go to state 98
+    GTR          shift, and go to state 99
+    LSS          shift, and go to state 100
+    GEQ          shift, and go to state 101
+    LEQ          shift, and go to state 102
+    NEQ          shift, and go to state 103
+    LOGICAL_AND  shift, and go to state 104
+    LOGICAL_OR   shift, and go to state 105
+
+    COMMA     reduce using rule 46 (function_declaration_id)
+    COMMA     [reduce using rule 53 (function_definition_id)]
+    RP        reduce using rule 46 (function_declaration_id)
+    RP        [reduce using rule 53 (function_definition_id)]
+    $default  reduce using rule 46 (function_declaration_id)
+
+
+State 212
+
+   34 for_stmt: FOR LP SEMICOLON expr SEMICOLON expr RP statements .
+
+    $default  reduce using rule 34 (for_stmt)
+
+
+State 213
+
+   33 for_stmt: FOR LP declaration SEMICOLON expr SEMICOLON expr RP . statements
 
     T_CHAR      shift, and go to state 1
     T_INT       shift, and go to state 2
@@ -3979,9 +4132,23 @@ State 210
     T                     go to state 30
 
 
-State 211
+State 214
 
-   36 for_stmt: FOR LP expr SEMICOLON expr SEMICOLON RP . statements
+   35 for_stmt: FOR LP expr SEMICOLON SEMICOLON expr RP statements .
+
+    $default  reduce using rule 35 (for_stmt)
+
+
+State 215
+
+   36 for_stmt: FOR LP expr SEMICOLON expr SEMICOLON RP statements .
+
+    $default  reduce using rule 36 (for_stmt)
+
+
+State 216
+
+   32 for_stmt: FOR LP expr SEMICOLON expr SEMICOLON expr RP . statements
 
     T_CHAR      shift, and go to state 1
     T_INT       shift, and go to state 2
@@ -4015,277 +4182,62 @@ State 211
     T                     go to state 30
 
 
-State 212
-
-   32 for_stmt: FOR LP expr SEMICOLON expr SEMICOLON expr . RP statements
-   68 expr: expr . PLUS expr
-   69     | expr . MINUS expr
-   70     | expr . TIMES expr
-   71     | expr . DIVIDE expr
-   72     | expr . MOD expr
-   73     | expr . MMINUS
-   74     | expr . PPLUS
-   75     | expr . AND expr
-   76     | expr . OR expr
-   78     | expr . EQU expr
-   79     | expr . GTR expr
-   80     | expr . LSS expr
-   81     | expr . GEQ expr
-   82     | expr . LEQ expr
-   83     | expr . NEQ expr
-   84     | expr . LOGICAL_AND expr
-   85     | expr . LOGICAL_OR expr
-
-    RP           shift, and go to state 222
-    PLUS         shift, and go to state 95
-    MINUS        shift, and go to state 96
-    TIMES        shift, and go to state 97
-    DIVIDE       shift, and go to state 98
-    MOD          shift, and go to state 99
-    PPLUS        shift, and go to state 100
-    MMINUS       shift, and go to state 101
-    AND          shift, and go to state 102
-    OR           shift, and go to state 103
-    EQU          shift, and go to state 104
-    GTR          shift, and go to state 105
-    LSS          shift, and go to state 106
-    GEQ          shift, and go to state 107
-    LEQ          shift, and go to state 108
-    NEQ          shift, and go to state 109
-    LOGICAL_AND  shift, and go to state 110
-    LOGICAL_OR   shift, and go to state 111
-
-
-State 213
-
-   60 function_definition: T IDENTIFIER LP RP LB statements RB .
-
-    $default  reduce using rule 60 (function_definition)
-
-
-State 214
-
-   46 function_declaration_id: T IDENTIFIER . LOP_ASSIGN expr
-   47                        | T IDENTIFIER .
-
-    LOP_ASSIGN  shift, and go to state 223
-
-    $default  reduce using rule 47 (function_declaration_id)
-
-
-State 215
-
-   53 function_definition_id: T IDENTIFIER . LOP_ASSIGN expr
-   54                       | T IDENTIFIER .
-
-    LOP_ASSIGN  shift, and go to state 224
-
-    $default  reduce using rule 54 (function_definition_id)
-
-
-State 216
-
-   59 function_definition: T IDENTIFIER LP function_definition_idlist RP LB statements . RB
-
-    RB  shift, and go to state 225
-
-
 State 217
 
-   46 function_declaration_id: T IDENTIFIER LOP_ASSIGN expr .
-   53 function_definition_id: T IDENTIFIER LOP_ASSIGN expr .
-   68 expr: expr . PLUS expr
-   69     | expr . MINUS expr
-   70     | expr . TIMES expr
-   71     | expr . DIVIDE expr
-   72     | expr . MOD expr
-   73     | expr . MMINUS
-   74     | expr . PPLUS
-   75     | expr . AND expr
-   76     | expr . OR expr
-   78     | expr . EQU expr
-   79     | expr . GTR expr
-   80     | expr . LSS expr
-   81     | expr . GEQ expr
-   82     | expr . LEQ expr
-   83     | expr . NEQ expr
-   84     | expr . LOGICAL_AND expr
-   85     | expr . LOGICAL_OR expr
+   46 function_declaration_id: T IDENTIFIER LOP_ASSIGN . expr
 
-    PLUS         shift, and go to state 95
-    MINUS        shift, and go to state 96
-    TIMES        shift, and go to state 97
-    DIVIDE       shift, and go to state 98
-    MOD          shift, and go to state 99
-    PPLUS        shift, and go to state 100
-    MMINUS       shift, and go to state 101
-    AND          shift, and go to state 102
-    OR           shift, and go to state 103
-    EQU          shift, and go to state 104
-    GTR          shift, and go to state 105
-    LSS          shift, and go to state 106
-    GEQ          shift, and go to state 107
-    LEQ          shift, and go to state 108
-    NEQ          shift, and go to state 109
-    LOGICAL_AND  shift, and go to state 110
-    LOGICAL_OR   shift, and go to state 111
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
 
-    COMMA     reduce using rule 46 (function_declaration_id)
-    COMMA     [reduce using rule 53 (function_definition_id)]
-    RP        reduce using rule 46 (function_declaration_id)
-    RP        [reduce using rule 53 (function_definition_id)]
-    $default  reduce using rule 46 (function_declaration_id)
+    expr  go to state 222
 
 
 State 218
 
-   34 for_stmt: FOR LP SEMICOLON expr SEMICOLON expr RP statements .
+   53 function_definition_id: T IDENTIFIER LOP_ASSIGN . expr
 
-    $default  reduce using rule 34 (for_stmt)
+    LP           shift, and go to state 43
+    IDENTIFIER   shift, and go to state 44
+    INTEGER      shift, and go to state 45
+    CHAR         shift, and go to state 46
+    STRING       shift, and go to state 47
+    NUMBER       shift, and go to state 48
+    MINUS        shift, and go to state 49
+    NOT          shift, and go to state 50
+    LOGICAL_NOT  shift, and go to state 51
+
+    expr  go to state 223
 
 
 State 219
-
-   33 for_stmt: FOR LP declaration SEMICOLON expr SEMICOLON expr RP . statements
-
-    T_CHAR      shift, and go to state 1
-    T_INT       shift, and go to state 2
-    T_BOOL      shift, and go to state 3
-    T_DOUBLE    shift, and go to state 4
-    T_VOID      shift, and go to state 5
-    SEMICOLON   shift, and go to state 6
-    LB          shift, and go to state 7
-    IDENTIFIER  shift, and go to state 8
-    FOR         shift, and go to state 9
-    IF          shift, and go to state 10
-    WHILE       shift, and go to state 11
-    RETURN      shift, and go to state 12
-    SCANF       shift, and go to state 13
-    PRINTF      shift, and go to state 14
-
-    statements            go to state 226
-    statement             go to state 17
-    scanf_function        go to state 18
-    printf_function       go to state 19
-    assignment_stmt       go to state 20
-    if_stmt               go to state 21
-    if_else_stmt          go to state 22
-    for_stmt              go to state 23
-    while_stmt            go to state 24
-    declaration           go to state 25
-    function_return       go to state 26
-    function_declaration  go to state 27
-    function_definition   go to state 28
-    function_call         go to state 29
-    T                     go to state 30
-
-
-State 220
-
-   35 for_stmt: FOR LP expr SEMICOLON SEMICOLON expr RP statements .
-
-    $default  reduce using rule 35 (for_stmt)
-
-
-State 221
-
-   36 for_stmt: FOR LP expr SEMICOLON expr SEMICOLON RP statements .
-
-    $default  reduce using rule 36 (for_stmt)
-
-
-State 222
-
-   32 for_stmt: FOR LP expr SEMICOLON expr SEMICOLON expr RP . statements
-
-    T_CHAR      shift, and go to state 1
-    T_INT       shift, and go to state 2
-    T_BOOL      shift, and go to state 3
-    T_DOUBLE    shift, and go to state 4
-    T_VOID      shift, and go to state 5
-    SEMICOLON   shift, and go to state 6
-    LB          shift, and go to state 7
-    IDENTIFIER  shift, and go to state 8
-    FOR         shift, and go to state 9
-    IF          shift, and go to state 10
-    WHILE       shift, and go to state 11
-    RETURN      shift, and go to state 12
-    SCANF       shift, and go to state 13
-    PRINTF      shift, and go to state 14
-
-    statements            go to state 227
-    statement             go to state 17
-    scanf_function        go to state 18
-    printf_function       go to state 19
-    assignment_stmt       go to state 20
-    if_stmt               go to state 21
-    if_else_stmt          go to state 22
-    for_stmt              go to state 23
-    while_stmt            go to state 24
-    declaration           go to state 25
-    function_return       go to state 26
-    function_declaration  go to state 27
-    function_definition   go to state 28
-    function_call         go to state 29
-    T                     go to state 30
-
-
-State 223
-
-   46 function_declaration_id: T IDENTIFIER LOP_ASSIGN . expr
-
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
-
-    expr  go to state 228
-
-
-State 224
-
-   53 function_definition_id: T IDENTIFIER LOP_ASSIGN . expr
-
-    LP           shift, and go to state 51
-    IDENTIFIER   shift, and go to state 52
-    INTEGER      shift, and go to state 53
-    CHAR         shift, and go to state 54
-    STRING       shift, and go to state 55
-    NUMBER       shift, and go to state 56
-    MINUS        shift, and go to state 57
-    NOT          shift, and go to state 58
-    LOGICAL_NOT  shift, and go to state 59
-
-    expr  go to state 229
-
-
-State 225
 
    59 function_definition: T IDENTIFIER LP function_definition_idlist RP LB statements RB .
 
     $default  reduce using rule 59 (function_definition)
 
 
-State 226
+State 220
 
    33 for_stmt: FOR LP declaration SEMICOLON expr SEMICOLON expr RP statements .
 
     $default  reduce using rule 33 (for_stmt)
 
 
-State 227
+State 221
 
    32 for_stmt: FOR LP expr SEMICOLON expr SEMICOLON expr RP statements .
 
     $default  reduce using rule 32 (for_stmt)
 
 
-State 228
+State 222
 
    46 function_declaration_id: T IDENTIFIER LOP_ASSIGN expr .
    68 expr: expr . PLUS expr
@@ -4306,28 +4258,28 @@ State 228
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    PLUS         shift, and go to state 95
-    MINUS        shift, and go to state 96
-    TIMES        shift, and go to state 97
-    DIVIDE       shift, and go to state 98
-    MOD          shift, and go to state 99
-    PPLUS        shift, and go to state 100
-    MMINUS       shift, and go to state 101
-    AND          shift, and go to state 102
-    OR           shift, and go to state 103
-    EQU          shift, and go to state 104
-    GTR          shift, and go to state 105
-    LSS          shift, and go to state 106
-    GEQ          shift, and go to state 107
-    LEQ          shift, and go to state 108
-    NEQ          shift, and go to state 109
-    LOGICAL_AND  shift, and go to state 110
-    LOGICAL_OR   shift, and go to state 111
+    PLUS         shift, and go to state 89
+    MINUS        shift, and go to state 90
+    TIMES        shift, and go to state 91
+    DIVIDE       shift, and go to state 92
+    MOD          shift, and go to state 93
+    PPLUS        shift, and go to state 94
+    MMINUS       shift, and go to state 95
+    AND          shift, and go to state 96
+    OR           shift, and go to state 97
+    EQU          shift, and go to state 98
+    GTR          shift, and go to state 99
+    LSS          shift, and go to state 100
+    GEQ          shift, and go to state 101
+    LEQ          shift, and go to state 102
+    NEQ          shift, and go to state 103
+    LOGICAL_AND  shift, and go to state 104
+    LOGICAL_OR   shift, and go to state 105
 
     $default  reduce using rule 46 (function_declaration_id)
 
 
-State 229
+State 223
 
    53 function_definition_id: T IDENTIFIER LOP_ASSIGN expr .
    68 expr: expr . PLUS expr
@@ -4348,22 +4300,22 @@ State 229
    84     | expr . LOGICAL_AND expr
    85     | expr . LOGICAL_OR expr
 
-    PLUS         shift, and go to state 95
-    MINUS        shift, and go to state 96
-    TIMES        shift, and go to state 97
-    DIVIDE       shift, and go to state 98
-    MOD          shift, and go to state 99
-    PPLUS        shift, and go to state 100
-    MMINUS       shift, and go to state 101
-    AND          shift, and go to state 102
-    OR           shift, and go to state 103
-    EQU          shift, and go to state 104
-    GTR          shift, and go to state 105
-    LSS          shift, and go to state 106
-    GEQ          shift, and go to state 107
-    LEQ          shift, and go to state 108
-    NEQ          shift, and go to state 109
-    LOGICAL_AND  shift, and go to state 110
-    LOGICAL_OR   shift, and go to state 111
+    PLUS         shift, and go to state 89
+    MINUS        shift, and go to state 90
+    TIMES        shift, and go to state 91
+    DIVIDE       shift, and go to state 92
+    MOD          shift, and go to state 93
+    PPLUS        shift, and go to state 94
+    MMINUS       shift, and go to state 95
+    AND          shift, and go to state 96
+    OR           shift, and go to state 97
+    EQU          shift, and go to state 98
+    GTR          shift, and go to state 99
+    LSS          shift, and go to state 100
+    GEQ          shift, and go to state 101
+    LEQ          shift, and go to state 102
+    NEQ          shift, and go to state 103
+    LOGICAL_AND  shift, and go to state 104
+    LOGICAL_OR   shift, and go to state 105
 
     $default  reduce using rule 53 (function_definition_id)
