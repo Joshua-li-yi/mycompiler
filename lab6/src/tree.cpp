@@ -169,20 +169,29 @@ void TreeNode::printAST()
 }
 symbolType nodeTypetoSymbolType(TreeNode *t)
 {
-    switch (t->nodeType)
-    {
-    case NODE_VAR:
+    if((t->nodeType==NODE_CONST)||(t->nodeType==NODE_VAR))
     {
         if (t->type == TYPE_INT)
-            return integer;
-
-        break;
+            return Integer;
+        else if(t->type == TYPE_BOOL)
+            return Boolean;
+        else if(t->type==TYPE_CHAR)
+            return Symbol_char;
+        else if(t->type==TYPE_STRING)
+            return Symbol_char_star;
+        else if(t->type==TYPE_POINT)
+            return Pointer;
+        else if(t->type== TYPE_CITE)
+            return Cite;
+        else if(t->type==TYPE_VOID)
+            return Void;
+        else if(t->type==TYPE_DOUBLE)
+            return Double;
+    }
+    if(t->stype==STMT_FUN_DEF){
+        return Function;
     }
 
-    default:
-        break;
-    }
-    return unset;
 }
 
 void TreeNode::genSymbolTable()
@@ -211,15 +220,6 @@ void TreeNode::genSymbolTable()
     for (TreeNode *t = this->child; t; t = t->sibling)
         t->genSymbolTable();
 }
-
-// void TreeNode::PrintSymbolTable()
-// {
-//     std::map<string, TreeNode *>::iterator iter;
-//     for (iter = GlobalVarSymbolTable.begin(); iter != GlobalVarSymbolTable.end(); iter++)
-//     {
-//         cout << iter->first << ", " << iter->second->nodeID << " ";
-//     }
-// }
 
 // You can output more info...
 void TreeNode::printSpecialInfo()
@@ -401,7 +401,7 @@ void TreeNode::expr_inter_code_generate()
     if ((cur->nodeType == NODE_EXPR) && (cur->optype == EXPR_COMBINE) && (cur->child->child == nullptr))
     {
         symbol *sym = new symbol();
-        sym->genTmpVar(this->tmpVarCounter++, unset);
+        sym->genTmpVar(this->tmpVarCounter++, Unset);
 
         OpObject *tmp_res = new OpObject();
         tmp_res->arg.var = sym;
@@ -430,7 +430,7 @@ void TreeNode::expr_inter_code_generate()
     if ((cur->nodeType == NODE_EXPR) && (cur->optype != EXPR_COMBINE))
     {
         symbol *sym = new symbol();
-        sym->genTmpVar(this->tmpVarCounter++, unset);
+        sym->genTmpVar(this->tmpVarCounter++, Unset);
 
         OpObject *tmp_res = new OpObject();
         tmp_res->arg.var = sym;

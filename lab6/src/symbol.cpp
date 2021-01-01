@@ -84,7 +84,7 @@ symbolType SymbolTable::get_type(int pos)
 	if (pos < 0 || pos >= size)
 	{
 		cerr << "Bad identifier" << endl;
-		return unset;
+		return Unset;
 	}
 
 	return table[pos].type;

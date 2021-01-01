@@ -70,6 +70,12 @@ IDENTIFIER [[:alpha:]_][[:alpha:][:digit:]_]*
     yylval = node;
     return SCANF;
 }
+"new" {
+    TreeNode* node = new TreeNode(lineno, NODE_STMT);
+    node->stype = STMT_NEW;
+    yylval = node;
+    return NEW;
+}
 {WHILE} {return WHILE;}
 
 {EQU} {

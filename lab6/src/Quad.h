@@ -123,7 +123,6 @@ struct OpObject
 };
 
 void printOpObject(OpObject *);
-// void printOpObject(OpObject *, ofstream &out);
 
 class Quad
 {
@@ -136,19 +135,11 @@ private:
  * |      | arg1 | arg2 | result|
  * *******************************
 */
-    int flag;
     string printOp();
 
 public:
     Quad(OpCode, OpObject*, OpObject*, OpObject*);
-
-    // inline void backpatch(int int_target) { this->result.int_target = int_target; };
-    // 上面的是回填函数，将传入参数填入到int_target里面，代表跳转的目标地址
-    // inline int getResult() { return this->result.int_target == 0 ? 1 : 0; }
-    // 是0就返回1,不是0就返回0
-    inline int getFlag() { return this->flag; }
     inline OpCode getOpCode() { return this->op; }
-
     inline OpObject* getArg(int index)
     {
         if (index == 1)

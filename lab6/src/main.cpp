@@ -30,9 +30,10 @@ int main(int argc, char *argv[])
         cout<<endl;
         GlobalSymTable->printTable();
         root->get_label();
+        // 生成中间代码
         root->generate_inter_code();
+        // 生成汇编
         ofstream out("out.s", ofstream::out | ios::binary);
-        
         root->printQuads();
         root->gen_code(out);
     }

@@ -22,7 +22,7 @@
 %token GTR LSS GEQ LEQ NEQ LOGICAL_AND LOGICAL_OR LOGICAL_NOT UMINUS 
 
 %token FOR INPUT OUTPUT DO MAIN IF ELSE WHILE RETURN
-%token SCANF PRINTF
+%token SCANF PRINTF NEW
 %token EOL
 
 %left LOP_EQ
@@ -226,6 +226,7 @@ declaration
     node->addChild($2);
     $$ = node;
 }
+| T 
 ;
 
 IDLIST
@@ -249,6 +250,17 @@ function_declaration_id
     node->addChild($2);
     $$ = node;}
 | T {$$=$1;}
+// TODO 有
+| T IDENTIFIER LOP_ASSIGN NEW T LP expr RP {
+    TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
+    node->stype = STMT_DECL;
+    node->addChild($1);
+    node->addChild($2);
+    node->addChild($4);
+    node->addChild($5);
+    node->addChild($7);
+    $$ = node;
+}
 ;
 
 function_declaration_idlist
@@ -394,8 +406,8 @@ T
 | T_BOOL {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_BOOL;}
 | T_DOUBLE {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_DOUBLE;}
 | T_VOID {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_VOID;}
-| T TIMES {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_POINT;}
-| T AND {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_CITE;}
+| T TIMES {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_POINT;$1->addSibling($$);}
+| T AND {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_CITE;$1->addSibling($$);}
 ;
 
 %%

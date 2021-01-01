@@ -61,8 +61,24 @@
 //     //  c=a+b;
 // }
 
-int a, b, c;
-int main()
-{
-    a = 1+1;
-}
+// int a, b, c;
+// int main()
+// {
+//     a = 1+1;
+// }
+
+// test9
+// int a;
+// int fun(){
+//     int a=0;
+//     return a;
+// }
+// int main(){
+//     int c=1;
+//     fun();
+//     return 0;
+// }
+
+// test10
+int c;
+int  *a = new int(10);

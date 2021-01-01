@@ -2,7 +2,7 @@
 _a:
 	.zero	4
 	.align	4
-_b:
+_a:
 	.zero	4
 	.align	4
 _c:
@@ -13,7 +13,6 @@ _c:
 # your asm code here
 	.text
 	.globl _start
-movl 1 %eax
-addl 1 %eax
-movl %eax _t0
-movl _t0 _a
+
+movl 0 _t0
+movl 1 _t0

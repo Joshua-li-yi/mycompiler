@@ -100,8 +100,9 @@ extern int yydebug;
     RETURN = 310,
     SCANF = 311,
     PRINTF = 312,
-    EOL = 313,
-    LOP_EQ = 314
+    NEW = 313,
+    EOL = 314,
+    LOP_EQ = 315
   };
 #endif
 

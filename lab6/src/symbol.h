@@ -12,16 +12,19 @@ using std::unordered_map;
 
 enum symbolType
 {
-	unset = -1,
-	integer = 0,
-	function = 1,
-	pointer = 2,
-	boolean = 3,
+	Unset = -1,
+	Integer = 0,
+	Function = 1,
+	Pointer = 2,
+	Boolean = 3,
 	Void = 4,
 	Struct = 5,
 	Array = 6,
-	literal = 7,
-	cite = 8,
+	Literal = 7,
+	Cite = 8,
+	Symbol_char,
+	Symbol_char_star,
+	Double,
 };
 
 struct symbol

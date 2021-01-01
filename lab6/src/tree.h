@@ -77,6 +77,7 @@ enum StmtType
     STMT_DOMAIN,
     STMT_BREAK,    // break
     STMT_CONTINUE, // continue
+    STMT_NEW,
 
 };
 
@@ -223,10 +224,13 @@ public:
 TreeNode *expNode(TreeNode *, TreeNode *, TreeNode *);
 // for语句节点
 TreeNode *forNode(int, TreeNode *, TreeNode *, TreeNode *, TreeNode *);
-
+// 节点类型转为符号表类型
 symbolType nodeTypetoSymbolType(TreeNode *);
 
+// 存放中间代码
 extern vector<Quad> quads;
+// 存放临时变量
 extern stack<OpObject *> tmpVarStack;
+// label的 seq
 extern int label_seq;
 #endif
