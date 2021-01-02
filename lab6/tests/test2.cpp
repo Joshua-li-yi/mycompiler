@@ -1,4 +1,5 @@
-#include <iostream>
+// #include <iostream>
+#include <stdio.h>
 using namespace std;
 int fun(int a, int b){
     int c = a+b;
@@ -9,6 +10,6 @@ int main(){
     d = 1;
     e = 2;
     int m = fun(d,e);
-    cout<<m<<endl;
-    cout<<"hello world"<<endl;
+    printf("%d\n", m);
+    printf("hello world %d\n",m);
 }

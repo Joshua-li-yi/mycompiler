@@ -48,30 +48,30 @@ char a[100] = "111223";
  ************************
 */
 
-void printOpObject(OpObject *ob)
+void printOpObject(OpObject *ob, ostream &out=cout)
 {
     switch (ob->getState())
     {
     case arg_int:
-        cout << ob->arg.int_target;
+        out << ob->arg.int_target;
         break;
     case arg_double:
-        cout << ob->arg.double_target;
+        out << ob->arg.double_target;
         break;
     case arg_bool:
-        cout << ob->arg.bool_target;
+        out << ob->arg.bool_target;
         break;
     case arg_char:
-        cout << ob->arg.char_target;
+        out << ob->arg.char_target;
         break;
     case arg_var:
-        cout << ob->arg.var->name;
+        out << ob->arg.var->name;
         break;
     case arg_char_star:
-        cout << ob->arg.char_star_target;
+        out << ob->arg.char_star_target;
         break;
     default:
-        cout << '-';
+        out << '-';
         break;
     }
 }
@@ -178,6 +178,18 @@ string Quad::printOp()
         return "  MMINUS  ";
     case OpCode_IF:
         return "  IF  ";
+    case OpCode_CITE:
+        return "  CITE  ";
+    case OpCode_POINTER:
+        return "  POINTER  ";
+    case OpCode_MAIN:
+        return "  MAIN  ";
+    case OpCode_PRINTF:
+        return "  PRINTF  ";
+    case OpCode_SCANF:
+        return "  SCANF  ";
+    case OpCode_PUSH:
+        return "  PUSH  ";
     default:
         break;
     }

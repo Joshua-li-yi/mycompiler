@@ -9,7 +9,9 @@ using std::unordered_map;
 using namespace std;
 
 int main(){
-   int *a = new int(3+2);
-   cout<<*a<<endl;
-
+   // cout<<*a<<endl;
+   int b =1;
+   int *a = &b ;
+   cout<<a<<endl;
+   cout << __FILE__;
 }

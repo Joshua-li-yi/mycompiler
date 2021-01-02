@@ -33,7 +33,7 @@ struct symbol
 	int token; // TODO 这个是干嘛的
 	// TreeNode* node;
 	symbolType type;
-
+	string string_content="";
 	inline string getSymbolName(){
 		return this->name;
 	}
@@ -45,13 +45,19 @@ struct symbol
 		return true;
 	}
 	// 生成临时变量
-	void genTmpVar(int num, symbolType st){
-		this->init("t"+intTostring(num), num, st);
+	void genTmpVar(int num, int t,symbolType st){
+		this->init("t"+intTostring(num), t, st);
+	}
+	void genTmpString(int num, int t,string s)
+	{
+		this->init(".LC" + intTostring(num), t, Symbol_char_star);
+		this->string_content = s;
 	}
 	// 打印symbol
 	void printSymbol(){
 		cout<<"name: "<<name<<" token: "<<token<<" type: "<<type<<endl;
 	}
+
 };
 
 class SymbolTable
@@ -73,9 +79,15 @@ public:
 	int set_type(int pos, symbolType type);
 	symbolType get_type(int pos);
 	symbol *get_symbol(int pos);
+	symbol *get_symbol_from_token(int token);
 	// 打印符号表
 	void printTable();
 	inline int get_size(){return size;}
+	inline bool isEmpty(){
+		if(size>0)
+			return false;
+		return true;
+	}
 };
 // 全局符号表
 extern SymbolTable *GlobalSymTable;

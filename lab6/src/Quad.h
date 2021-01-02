@@ -68,7 +68,6 @@ enum OpCode
     OpCode_GET_ADDRESS,
     OpCode_PARAM,
     OpCode_CALL,
-    OpCode_RETURN,
     OpCode_FUNC_DEF,
     OpCode_END_FUNCTION,
     OpCode_LABEL,
@@ -90,6 +89,13 @@ enum OpCode
     OpCode_PPLUS,
     OpCode_MMINUS,
     OpCode_IF,
+    OpCode_CITE,
+    OpCode_POINTER,
+    OpCode_MAIN,
+    OpCode_RETURN,
+    OpCode_PRINTF,
+    OpCode_SCANF,
+    OpCode_PUSH,
 };
 
 enum Arg_state
@@ -122,7 +128,7 @@ struct OpObject
     }
 };
 
-void printOpObject(OpObject *);
+void printOpObject(OpObject *, ostream &out);
 
 class Quad
 {

@@ -61,6 +61,7 @@
 //     //  c=a+b;
 // }
 
+// test 10
 // int a, b, c;
 // int main()
 // {
@@ -81,4 +82,7 @@
 
 // test10
 int c;
-int  *a = new int(10);
+// int  *a = new int(10);
+printf(&c);
+
+int *b = &c;

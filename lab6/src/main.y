@@ -250,7 +250,6 @@ function_declaration_id
     node->addChild($2);
     $$ = node;}
 | T {$$=$1;}
-// TODO 有
 | T IDENTIFIER LOP_ASSIGN NEW T LP expr RP {
     TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
     node->stype = STMT_DECL;
@@ -270,7 +269,13 @@ function_declaration_idlist
 
 function_return
 : RETURN SEMICOLON {$$=$1;}
-| RETURN expr SEMICOLON {$1->addSibling($2); $$=$1;}
+| RETURN expr SEMICOLON {
+    TreeNode* node = new TreeNode($1->lineno, NODE_EXPR);
+    node->optype = EXPR_COMBINE;
+    node->addChild($2);
+    $1->addChild(node); 
+    $$=$1;
+    }
 ;
 
 function_definition_id
@@ -338,17 +343,12 @@ function_definition
 ;
 
 function_call_id
-: expr {$$=$1;}
-| AND IDENTIFIER {
-    TreeNode* node = new TreeNode($2->lineno, NODE_CONST);
-    node->type = TYPE_CITE;
-    node->addChild($2);
-    $$ = node;}
-| TIMES IDENTIFIER {
-    TreeNode* node = new TreeNode($2->lineno, NODE_CONST);
-    node->type = TYPE_POINT;
-    node->addChild($2);
-    $$ = node;}
+: expr {
+    TreeNode* node = new TreeNode($1->lineno, NODE_EXPR);
+    node->optype = EXPR_COMBINE;
+    node->addChild($1);
+    $$=node;
+    }
 ;
 
 function_call_idlist
@@ -398,6 +398,16 @@ expr
 |   NUMBER      {$$ = $1;}
 |   CHAR {  $$ = $1;}
 |   STRING {$$ = $1;}
+|   AND IDENTIFIER {
+    TreeNode* node = new TreeNode($2->lineno, NODE_EXPR);
+    node->optype = OP_CITE;
+    node->addChild($2);
+    $$ = node;}
+|   TIMES IDENTIFIER {
+    TreeNode* node = new TreeNode($2->lineno, NODE_EXPR);
+    node->optype = OP_POINTER;
+    node->addChild($2);
+    $$ = node;}
 ;
 
 T
@@ -406,8 +416,18 @@ T
 | T_BOOL {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_BOOL;}
 | T_DOUBLE {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_DOUBLE;}
 | T_VOID {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_VOID;}
-| T TIMES {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_POINT;$1->addSibling($$);}
-| T AND {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_CITE;$1->addSibling($$);}
+| T TIMES {
+    TreeNode * node = new TreeNode(lineno, NODE_EXPR); 
+    node->optype = OP_POINTER;
+    $1->addChild(node);
+    $$ = $1;
+    }
+| T AND {
+    TreeNode * node = new TreeNode(lineno, NODE_EXPR); 
+    node->optype = OP_CITE;
+    $1->addChild(node);
+    $$ = $1;
+    }
 ;
 
 %%

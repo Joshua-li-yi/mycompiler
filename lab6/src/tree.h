@@ -51,6 +51,8 @@ enum OperatorType
     OP_PPLUS,
     OP_MMINUS,
     EXPR_COMBINE,
+    OP_CITE,
+    OP_POINTER,
 };
 
 enum StmtType
@@ -207,10 +209,11 @@ public:
     void gen_header(ostream &out);
     void gen_decl(ostream &out);
     void gen_temp_var(ostream &out);
+    void gen_rodata(ostream &out);
     void recursive_gen_code(ostream &out);
     void stmt_gen_code(ostream &out);
     void expr_gen_code(ostream &out);
-
+    
     string new_label();
     void get_label();
     void recursive_get_label();
@@ -233,4 +236,5 @@ extern vector<Quad> quads;
 extern stack<OpObject *> tmpVarStack;
 // label的 seq
 extern int label_seq;
+extern int tmp_string_seq;
 #endif

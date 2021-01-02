@@ -3,33 +3,7 @@
 vector<Quad> quads;
 stack<OpObject *> tmpVarStack;
 int label_seq = 0;
-void printOpObject(OpObject *ob, ostream &out)
-{
-    switch (ob->getState())
-    {
-    case arg_int:
-        out << ob->arg.int_target;
-        break;
-    case arg_double:
-        out << ob->arg.double_target;
-        break;
-    case arg_bool:
-        out << ob->arg.bool_target;
-        break;
-    case arg_char:
-        out << ob->arg.char_target;
-        break;
-    case arg_var:
-        out << "_" << ob->arg.var->name;
-        break;
-    case arg_char_star:
-        out << ob->arg.char_star_target;
-        break;
-    default:
-        out << '-';
-        break;
-    }
-}
+int tmp_string_seq = 0;
 OpCode
 expTypeToOpCode(OperatorType t)
 {
@@ -45,6 +19,10 @@ expTypeToOpCode(OperatorType t)
         return OpCode_TIMES;
     case OP_EQU:
         return OpCode_EQU;
+    case OP_CITE:
+        return OpCode_CITE;
+    case OP_POINTER:
+        return OpCode_POINTER;
     default:
         break;
     }
@@ -169,29 +147,29 @@ void TreeNode::printAST()
 }
 symbolType nodeTypetoSymbolType(TreeNode *t)
 {
-    if((t->nodeType==NODE_CONST)||(t->nodeType==NODE_VAR))
+    if ((t->nodeType == NODE_CONST) || (t->nodeType == NODE_VAR))
     {
         if (t->type == TYPE_INT)
             return Integer;
-        else if(t->type == TYPE_BOOL)
+        else if (t->type == TYPE_BOOL)
             return Boolean;
-        else if(t->type==TYPE_CHAR)
+        else if (t->type == TYPE_CHAR)
             return Symbol_char;
-        else if(t->type==TYPE_STRING)
+        else if (t->type == TYPE_STRING)
             return Symbol_char_star;
-        else if(t->type==TYPE_POINT)
+        else if (t->type == TYPE_POINT)
             return Pointer;
-        else if(t->type== TYPE_CITE)
+        else if (t->type == TYPE_CITE)
             return Cite;
-        else if(t->type==TYPE_VOID)
+        else if (t->type == TYPE_VOID)
             return Void;
-        else if(t->type==TYPE_DOUBLE)
+        else if (t->type == TYPE_DOUBLE)
             return Double;
     }
-    if(t->stype==STMT_FUN_DEF){
+    if (t->stype == STMT_FUN_DEF)
+    {
         return Function;
     }
-
 }
 
 void TreeNode::genSymbolTable()
@@ -216,6 +194,20 @@ void TreeNode::genSymbolTable()
                 tmp = tmp->sibling;
             }
         }
+    }
+    else if ((cur->nodeType == NODE_STMT) && ((cur->stype == STMT_PRINTF) || (cur->stype == STMT_SCANF)))
+    {
+        TreeNode *tmp = cur->child->child;
+        if ((tmp != nullptr) && (tmp->nodeType == NODE_CONST) && (tmp->type->getTypeInfo() == "string"))
+        {
+            symbol tmp_s;
+            tmp_s.genTmpString(tmp_string_seq++, tmp->nodeID,tmp->str_val);
+            GlobalSymTable->insert(tmp_s);
+        }
+    }
+    else if (cur->nodeType == NODE_MAIN) // 主函数
+    {
+        GlobalSymTable->insert("main", cur->nodeID, Function);
     }
     for (TreeNode *t = this->child; t; t = t->sibling)
         t->genSymbolTable();
@@ -362,6 +354,10 @@ string TreeNode::opType2String(OperatorType type)
         return "||";
     case EXPR_COMBINE:
         return "EXPR combine";
+    case OP_CITE:
+        return "&";
+    case OP_POINTER:
+        return "*";
     default:
         return "???";
         break;
@@ -401,7 +397,7 @@ void TreeNode::expr_inter_code_generate()
     if ((cur->nodeType == NODE_EXPR) && (cur->optype == EXPR_COMBINE) && (cur->child->child == nullptr))
     {
         symbol *sym = new symbol();
-        sym->genTmpVar(this->tmpVarCounter++, Unset);
+        sym->genTmpVar(this->tmpVarCounter++, this->nodeID,Unset);
 
         OpObject *tmp_res = new OpObject();
         tmp_res->arg.var = sym;
@@ -418,8 +414,11 @@ void TreeNode::expr_inter_code_generate()
         }
         else if (tmp->nodeType == NODE_CONST)
         {
-            tmp_arg1->arg.int_target = tmp->int_val;
-            tmp_arg1->arg_state = arg_int;
+            if (tmp->type->getTypeInfo() == "int")
+            {
+                tmp_arg1->arg.int_target = tmp->int_val;
+                tmp_arg1->arg_state = arg_int;
+            }
         }
 
         Quad quad_int = Quad(OpCode_ASSIGN, tmp_arg1, nullptr, tmp_res);
@@ -430,7 +429,7 @@ void TreeNode::expr_inter_code_generate()
     if ((cur->nodeType == NODE_EXPR) && (cur->optype != EXPR_COMBINE))
     {
         symbol *sym = new symbol();
-        sym->genTmpVar(this->tmpVarCounter++, Unset);
+        sym->genTmpVar(this->tmpVarCounter++, this->nodeID ,Unset);
 
         OpObject *tmp_res = new OpObject();
         tmp_res->arg.var = sym;
@@ -441,42 +440,64 @@ void TreeNode::expr_inter_code_generate()
         OpObject *tmp_arg1 = new OpObject();
         OpObject *tmp_arg2 = new OpObject();
         TreeNode *tmp = cur->child;
-        if (tmp->nodeType == NODE_VAR)
+        if (tmp)
         {
+            if (tmp->nodeType == NODE_VAR)
+            {
 
-            tmp_sym1 = GlobalSymTable->lookup(tmp->var_name);
-            tmp_arg1->arg.var = tmp_sym1;
-            tmp_arg1->arg_state = arg_var;
-        }
-        else if (tmp->nodeType == NODE_CONST)
-        {
-            tmp_arg1->arg.int_target = tmp->int_val;
-            tmp_arg1->arg_state = arg_int;
+                tmp_sym1 = GlobalSymTable->lookup(tmp->var_name);
+                tmp_arg1->arg.var = tmp_sym1;
+                tmp_arg1->arg_state = arg_var;
+            }
+            else if (tmp->nodeType == NODE_CONST)
+            {
+                tmp_arg1->arg.int_target = tmp->int_val;
+                tmp_arg1->arg_state = arg_int;
+            }
+            else
+            {
+                tmp_arg1 = tmpVarStack.top();
+                tmpVarStack.pop();
+            }
         }
         else
         {
-            tmp_arg1 = tmpVarStack.top();
-            tmpVarStack.pop();
+            tmp_arg1 = nullptr;
         }
-
-        if (tmp->sibling->nodeType == NODE_VAR)
+        if (tmp->sibling)
         {
-            tmp_sym2 = GlobalSymTable->lookup(tmp->sibling->var_name);
-            tmp_arg2->arg.var = tmp_sym2;
-            tmp_arg2->arg_state = arg_var;
-        }
-        else if (tmp->sibling->nodeType == NODE_CONST)
-        {
-            tmp_arg2->arg.int_target = tmp->sibling->int_val;
-            tmp_arg2->arg_state = arg_int;
+            if (tmp->sibling->nodeType == NODE_VAR)
+            {
+                tmp_sym2 = GlobalSymTable->lookup(tmp->sibling->var_name);
+                tmp_arg2->arg.var = tmp_sym2;
+                tmp_arg2->arg_state = arg_var;
+            }
+            else if (tmp->sibling->nodeType == NODE_CONST)
+            {
+                tmp_arg2->arg.int_target = tmp->sibling->int_val;
+                tmp_arg2->arg_state = arg_int;
+            }
+            else
+            {
+                tmp_arg2 = tmpVarStack.top();
+                tmpVarStack.pop();
+            }
         }
         else
         {
-            tmp_arg2 = tmpVarStack.top();
-            tmpVarStack.pop();
+            tmp_arg2 = nullptr;
         }
+
+        // if ((cur->optype == OP_CITE) || (cur->optype == OP_POINTER))
+        // {
+        //     Quad quad_int = Quad(expTypeToOpCode(cur->optype), tmp_arg1, tmp_arg2, tmp_res);
+        //     quads.push_back(quad_int);
+        // }
+        // else
+        // {
         Quad quad_int = Quad(expTypeToOpCode(cur->optype), tmp_arg1, tmp_arg2, tmp_res);
         quads.push_back(quad_int);
+        // }
 
         tmpVarStack.push(tmp_res);
     }
@@ -490,12 +511,15 @@ void TreeNode::generate_inter_code()
         cout << "nullptr" << endl;
         return;
     }
-    switch (this->getNodeType())
+    if (this->getNodeType() == NODE_STMT)
     {
-    case NODE_STMT:
-    {
+
         TreeNode *cur = this;
-        if (cur->stype == STMT_DECL)
+
+        switch (cur->stype)
+        {
+
+        case STMT_DECL:
         {
             symbolType tmp_type;
             if (cur->child != nullptr)
@@ -520,8 +544,9 @@ void TreeNode::generate_inter_code()
                     tmp = tmp->sibling;
                 }
             }
+            break;
         }
-        else if (cur->stype == STMT_ASSIGN)
+        case STMT_ASSIGN:
         {
             symbolType tmp_type;
             if (cur->child != nullptr)
@@ -543,8 +568,9 @@ void TreeNode::generate_inter_code()
                 Quad quad_int = Quad(OpCode_ASSIGN, tmp_ob1, nullptr, tmp_ob3);
                 quads.push_back(quad_int);
             }
+            break;
         }
-        else if (cur->stype == STMT_VAR_INIT)
+        case STMT_VAR_INIT:
         {
             TreeNode *tmp = cur->child->sibling;
             symbol *tmp_res;
@@ -560,10 +586,20 @@ void TreeNode::generate_inter_code()
                 tmp->expr_inter_code_generate();
             tmp_ob1 = tmpVarStack.top();
             tmpVarStack.pop();
-            Quad quad_int = Quad(OpCode_VAR_DECL, tmp_ob1, nullptr, tmp_ob3);
-            quads.push_back(quad_int);
+
+            if ((cur->child->child != nullptr) && (cur->child->child->optype == OP_POINTER))
+            {
+                Quad quad_int = Quad(OpCode_POINTER, tmp_ob1, nullptr, tmp_ob3);
+                quads.push_back(quad_int);
+            }
+            else
+            {
+                Quad quad_int = Quad(OpCode_VAR_DECL, tmp_ob1, nullptr, tmp_ob3);
+                quads.push_back(quad_int);
+            }
+            break;
         }
-        else if (cur->stype == STMT_IF)
+        case STMT_IF:
         {
             OpObject *tmp_ob = new OpObject();
             // if开始的label
@@ -631,8 +667,9 @@ void TreeNode::generate_inter_code()
                 }
                 this->sibling->generate_inter_code();
             }
+            break;
         }
-        else if (cur->stype == STMT_WHILE)
+        case STMT_WHILE:
         {
             OpObject *tmp_begin = new OpObject();
             // if开始的label
@@ -676,13 +713,78 @@ void TreeNode::generate_inter_code()
 
             Quad quad_int = Quad(OpCode_JUMP, nullptr, nullptr, tmp_begin);
             quads.push_back(quad_int);
+            break;
         }
-        delete cur;
-        break;
+        case STMT_RETURN:
+        {
+
+            if (cur->child != nullptr)
+            {
+                OpObject *tmp_ob1 = new OpObject();
+                TreeNode *tmp = cur->child;
+                if (tmp->optype == EXPR_COMBINE)
+                    tmp->expr_inter_code_generate();
+                tmp_ob1 = tmpVarStack.top();
+
+                tmpVarStack.pop();
+
+                Quad quad_int = Quad(OpCode_RETURN, nullptr, nullptr, tmp_ob1);
+                quads.push_back(quad_int);
+            }
+            break;
+        }
+        case STMT_PRINTF:
+        case STMT_SCANF:
+        {
+            TreeNode *tmp = cur->child->child;
+            if ((tmp) && (tmp->nodeType == NODE_CONST) && (tmp->type->getTypeInfo() == "string"))
+            {
+                OpObject *tmp_res = new OpObject();
+                tmp_res->arg.var = GlobalSymTable->get_symbol_from_token(tmp->nodeID);
+                tmp_res->arg_state = arg_var;
+                Quad quad_int = Quad(OpCode_PUSH, nullptr, nullptr, tmp_res);
+                quads.push_back(quad_int);
+            }
+            tmp = cur->child->sibling;
+            while (tmp != nullptr)
+            {
+                // 生成表达式
+                if ((tmp->nodeType == NODE_EXPR) && (tmp->optype == EXPR_COMBINE))
+                    tmp->expr_inter_code_generate();
+                OpObject *tmp_ob1 = new OpObject();
+                tmp_ob1 = tmpVarStack.top();
+                tmpVarStack.pop();
+                Quad quad_int = Quad(OpCode_PUSH, nullptr, nullptr, tmp_ob1);
+                quads.push_back(quad_int);
+
+                tmp = tmp->sibling;
+            }
+            if (cur->stype == STMT_PRINTF)
+            {
+                Quad quad_int = Quad(OpCode_PRINTF, nullptr, nullptr, nullptr);
+                quads.push_back(quad_int);
+            }
+            else if (cur->stype == STMT_SCANF)
+            {
+                Quad quad_int = Quad(OpCode_SCANF, nullptr, nullptr, nullptr);
+                quads.push_back(quad_int);
+            }
+
+            break;
+        }
+        default:
+            break;
+        }
     }
-    default:
-        break;
+    else if (this->getNodeType() == NODE_MAIN)
+    {
+        OpObject *tmp_main = new OpObject();
+        tmp_main->arg_state = arg_var;
+        tmp_main->arg.var = GlobalSymTable->lookup("main");
+        Quad quad_int = Quad(OpCode_MAIN, nullptr, nullptr, tmp_main);
+        quads.push_back(quad_int);
     }
+
     for (TreeNode *t = this->child; t; t = t->sibling)
         t->generate_inter_code();
 }
@@ -703,7 +805,7 @@ void TreeNode::printQuads()
 string TreeNode::new_label()
 {
     char tmp[20];
-    sprintf(tmp, "@%d", label_seq);
+    sprintf(tmp, ".%d", label_seq);
     label_seq++;
     return tmp;
 }
@@ -874,30 +976,59 @@ void TreeNode::gen_header(ostream &out)
 {
     out << "# your asm code header here" << endl;
     /*your code here*/
+    out << "\t.file\t" << __FILE__ << endl;
+    out << "\t.text" << endl;
 }
 
 void TreeNode::gen_decl(ostream &out)
 {
     for (int i = 0; i < GlobalSymTable->get_size(); i++)
     {
-        out << "_" << GlobalSymTable->get_symbol(i)->name << ":" << endl;
-        out << "\t.zero\t4" << endl;
-        out << "\t.align\t4" << endl;
+        if ((GlobalSymTable->get_symbol(i)->name != "main") && (GlobalSymTable->get_symbol(i)->type != Function))
+        {
+            if ((GlobalSymTable->get_symbol(i)->type != Function) && (GlobalSymTable->get_symbol(i)->type != Symbol_char_star))
+            {
+                out << "\t.global\t" << GlobalSymTable->get_symbol(i)->name << endl;
+                out << "\t.align\t4" << endl;
+                out << "\t.type\t" << GlobalSymTable->get_symbol(i)->name << ", @object" << endl;
+                out << GlobalSymTable->get_symbol(i)->name << ":" << endl;
+                out << "\t.zero\t4" << endl;
+            }
+        }
     }
 }
-
+void TreeNode::gen_rodata(ostream &out)
+{
+    for (int i = 0; i < GlobalSymTable->get_size(); i++)
+    {
+        if (GlobalSymTable->get_symbol(i)->type == Symbol_char_star)
+        {
+            out << GlobalSymTable->get_symbol(i)->name << ":" << endl;
+            out << "\t.string\t" << GlobalSymTable->get_symbol(i)->string_content << endl;
+        }
+    }
+}
 void TreeNode::gen_code(ostream &out)
 {
     gen_header(out);
-
-    this->gen_decl(out);
+    if (!GlobalSymTable->isEmpty())
+    {
+        out << "\t.bss\n";
+        this->gen_decl(out);
+    }
     // this->gen_temp_var(out);
+    if (tmp_string_seq > 0)
+    {
+        out << "\t.section\t.rodata\n";
+        this->gen_rodata(out);
+    }
     out << endl;
     out << endl;
     out << "# your asm code here" << endl;
     out << "\t.text" << endl;
-    out << "\t.globl _start" << endl;
-
+    out << "\t.globl main" << endl;
+    out << "\t.type	main, @function" << endl;
+    out << "main:" << endl;
     int count = 0;
     // TODO
     for (auto it : quads)
@@ -905,33 +1036,51 @@ void TreeNode::gen_code(ostream &out)
         switch (it.getOpCode())
         {
         case OpCode_PLUS:
-            out << ASM_MOV << " ";
+            out << "\t" << ASM_MOV << " ";
             printOpObject(it.getArg(1), out);
-            out << " "
+            out << ", "
                 << "%eax";
 
             out
                 << endl
-                << ASM_ADD << " ";
+                << "\t"
+                << ASM_ADD << "\t";
             printOpObject(it.getArg(2), out);
-            out << " "
+            out << ", "
                 << "%eax";
 
             out << endl
-                << ASM_MOV << " "
+                << "\t"
+                << ASM_MOV << "\t"
                 << "%eax"
-                << " ";
+                << ", ";
             printOpObject(it.getArg(3), out);
             break;
         case OpCode_ASSIGN:
             out << endl
-                << ASM_MOV << " ";
+                << "\t"
+                << ASM_MOV << "\t";
             printOpObject(it.getArg(1), out);
-            out << " ";
+            out << ", ";
             printOpObject(it.getArg(3), out);
+
+            break;
+        case OpCode_RETURN:
+            out << endl
+                << "\t"
+                << ASM_MOV << "\t";
+            printOpObject(it.getArg(3), out);
+            out << ", ";
+            out << ASM_EAX;
             break;
         default:
             break;
         }
     }
+    out << endl
+        << "\t" << ASM_RET;
+    out << endl;
+    out << "\t.section	.note.GNU-stack,"
+           ",@progbits"
+        << endl;
 }

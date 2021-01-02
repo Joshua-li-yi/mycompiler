@@ -9,18 +9,20 @@ extern int yyparse();
 using namespace std;
 int main(int argc, char *argv[])
 {
-    if (argc == 2)
-    {
-        FILE *fin = fopen(argv[1], "r");
-        if (fin != nullptr)
-        {
-            yyin = fin;
-        }
-        else
-        {
-            cerr << "failed to open file: " << argv[1] << endl;
-        }
-    }
+    // if (argc == 2)
+    // {
+        // FILE *fin = fopen(argv[1], "r");
+
+    //     if (fin != nullptr)
+    //     {
+    //         yyin = fin;
+    //     }
+    //     else
+    //     {
+    //         cerr << "failed to open file: " << argv[1] << endl;
+    //     }
+    // }
+    yyin = stdin;
     yyparse();
     if(root != NULL) {
 
@@ -32,10 +34,10 @@ int main(int argc, char *argv[])
         root->get_label();
         // 生成中间代码
         root->generate_inter_code();
-        // 生成汇编
-        ofstream out("out.s", ofstream::out | ios::binary);
+        // // 生成汇编
+        // ofstream out("out.s", ofstream::out | ios::binary);
         root->printQuads();
-        root->gen_code(out);
+        root->gen_code(cout);
     }
     return 0;
 }

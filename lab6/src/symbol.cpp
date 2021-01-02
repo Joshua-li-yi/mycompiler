@@ -8,6 +8,13 @@ SymbolTable::SymbolTable()
 {
 	this->size = 0;
 }
+symbol *SymbolTable::get_symbol_from_token(int token)
+{
+	for (int i = 0; i < size; i++)
+		if (table[i].token == token)
+			return &table[i];
+	return nullptr;
+}
 // SymbolTable symtbl;
 // 按变量名遍历表寻找变量
 symbol *SymbolTable::lookup(string name)
