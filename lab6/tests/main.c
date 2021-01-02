@@ -1,5 +1,11 @@
+int a;
 int main()
 {
-    printf("test\n");
+    scanf("%d", &a);
+    if (a > 0)
+    {
+        a -= 20;
+    }
+    printf("test:%d\n", a);
     return 0;
 }

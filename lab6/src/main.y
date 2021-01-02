@@ -103,8 +103,12 @@ assignment_stmt
 | IDENTIFIER MIN_ASSIGN expr SEMICOLON{
     TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
     node->stype = STMT_MIN_ASSIGN;
+    TreeNode* node2 = new TreeNode($1->lineno, NODE_EXPR);
+    node2->optype = EXPR_COMBINE;
+    node2->addChild($3);
+
     node->addChild($1);
-    node->addChild($3);
+    node->addChild(node2);
     $$ = node;}
 | IDENTIFIER TIM_ASSIGN expr SEMICOLON{
     TreeNode* node = new TreeNode($1->lineno, NODE_STMT);

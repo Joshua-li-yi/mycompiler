@@ -6,4 +6,5 @@ using namespace std;
 
 string intTostring(int n);
 char* stringTochar_star(string);
+string addDollarForInt(int n);
 #endif

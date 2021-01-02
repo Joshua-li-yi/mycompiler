@@ -196,7 +196,6 @@ public:
     TreeNode(int lineno, NodeType type);
 
 public:
-    int tmpVarCounter=0;
     
     SymbolTable *symTabel;
     
@@ -237,4 +236,5 @@ extern stack<OpObject *> tmpVarStack;
 // label的 seq
 extern int label_seq;
 extern int tmp_string_seq;
+extern int tmpVarCounter;
 #endif

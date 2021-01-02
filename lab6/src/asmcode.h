@@ -6,14 +6,14 @@
 #define ASM_ADD "addl"
 #define ASM_XOR "xor"
 #define ASM_NEG "neg"
-#define ASM_SUB "sub"
+#define ASM_SUB "subl"
 #define ASM_MUL "mul"
 #define ASM_DIV "div"
 #define ASM_PUSH "pushl"
 #define ASM_POP "popl"
 #define ASM_CALL "call"
 #define ASM_RET "ret"
-#define ASM_CMP "cmp"
+#define ASM_CMP "cmpl"
 #define ASM_ENTER "enter"
 #define ASM_LEAVE "leave"
 #define ASM_LEA "lea" // 加载变量地址
@@ -25,7 +25,8 @@
 #define ASM_JL "jl"
 #define ASM_JLE "jle"
 #define ASM_JNE "jne"
-
+#define ASM_PRINTF "printf"
+#define ASM_SCANF "scanf"
 // 32-bit asm register
 #define ASM_EAX "%eax"
 #define ASM_EBX "%ebx"
@@ -42,5 +43,5 @@
 #define ASM_RB "]"
 #define ASM_COMMA ","
 #define ASM_COLON ":"
-
+#define tableSym "\t"
 #endif

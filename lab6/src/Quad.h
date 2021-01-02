@@ -12,7 +12,7 @@ using std::string;
 using std::unordered_map;
 
 #include "symbol.h"
-
+#include "debug.h"
 /***********************
  * Operation Code for a Quad:
  * @enum JUMP:  JUMP operation.
@@ -46,13 +46,6 @@ using std::unordered_map;
 enum OpCode
 {
     OpCode_JUMP,
-    OpCode_JUMP_SMALL,
-    OpCode_JUMP_EQ_SMALL,
-    OpCode_JUMP_GREAT,
-    OpCode_JUMP_EQ_GREAT,
-    OpCode_JUMP_EQUAL,
-    OpCode_JUMP_NOT_EQUAL,
-    OpCode_JUMP_CONDITION,
     OpCode_PLUS,
     OpCode_MINUS,
     OpCode_TIMES,
@@ -88,7 +81,6 @@ enum OpCode
     OpCode_NOT,
     OpCode_PPLUS,
     OpCode_MMINUS,
-    OpCode_IF,
     OpCode_CITE,
     OpCode_POINTER,
     OpCode_MAIN,
@@ -96,6 +88,8 @@ enum OpCode
     OpCode_PRINTF,
     OpCode_SCANF,
     OpCode_PUSH,
+    OpCode_JLE,
+    OpCode_IF,
 };
 
 enum Arg_state

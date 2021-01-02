@@ -12,3 +12,8 @@ char* strinTochar_star(string str){
     strcpy(strc, str.c_str());
     return strc;
 }
+
+string addDollarForInt(int n){
+    string s = "$"+intTostring(n);
+    return s;
+}

@@ -4,6 +4,7 @@ vector<Quad> quads;
 stack<OpObject *> tmpVarStack;
 int label_seq = 0;
 int tmp_string_seq = 0;
+int tmpVarCounter = 0;
 OpCode
 expTypeToOpCode(OperatorType t)
 {
@@ -17,12 +18,35 @@ expTypeToOpCode(OperatorType t)
         return OpCode_MINUS;
     case OP_TIMES:
         return OpCode_TIMES;
-    case OP_EQU:
-        return OpCode_EQU;
+
     case OP_CITE:
         return OpCode_CITE;
     case OP_POINTER:
         return OpCode_POINTER;
+    case OP_GTR:
+        return OpCode_GTR;
+    case OP_GEQ:
+        return OpCode_GEQ;
+    case OP_EQU:
+        return OpCode_EQU;
+    case OP_NEQ:
+        return OpCode_NEQ;
+    case OP_LSS:
+        return OpCode_LSS;
+    case OP_LEQ:
+        return OpCode_LEQ;
+    case OP_AND:
+        return OpCode_AND;
+    case OP_LOGICAL_AND:
+        return OpCode_LOGICAL_AND;
+    case OP_OR:
+        return OpCode_OR;
+    case OP_LOGICAL_OR:
+        return OpCode_LOGICAL_OR;
+    case OP_NOT:
+        return OpCode_NOT;
+    case OP_LOGICAL_NOT:
+        return OpCode_LOGICAL_NOT;
     default:
         break;
     }
@@ -397,7 +421,7 @@ void TreeNode::expr_inter_code_generate()
     if ((cur->nodeType == NODE_EXPR) && (cur->optype == EXPR_COMBINE) && (cur->child->child == nullptr))
     {
         symbol *sym = new symbol();
-        sym->genTmpVar(this->tmpVarCounter++, this->nodeID, Unset);
+        sym->genTmpVar(tmpVarCounter++, this->nodeID, Unset);
 
         OpObject *tmp_res = new OpObject();
         tmp_res->arg.var = sym;
@@ -429,7 +453,7 @@ void TreeNode::expr_inter_code_generate()
     if ((cur->nodeType == NODE_EXPR) && (cur->optype != EXPR_COMBINE))
     {
         symbol *sym = new symbol();
-        sym->genTmpVar(this->tmpVarCounter++, this->nodeID, Unset);
+        sym->genTmpVar(tmpVarCounter++, this->nodeID, Unset);
 
         OpObject *tmp_res = new OpObject();
         tmp_res->arg.var = sym;
@@ -505,7 +529,7 @@ void TreeNode::expr_inter_code_generate()
 
 void TreeNode::generate_inter_code()
 {
-
+    TreeNode *cur = this;
     if (this == nullptr)
     {
         cout << "nullptr" << endl;
@@ -513,8 +537,6 @@ void TreeNode::generate_inter_code()
     }
     if (this->getNodeType() == NODE_STMT)
     {
-
-        TreeNode *cur = this;
 
         switch (cur->stype)
         {
@@ -544,6 +566,8 @@ void TreeNode::generate_inter_code()
                     tmp = tmp->sibling;
                 }
             }
+            for (TreeNode *t = this->child; t; t = t->sibling)
+                t->generate_inter_code();
             break;
         }
         case STMT_ASSIGN:
@@ -568,6 +592,8 @@ void TreeNode::generate_inter_code()
                 Quad quad_int = Quad(OpCode_ASSIGN, tmp_ob1, nullptr, tmp_ob3);
                 quads.push_back(quad_int);
             }
+            for (TreeNode *t = this->child; t; t = t->sibling)
+                t->generate_inter_code();
             break;
         }
         case STMT_MIN_ASSIGN:
@@ -584,14 +610,17 @@ void TreeNode::generate_inter_code()
 
                 OpObject *tmp_ob1 = new OpObject();
                 TreeNode *tmp = cur->child->sibling;
-                if (tmp->optype == EXPR_COMBINE)
-                    tmp->expr_inter_code_generate();
-                tmp_ob1 = tmpVarStack.top();
-                tmpVarStack.pop();
+                if ((tmp->optype == EXPR_COMBINE) && (tmp->child) && (tmp->child->type->getTypeInfo() == "int"))
+                {
+                    tmp_ob1->arg_state = arg_int;
+                    tmp_ob1->arg.int_target = tmp->child->int_val;
+                }
 
                 Quad quad_int = Quad(OpCode_MINUS, tmp_ob3, tmp_ob1, tmp_ob3);
                 quads.push_back(quad_int);
             }
+            for (TreeNode *t = this->child; t; t = t->sibling)
+                t->generate_inter_code();
             break;
         }
         case STMT_PLUS_ASSIGN:
@@ -616,6 +645,8 @@ void TreeNode::generate_inter_code()
                 Quad quad_int = Quad(OpCode_PLUS, tmp_ob3, tmp_ob1, tmp_ob3);
                 quads.push_back(quad_int);
             }
+            for (TreeNode *t = this->child; t; t = t->sibling)
+                t->generate_inter_code();
             break;
         }
         case STMT_MOD_ASSIGN:
@@ -640,6 +671,8 @@ void TreeNode::generate_inter_code()
                 Quad quad_int = Quad(OpCode_MOD, tmp_ob3, tmp_ob1, tmp_ob3);
                 quads.push_back(quad_int);
             }
+            for (TreeNode *t = this->child; t; t = t->sibling)
+                t->generate_inter_code();
             break;
         }
         case STMT_DIV_ASSIGN:
@@ -664,6 +697,8 @@ void TreeNode::generate_inter_code()
                 Quad quad_int = Quad(OpCode_DIV, tmp_ob3, tmp_ob1, tmp_ob3);
                 quads.push_back(quad_int);
             }
+            for (TreeNode *t = this->child; t; t = t->sibling)
+                t->generate_inter_code();
             break;
         }
         case STMT_TIM_ASSIGN:
@@ -688,6 +723,8 @@ void TreeNode::generate_inter_code()
                 Quad quad_int = Quad(OpCode_TIMES, tmp_ob3, tmp_ob1, tmp_ob3);
                 quads.push_back(quad_int);
             }
+            for (TreeNode *t = this->child; t; t = t->sibling)
+                t->generate_inter_code();
             break;
         }
         case STMT_VAR_INIT:
@@ -717,75 +754,73 @@ void TreeNode::generate_inter_code()
                 Quad quad_int = Quad(OpCode_VAR_DECL, tmp_ob1, nullptr, tmp_ob3);
                 quads.push_back(quad_int);
             }
+            for (TreeNode *t = this->child; t; t = t->sibling)
+                t->generate_inter_code();
             break;
         }
         case STMT_IF:
         {
-            OpObject *tmp_ob = new OpObject();
-            // if开始的label
-            if (!this->label.begin_label.empty())
+            // if的label
+            OpObject *tmp_if_next = new OpObject();
+            if (!this->label.next_label.empty())
             {
-                OpObject *tmp_res = new OpObject();
-                tmp_res->arg_state = arg_char_star;
-                string tmp_s = this->label.begin_label + ":";
+                tmp_if_next->arg_state = arg_char_star;
+                string tmp_s = this->label.next_label + ":";
                 char *strc = new char[strlen(tmp_s.c_str()) + 1];
                 strcpy(strc, tmp_s.c_str());
-                tmp_res->arg.char_star_target = strc;
-                tmp_ob = tmp_res;
-                Quad quad_int = Quad(OpCode_LABEL, nullptr, nullptr, tmp_res);
-                quads.push_back(quad_int);
+                tmp_if_next->arg.char_star_target = strc;
+            }
+            // else的label
+            OpObject *tmp_else_next = new OpObject();
+            if (this->sibling->stype == STMT_ELSE)
+            {
+                if (!this->sibling->label.next_label.empty())
+                {
+                    tmp_else_next->arg_state = arg_char_star;
+
+                    string tmp_s = this->sibling->label.next_label + ":";
+                    char *strc = new char[strlen(tmp_s.c_str()) + 1];
+                    strcpy(strc, tmp_s.c_str());
+                    tmp_else_next->arg.char_star_target = strc;
+                }
             }
             // 生成表达式
             this->child->expr_inter_code_generate();
             OpObject *tmp_ob1 = new OpObject();
             tmp_ob1 = tmpVarStack.top();
             tmpVarStack.pop();
-            // 如果有else
-            OpObject *tmp_else = new OpObject();
-
-            if (this->sibling->stype == STMT_ELSE)
-            {
-                if (!this->sibling->label.begin_label.empty())
-                {
-                    tmp_else->arg_state = arg_char_star;
-
-                    string tmp_s = this->sibling->label.begin_label + ":";
-                    char *strc = new char[strlen(tmp_s.c_str()) + 1];
-                    strcpy(strc, tmp_s.c_str());
-                    tmp_else->arg.char_star_target = strc;
-                }
-            }
-            // 开始if
-            if (!this->child->label.true_label.empty())
-            {
-                OpObject *tmp_res = new OpObject();
-                tmp_res->arg_state = arg_char_star;
-
-                string tmp_s = this->child->label.true_label + ":";
-                char *strc = new char[strlen(tmp_s.c_str()) + 1];
-                strcpy(strc, tmp_s.c_str());
-                tmp_res->arg.char_star_target = strc;
-
-                Quad quad_int2 = Quad(OpCode_IF, tmp_ob1, nullptr, tmp_else);
-                quads.push_back(quad_int2);
-
-                Quad quad_int = Quad(OpCode_LABEL, nullptr, nullptr, tmp_res);
-                quads.push_back(quad_int);
-            }
-            // 生成if 中的语句
-            this->child->sibling->generate_inter_code();
-            // TODO 跳到else的next label
-            Quad quad_int = Quad(OpCode_JUMP, nullptr, nullptr, tmp_ob);
+            // if
+            Quad quad_if = Quad(OpCode_IF, nullptr, nullptr, tmp_ob1);
+            quads.push_back(quad_if);
+            // jle if next
+            Quad quad_int = Quad(OpCode_JLE, nullptr, nullptr, tmp_if_next);
             quads.push_back(quad_int);
+            // 生成if 中的语句
+            cur = this->child->sibling;
+            this->child->sibling->generate_inter_code();
             // else的label
             if (this->sibling->stype == STMT_ELSE)
             {
-                if (!this->sibling->label.begin_label.empty())
+                if (!this->sibling->label.next_label.empty())
                 {
-                    Quad quad_int = Quad(OpCode_LABEL, nullptr, nullptr, tmp_else);
+                    // jump else next
+                    Quad quad_int = Quad(OpCode_JUMP, nullptr, nullptr, tmp_else_next);
                     quads.push_back(quad_int);
                 }
+            }
+            // if next
+            Quad quad_int3 = Quad(OpCode_LABEL, nullptr, nullptr, tmp_if_next);
+            quads.push_back(quad_int3);
+
+            // else的label
+            if (this->sibling->stype == STMT_ELSE)
+            {
                 this->sibling->generate_inter_code();
+                if (!this->sibling->label.next_label.empty())
+                {
+                    Quad quad_int = Quad(OpCode_LABEL, nullptr, nullptr, tmp_else_next);
+                    quads.push_back(quad_int);
+                }
             }
             break;
         }
@@ -808,6 +843,7 @@ void TreeNode::generate_inter_code()
 
             // 生成表达式
             this->child->expr_inter_code_generate();
+
             OpObject *tmp_ob1 = new OpObject();
             tmp_ob1 = tmpVarStack.top();
             tmpVarStack.pop();
@@ -856,12 +892,31 @@ void TreeNode::generate_inter_code()
                 Quad quad_int = Quad(OpCode_RETURN, nullptr, nullptr, tmp_ob1);
                 quads.push_back(quad_int);
             }
+            for (TreeNode *t = this->child; t; t = t->sibling)
+                t->generate_inter_code();
             break;
         }
         case STMT_PRINTF:
         case STMT_SCANF:
         {
-            TreeNode *tmp = cur->child->child;
+            TreeNode *tmp = cur->child->sibling;
+            while (tmp != nullptr)
+            {
+                // 生成表达式
+                if ((tmp->nodeType == NODE_EXPR) && (tmp->optype == EXPR_COMBINE))
+                    tmp->expr_inter_code_generate();
+                tmp = tmp->sibling;
+            }
+            while (!tmpVarStack.empty())
+            {
+                OpObject *tmp_ob1 = new OpObject();
+                tmp_ob1 = tmpVarStack.top();
+                tmpVarStack.pop();
+                Quad quad_int = Quad(OpCode_PUSH, nullptr, nullptr, tmp_ob1);
+                quads.push_back(quad_int);
+            }
+
+            tmp = cur->child->child;
             if ((tmp) && (tmp->nodeType == NODE_CONST) && (tmp->type->getTypeInfo() == "string"))
             {
                 OpObject *tmp_res = new OpObject();
@@ -870,20 +925,7 @@ void TreeNode::generate_inter_code()
                 Quad quad_int = Quad(OpCode_PUSH, nullptr, nullptr, tmp_res);
                 quads.push_back(quad_int);
             }
-            tmp = cur->child->sibling;
-            while (tmp != nullptr)
-            {
-                // 生成表达式
-                if ((tmp->nodeType == NODE_EXPR) && (tmp->optype == EXPR_COMBINE))
-                    tmp->expr_inter_code_generate();
-                OpObject *tmp_ob1 = new OpObject();
-                tmp_ob1 = tmpVarStack.top();
-                tmpVarStack.pop();
-                Quad quad_int = Quad(OpCode_PUSH, nullptr, nullptr, tmp_ob1);
-                quads.push_back(quad_int);
 
-                tmp = tmp->sibling;
-            }
             if (cur->stype == STMT_PRINTF)
             {
                 Quad quad_int = Quad(OpCode_PRINTF, nullptr, nullptr, nullptr);
@@ -894,12 +936,17 @@ void TreeNode::generate_inter_code()
                 Quad quad_int = Quad(OpCode_SCANF, nullptr, nullptr, nullptr);
                 quads.push_back(quad_int);
             }
-
+            for (TreeNode *t = this->child; t; t = t->sibling)
+                t->generate_inter_code();
             break;
         }
 
         default:
+        {
+            for (TreeNode *t = this->child; t; t = t->sibling)
+                t->generate_inter_code();
             break;
+        }
         }
     }
     else if (this->getNodeType() == NODE_MAIN)
@@ -909,10 +956,15 @@ void TreeNode::generate_inter_code()
         tmp_main->arg.var = GlobalSymTable->lookup("main");
         Quad quad_int = Quad(OpCode_MAIN, nullptr, nullptr, tmp_main);
         quads.push_back(quad_int);
+        for (TreeNode *t = this->child; t; t = t->sibling)
+            t->generate_inter_code();
     }
+    else
+    {
 
-    for (TreeNode *t = this->child; t; t = t->sibling)
-        t->generate_inter_code();
+        for (TreeNode *t = this->child; t; t = t->sibling)
+            t->generate_inter_code();
+    }
 }
 
 void TreeNode::printQuads()
@@ -921,7 +973,7 @@ void TreeNode::printQuads()
     int count = 0;
     for (auto it : quads)
     {
-        cout << count++ << "\t";
+        cout << count++ << tableSym;
         it.printQuad();
         cout << endl;
     }
@@ -931,7 +983,7 @@ void TreeNode::printQuads()
 string TreeNode::new_label()
 {
     char tmp[20];
-    sprintf(tmp, ".%d", label_seq);
+    sprintf(tmp, ".L%d", label_seq);
     label_seq++;
     return tmp;
 }
@@ -986,20 +1038,20 @@ void TreeNode::stmt_get_label()
         TreeNode *e = this->child;
         TreeNode *s = this->child->sibling;
 
-        if (this->label.begin_label.empty())
-            this->label.begin_label = new_label();
+        // if (this->label.begin_label.empty())
+        //     this->label.begin_label = new_label();
 
-        s->label.next_label = this->label.begin_label;
+        // s->label.next_label = this->label.begin_label;
 
-        s->label.begin_label = e->label.true_label = new_label();
+        // s->label.begin_label = e->label.true_label = new_label();
 
         if (this->label.next_label.empty())
             this->label.next_label = new_label();
-        e->label.false_label = this->label.next_label;
+        // e->label.false_label = this->label.next_label;
+
         // 如果有else
         if ((this->sibling) && (this->sibling->stype == STMT_ELSE))
-            this->sibling->label.begin_label = this->label.next_label;
-
+            this->sibling->label.next_label = new_label();
         e->recursive_get_label();
         s->recursive_get_label();
         break;
@@ -1100,6 +1152,7 @@ void TreeNode::get_label()
 
 void TreeNode::gen_header(ostream &out)
 {
+    out << endl;
     out << "# your asm code header here" << endl;
     /*your code here*/
     out << "\t.file\t" << __FILE__ << endl;
@@ -1155,67 +1208,122 @@ void TreeNode::gen_code(ostream &out)
     out << "\t.globl main" << endl;
     out << "\t.type	main, @function" << endl;
     out << "main:" << endl;
-    out << "\t" << ASM_PUSH << "\t" << ASM_EBP << endl;
-    out << "\t" << ASM_MOV << "\t" << ASM_ESP << ", " << ASM_EBP << endl;
+    out << tableSym << ASM_PUSH << tableSym << ASM_EBP << endl;
+    out << tableSym << ASM_MOV << tableSym << ASM_ESP << ", " << ASM_EBP << endl;
 
     int count = 0;
+    int quads_size = quads.size();
+
     // TODO
-    for (auto it : quads)
+    for (int i = 0; i < quads_size; i++)
     {
-        switch (it.getOpCode())
+        switch (quads[i].getOpCode())
         {
         case OpCode_PLUS:
-            out << "\t" << ASM_MOV << " ";
-            printOpObject(it.getArg(1), out);
+            out << tableSym << ASM_MOV << " ";
+            printOpObject(quads[i].getArg(1), out);
             out << ", "
                 << "%eax";
 
             out
                 << endl
-                << "\t"
-                << ASM_ADD << "\t";
-            printOpObject(it.getArg(2), out);
+                << tableSym
+                << ASM_ADD << tableSym;
+            printOpObject(quads[i].getArg(2), out);
             out << ", "
                 << "%eax";
 
             out << endl
-                << "\t"
-                << ASM_MOV << "\t"
+                << tableSym
+                << ASM_MOV << tableSym
                 << "%eax"
                 << ", ";
-            printOpObject(it.getArg(3), out);
+            printOpObject(quads[i].getArg(3), out);
             break;
         case OpCode_ASSIGN:
             out << endl
-                << "\t"
-                << ASM_MOV << "\t";
-            printOpObject(it.getArg(1), out);
+                << tableSym
+                << ASM_MOV << tableSym;
+            printOpObject(quads[i].getArg(1), out);
             out << ", ";
-            printOpObject(it.getArg(3), out);
+            printOpObject(quads[i].getArg(3), out);
 
             break;
         case OpCode_RETURN:
-            if (it.getArg(3) != nullptr)
+            if (quads[i].getArg(3) != nullptr)
             {
                 out << endl
-                    << "\t"
-                    << ASM_MOV << "\t";
-                printOpObject(it.getArg(3), out);
+                    << tableSym
+                    << ASM_MOV << tableSym;
+                printOpObject(quads[i].getArg(3), out);
                 out << ", ";
                 out << ASM_EAX;
             }
+            else
+            {
+                out << endl
+                    << tableSym << ASM_MOV << tableSym
+                    << "$0, " << ASM_EAX;
+                out << endl
+                    << tableSym << ASM_POP << tableSym << ASM_EBP;
+            }
+
             break;
+        case OpCode_PUSH:
+        {
+            if (quads[i + 1].getOpCode() == OpCode_PUSH)
+            {
+                out << endl
+                    << tableSym
+                    << ASM_SUB << tableSym
+                    << "$8, " << ASM_ESP;
+
+                out << endl
+                    << tableSym << ASM_PUSH << "\t$";
+                printOpObject(quads[i].getArg(3), out);
+
+                out << endl
+                    << tableSym << ASM_PUSH << "\t$";
+                printOpObject(quads[i + 1].getArg(3), out);
+
+                i = i + 1;
+            }
+            else
+            {
+                out << endl
+                    << tableSym
+                    << ASM_SUB << tableSym
+                    << "$12, " << ASM_ESP;
+
+                out << endl
+                    << tableSym << ASM_PUSH << "\t$";
+                printOpObject(quads[i].getArg(3), out);
+            }
+            break;
+        }
+        case OpCode_PRINTF:
+        {
+            out << endl
+                << tableSym << ASM_CALL << tableSym << ASM_PRINTF;
+            out << endl
+                << tableSym << ASM_ADD << tableSym << "$16, " << ASM_ESP;
+            break;
+        }
+        case OpCode_SCANF:
+        {
+            out << endl
+                << tableSym << ASM_CALL << tableSym << ASM_SCANF;
+            out << endl
+                << tableSym << ASM_ADD << tableSym << "$16, " << ASM_ESP;
+            break;
+        }
         default:
             break;
         }
     }
+
     out << endl
-        << "\t" << ASM_MOV << "\t"
-        << "$0, " << ASM_EAX;
-    out << endl
-        << "\t" << ASM_POP << "\t" << ASM_EBP;
-    out << endl
-        << "\t" << ASM_RET;
+        << tableSym << ASM_RET;
     out << endl;
     out << "\t.section	.note.GNU-stack,"
            ",@progbits"

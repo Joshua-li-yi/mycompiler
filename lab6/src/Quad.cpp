@@ -91,105 +91,95 @@ string Quad::printOp()
     switch (this->op)
     {
     case OpCode_JUMP:
-        return "     JUMP     ";
-    case OpCode_JUMP_SMALL:
-        return "  JUMP_SMALL  ";
-    case OpCode_JUMP_EQ_SMALL:
-        return "JUMP_EQ_SMALL ";
-    case OpCode_JUMP_GREAT:
-        return "  JUMP_GREAT  ";
-    case OpCode_JUMP_EQ_GREAT:
-        return "JUMP_EQ_GREAT ";
-    case OpCode_JUMP_EQUAL:
-        return "  JUMO_EQUAL  ";
-    case OpCode_JUMP_NOT_EQUAL:
-        return "JUMP_NOT_EQUAL";
+        return "JUMP\t";
     case OpCode_PLUS:
-        return "     PLUS     ";
+        return "PLUS\t";
     case OpCode_MINUS:
-        return "    MINUS     ";
+        return "MINUS\t";
     case OpCode_TIMES:
-        return "    TIMES     ";
+        return "TIMES\t";
     case OpCode_DIV:
-        return "     DIV      ";
+        return "DIV\t";
     case OpCode_MOD:
-        return "     MOD      ";
+        return "MOD\t";
     case OpCode_POWER:
-        return "    POWER     ";
+        return "POWER\t";
     case OpCode_NEGATIVE:
-        return "   NEGATIVE   ";
+        return "NEGATIVE\t";
     case OpCode_ASSIGN:
-        return "    ASSIGN    ";
+        return "ASSIGN\t";
     case OpCode_ASSIGN_ARRAY:
-        return " ASSIGN_ARRAY ";
+        return "ASSIGN_ARRAY\t";
     case OpCode_ASSIGN_STRUCT:
-        return "ASSIGN_STRUCT ";
+        return "ASSIGN_STRUCT\t";
     case OpCode_GET_ADDRESS:
-        return " GET_ADDRESS  ";
+        return "GET_ADDRESS\t";
     case OpCode_ASSIGN_POINTER:
-        return "ASSIGN_POINTER";
+        return "ASSIGN_POINTER\t";
     case OpCode_PARAM:
-        return "    PARAM     ";
+        return "PARAM\t";
     case OpCode_CALL:
-        return "     CALL     ";
+        return "CALL\t";
     case OpCode_RETURN:
-        return "    RETURN    ";
+        return "RETURN\t";
     case OpCode_FUNC_DEF:
-        return "   FUNC_DEF   ";
+        return "FUNC_DEF\t";
     case OpCode_END_FUNCTION:
-        return " END_FUNCTION ";
+        return "END_FUNCTION\t";
     case OpCode_LABEL:
-        return "     LABEL    ";
+        return "LABEL\t";
     case OpCode_GET_VALUE:
-        return "  GET_VALUE   ";
+        return "GET_VALUE\t";
     case OpCode_GET_ARRAY:
-        return "  GET_ARRAY   ";
+        return "GET_ARRAY\t";
     case OpCode_GET_STRUCT:
-        return "  GET_STRUCT  ";
+        return "GET_STRUCT\t";
     case OpCode_VAR_DECL:
-        return "  VAR_DECL  ";
+        return "VAR_DECL\t";
     case OpCode_EQU:
-        return "  EQU  ";
+        return "EQU\t";
     case OpCode_GTR:
-        return "  GTR  ";
+        return "GTR\t";
     case OpCode_LSS:
-        return "  LSS  ";
+        return "LSS\t";
     case OpCode_GEQ:
-        return "  GEQ  ";
+        return "GEQ\t";
     case OpCode_LEQ:
-        return "  LEQ  ";
+        return "LEQ\t";
     case OpCode_NEQ:
-        return "  NEQ  ";
+        return "NEQ\t";
     case OpCode_LOGICAL_AND:
-        return "  LOGICAL_AND  ";
+        return "LOGICAL_AND\t";
     case OpCode_LOGICAL_OR:
-        return "  LOGICAL_OR  ";
+        return "LOGICAL_OR\t";
     case OpCode_LOGICAL_NOT:
-        return "  LOGICAL_NOT  ";
+        return "LOGICAL_NOT\t";
     case OpCode_AND:
-        return "  AND  ";
+        return "AND\t";
     case OpCode_OR:
-        return "  OR  ";
+        return "OR\t";
     case OpCode_NOT:
-        return "  NOT  ";
+        return "NOT\t";
     case OpCode_PPLUS:
-        return "  PPLUS  ";
+        return "PPLUS\t";
     case OpCode_MMINUS:
-        return "  MMINUS  ";
-    case OpCode_IF:
-        return "  IF  ";
+        return "MMINUS\t";
     case OpCode_CITE:
-        return "  CITE  ";
+        return "CITE\t";
     case OpCode_POINTER:
-        return "  POINTER  ";
+        return "POINTER\t";
     case OpCode_MAIN:
-        return "  MAIN  ";
+        return "MAIN\t";
     case OpCode_PRINTF:
-        return "  PRINTF  ";
+        return "PRINTF\t";
     case OpCode_SCANF:
-        return "  SCANF  ";
+        return "SCANF\t";
     case OpCode_PUSH:
-        return "  PUSH  ";
+        return "PUSH\t";
+    case OpCode_JLE:
+        return "JLE\t";
+    case OpCode_IF:
+        return "IF\t";
     default:
         break;
     }
@@ -198,6 +188,7 @@ void Quad::printQuad()
 // 打印生成的四元式
 {
     cout << this->printOp() << "\t";
+
     if (this->arg1 != nullptr)
     {
         printOpObject(this->arg1);
@@ -206,6 +197,7 @@ void Quad::printQuad()
     else
         cout << "-"
              << "\t";
+
     if (this->arg2 != nullptr)
     {
         printOpObject(this->arg2);
