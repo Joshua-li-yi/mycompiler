@@ -8,6 +8,7 @@
 #define ASM_NEG "neg"
 #define ASM_SUB "subl"
 #define ASM_MUL "mul"
+#define ASM_IMUL "imull"
 #define ASM_DIV "div"
 #define ASM_PUSH "pushl"
 #define ASM_POP "popl"
@@ -17,8 +18,10 @@
 #define ASM_ENTER "enter"
 #define ASM_LEAVE "leave"
 #define ASM_LEA "lea" // 加载变量地址
+#define ASM_TEST "testl"
 // Jump instructor
 #define ASM_JUMP "jmp"
+#define ASM_JNE "jne"
 #define ASM_JE "je"
 #define ASM_JG "jg"
 #define ASM_JGE "jge"

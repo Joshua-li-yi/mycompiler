@@ -48,17 +48,23 @@ char a[100] = "111223";
  ************************
 */
 
-void printOpObject(OpObject *ob, ostream &out=cout)
+void printOpObject(OpObject *ob, ostream &out=cout,bool addDollar=false)
 {
     switch (ob->getState())
     {
     case arg_int:
+        if(addDollar)
+        out<<"$";
         out << ob->arg.int_target;
         break;
     case arg_double:
+        if (addDollar)
+            out << "$";
         out << ob->arg.double_target;
         break;
     case arg_bool:
+        if (addDollar)
+            out << "$";
         out << ob->arg.bool_target;
         break;
     case arg_char:

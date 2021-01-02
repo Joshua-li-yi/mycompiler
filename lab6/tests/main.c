@@ -1,7 +1,16 @@
 int a;
+int b;
 int main()
 {
     scanf("%d", &a);
-    printf("test:%d\n", a);
+    scanf("%d", &b);
+    if (a == b)
+    {
+        printf("Success\n");
+    }
+    else
+    {
+        printf("Failed\n");
+    }
     return 0;
 }

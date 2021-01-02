@@ -122,7 +122,7 @@ struct OpObject
     }
 };
 
-void printOpObject(OpObject *, ostream &out);
+void printOpObject(OpObject *, ostream &out,bool addDollar);
 
 class Quad
 {
