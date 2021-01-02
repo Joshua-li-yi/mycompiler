@@ -4,6 +4,7 @@ using namespace std;
 #include "debug.h"
 
 SymbolTable *GlobalSymTable = new SymbolTable();
+SymbolTable *TmpSymTable = new SymbolTable();
 SymbolTable::SymbolTable()
 {
 	this->size = 0;

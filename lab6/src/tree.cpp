@@ -422,6 +422,7 @@ void TreeNode::expr_inter_code_generate()
     {
         symbol *sym = new symbol();
         sym->genTmpVar(tmpVarCounter++, this->nodeID, Unset);
+        TmpSymTable->insert(*sym);
 
         OpObject *tmp_res = new OpObject();
         tmp_res->arg.var = sym;
@@ -454,6 +455,7 @@ void TreeNode::expr_inter_code_generate()
     {
         symbol *sym = new symbol();
         sym->genTmpVar(tmpVarCounter++, this->nodeID, Unset);
+        TmpSymTable->insert(*sym);
 
         OpObject *tmp_res = new OpObject();
         tmp_res->arg.var = sym;
@@ -1187,6 +1189,23 @@ void TreeNode::gen_rodata(ostream &out)
         }
     }
 }
+void TreeNode::gen_temp_var(ostream &out)
+{
+    if (TmpSymTable->get_size() > 0)
+    {
+        out << "\t.data"<<endl;
+        for (int i = 0; i < TmpSymTable->get_size(); i++)
+        {
+
+            out << "\t.global\t" << TmpSymTable->get_symbol(i)->name << endl;
+            out << "\t.align\t4" << endl;
+            out << "\t.type\t" << TmpSymTable->get_symbol(i)->name << ", @object" << endl;
+            out << TmpSymTable->get_symbol(i)->name << ":" << endl;
+            out << "\t.zero\t4" << endl;
+        }
+    }
+}
+
 void TreeNode::gen_code(ostream &out)
 {
     gen_header(out);
@@ -1201,6 +1220,7 @@ void TreeNode::gen_code(ostream &out)
         out << "\t.section\t.rodata\n";
         this->gen_rodata(out);
     }
+    this->gen_temp_var(out);
     out << endl;
     out << endl;
     out << "# your asm code here" << endl;
@@ -1279,11 +1299,11 @@ void TreeNode::gen_code(ostream &out)
                     << "$8, " << ASM_ESP;
 
                 out << endl
-                    << tableSym << ASM_PUSH << "\t$";
+                    << tableSym << ASM_PUSH << "\t";
                 printOpObject(quads[i].getArg(3), out);
 
                 out << endl
-                    << tableSym << ASM_PUSH << "\t$";
+                    << tableSym << ASM_PUSH << "\t";
                 printOpObject(quads[i + 1].getArg(3), out);
 
                 i = i + 1;
@@ -1296,7 +1316,7 @@ void TreeNode::gen_code(ostream &out)
                     << "$12, " << ASM_ESP;
 
                 out << endl
-                    << tableSym << ASM_PUSH << "\t$";
+                    << tableSym << ASM_PUSH << "\t";
                 printOpObject(quads[i].getArg(3), out);
             }
             break;

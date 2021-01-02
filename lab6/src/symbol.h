@@ -91,5 +91,5 @@ public:
 };
 // 全局符号表
 extern SymbolTable *GlobalSymTable;
-
+extern SymbolTable *TmpSymTable;
 #endif
