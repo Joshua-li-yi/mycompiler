@@ -1,7 +1,5 @@
-int a;
 int main()
 {
-    scanf("%d", &a);
-    printf("test:%d\n", a);
+    printf("test\n");
     return 0;
 }
