@@ -19,7 +19,8 @@ expTypeToOpCode(OperatorType t)
         return OpCode_MINUS;
     case OP_TIMES:
         return OpCode_TIMES;
-
+    case OP_MOD:
+        return OpCode_MOD;
     case OP_CITE:
         return OpCode_CITE;
     case OP_POINTER:
@@ -575,7 +576,6 @@ void TreeNode::generate_inter_code()
         }
         case STMT_ASSIGN:
         {
-            symbolType tmp_type;
             if (cur->child != nullptr)
             {
                 symbol *tmp_res;
@@ -601,7 +601,6 @@ void TreeNode::generate_inter_code()
         }
         case STMT_MIN_ASSIGN:
         {
-            symbolType tmp_type;
             if (cur->child != nullptr)
             {
                 symbol *tmp_res;
@@ -628,7 +627,6 @@ void TreeNode::generate_inter_code()
         }
         case STMT_PLUS_ASSIGN:
         {
-            symbolType tmp_type;
             if (cur->child != nullptr)
             {
                 symbol *tmp_res;
@@ -656,7 +654,6 @@ void TreeNode::generate_inter_code()
         }
         case STMT_MOD_ASSIGN:
         {
-            symbolType tmp_type;
             if (cur->child != nullptr)
             {
                 symbol *tmp_res;
@@ -708,7 +705,6 @@ void TreeNode::generate_inter_code()
         }
         case STMT_TIM_ASSIGN:
         {
-            symbolType tmp_type;
             if (cur->child != nullptr)
             {
                 symbol *tmp_res;
@@ -775,7 +771,7 @@ void TreeNode::generate_inter_code()
                 strcpy(strc, tmp_s.c_str());
                 tmp_if_next->arg.char_star_target = strc;
             }
-            // // else的label
+            // else的label
             OpObject *tmp_else_next = new OpObject();
             if (this->sibling->stype == STMT_ELSE)
             {
@@ -803,7 +799,7 @@ void TreeNode::generate_inter_code()
             // 生成if 中的语句
             cur = this->child->sibling;
             this->child->sibling->generate_inter_code();
-            // // else的label
+            // else的label
             if (this->sibling->stype == STMT_ELSE)
             {
                 if (!this->sibling->label.next_label.empty())
@@ -887,9 +883,9 @@ void TreeNode::generate_inter_code()
             // 生成while 中的语句
             this->child->sibling->generate_inter_code();
 
-            Quad quad_in3 = Quad(OpCode_JUMP, nullptr, nullptr, tmp_begin);
+            Quad quad_int3 = Quad(OpCode_JUMP, nullptr, nullptr, tmp_begin);
             quads.push_back(quad_int3);
-            Quad quad_in4 = Quad(OpCode_LABEL, nullptr, nullptr, tmp_next);
+            Quad quad_int4 = Quad(OpCode_LABEL, nullptr, nullptr, tmp_next);
             quads.push_back(quad_int4);
             break;
         }
@@ -1170,7 +1166,7 @@ void TreeNode::gen_header(ostream &out)
     out << endl;
     out << "# your asm code header here" << endl;
     /*your code here*/
-    out << "\t.file\t" << __FILE__ << endl;
+    // out << "\t.file\t" << __FILE__ << endl;
     out << "\t.text" << endl;
 }
 
@@ -1210,11 +1206,11 @@ void TreeNode::gen_temp_var(ostream &out)
         for (int i = 0; i < TmpSymTable->get_size(); i++)
         {
 
-            out << "\t.global\t" << TmpSymTable->get_symbol(i)->name << endl;
+            // out << "\t.global\t" << TmpSymTable->get_symbol(i)->name << endl;
             out << "\t.align\t4" << endl;
-            out << "\t.type\t" << TmpSymTable->get_symbol(i)->name << ", @object" << endl;
+            out << "\t.size\t" << TmpSymTable->get_symbol(i)->name << ", 4" << endl;
             out << TmpSymTable->get_symbol(i)->name << ":" << endl;
-            out << "\t.zero\t4" << endl;
+            out << "\t.long\t0" << endl;
         }
     }
 }
@@ -1227,13 +1223,12 @@ void TreeNode::gen_code(ostream &out)
         out << "\t.bss\n";
         this->gen_decl(out);
     }
-    // this->gen_temp_var(out);
+    this->gen_temp_var(out);
     if (tmp_string_seq > 0)
     {
         out << "\t.section\t.rodata\n";
         this->gen_rodata(out);
     }
-    this->gen_temp_var(out);
     out << endl;
     out << endl;
     out << "# your asm code here" << endl;
@@ -1242,7 +1237,7 @@ void TreeNode::gen_code(ostream &out)
     out << "\t.type	main, @function" << endl;
     out << "main:" << endl;
     out << tableSym << ASM_PUSH << tableSym << ASM_EBP << endl;
-    out << tableSym << ASM_MOV << tableSym << ASM_ESP << ", " << ASM_EBP << endl;
+    out << tableSym << ASM_MOV << tableSym << ASM_ESP << ", " << ASM_EBP;
 
     int count = 0;
     int quads_size = quads.size();
@@ -1282,6 +1277,10 @@ void TreeNode::gen_code(ostream &out)
                 << tableSym
                 << ASM_MOV << tableSym;
             printOpObject(quads[i].getArg(1), out, true);
+            out << ", " << ASM_EAX;
+            out << endl
+                << tableSym
+                << ASM_MOV << tableSym << ASM_EAX;
             out << ", ";
             printOpObject(quads[i].getArg(3), out, true);
 
@@ -1315,12 +1314,16 @@ void TreeNode::gen_code(ostream &out)
             {
                 out << endl
                     << tableSym
+                    << ASM_MOV << tableSym;
+                printOpObject(quads[i].getArg(3), out, true);
+                out << ", " << ASM_EAX;
+                out << endl
+                    << tableSym
                     << ASM_SUB << tableSym
                     << "$8, " << ASM_ESP;
 
                 out << endl
-                    << tableSym << ASM_PUSH << "\t$";
-                printOpObject(quads[i].getArg(3), out, true);
+                    << tableSym << ASM_PUSH << tableSym << ASM_EAX;
 
                 out << endl
                     << tableSym << ASM_PUSH << "\t$";
@@ -1361,8 +1364,12 @@ void TreeNode::gen_code(ostream &out)
         {
             out << endl
                 << tableSym
-                << ASM_MOV << tableSym;
+                << ASM_MOV << tableSym << "$";
             printOpObject(quads[i].getArg(1), out, true);
+            out << ", " << ASM_EAX;
+            out << endl
+                << tableSym
+                << ASM_MOV << tableSym << ASM_EAX;
             out << ", ";
             printOpObject(quads[i].getArg(3), out, true);
             break;
@@ -1385,10 +1392,15 @@ void TreeNode::gen_code(ostream &out)
         {
             out << endl
                 << tableSym
+                << ASM_MOV << tableSym;
+            printOpObject(quads[i].getArg(3), out, true);
+            out << ", " << ASM_EAX;
+            out << endl
+                << tableSym
                 << ASM_TEST << tableSym;
-            printOpObject(quads[i].getArg(3), out, true);
+            out << ASM_EAX;
             out << ", ";
-            printOpObject(quads[i].getArg(3), out, true);
+            out << ASM_EAX;
             break;
         }
         case OpCode_MINUS:
@@ -1398,14 +1410,23 @@ void TreeNode::gen_code(ostream &out)
             printOpObject(quads[i].getArg(1), out, true);
             out << ", "
                 << "%eax";
-
-            out
-                << endl
-                << tableSym
-                << ASM_SUB << tableSym;
-            printOpObject(quads[i].getArg(2), out, true);
-            out << ", "
-                << "%eax";
+            if (quads[i].getArg(2))
+            {
+                out
+                    << endl
+                    << tableSym
+                    << ASM_SUB << tableSym;
+                printOpObject(quads[i].getArg(2), out, true);
+                out << ", "
+                    << ASM_EAX;
+            }
+            else
+            {
+                out
+                    << endl
+                    << tableSym
+                    << ASM_NEG << tableSym << ASM_EAX;
+            }
 
             out << endl
                 << tableSym
@@ -1450,6 +1471,283 @@ void TreeNode::gen_code(ostream &out)
             break;
             break;
         }
+        case OpCode_GTR:
+        {
+            out << endl
+                << tableSym << ASM_MOV << tableSym;
+            printOpObject(quads[i].getArg(1), out, true);
+            out << ", "
+                << ASM_EAX;
+            out << endl
+                << tableSym << ASM_MOV << tableSym;
+            printOpObject(quads[i].getArg(2), out, true);
+            out << ", "
+                << ASM_EBX;
+            out << endl
+                << tableSym << ASM_CMP << tableSym;
+            out << ASM_EBX << ", "
+                << ASM_EAX;
+
+            out << endl
+                << tableSym << ASM_SETG << tableSym << ASM_AL;
+            out << endl
+                << tableSym << ASM_MOVZBL << tableSym << ASM_AL << ", " << ASM_EAX;
+            out << endl
+                << tableSym << ASM_MOV << tableSym << ASM_EAX << ", ";
+
+            printOpObject(quads[i].getArg(3), out, true);
+            break;
+        }
+        case OpCode_NEQ:
+        {
+            out << endl
+                << tableSym << ASM_MOV << tableSym;
+            printOpObject(quads[i].getArg(1), out, true);
+            out << ", "
+                << ASM_EAX;
+            out << endl
+                << tableSym << ASM_MOV << tableSym;
+            printOpObject(quads[i].getArg(2), out, true);
+            out << ", "
+                << ASM_EBX;
+            out << endl
+                << tableSym << ASM_CMP << tableSym;
+            out << ASM_EBX << ", "
+                << ASM_EAX;
+
+            out << endl
+                << tableSym << ASM_SETNE << tableSym << ASM_AL;
+            out << endl
+                << tableSym << ASM_MOVZBL << tableSym << ASM_AL << ", " << ASM_EAX;
+            out << endl
+                << tableSym << ASM_MOV << tableSym << ASM_EAX << ", ";
+
+            printOpObject(quads[i].getArg(3), out, true);
+            break;
+        }
+        case OpCode_LSS:
+        {
+            out << endl
+                << tableSym << ASM_MOV << tableSym;
+            printOpObject(quads[i].getArg(1), out, true);
+            out << ", "
+                << ASM_EAX;
+            out << endl
+                << tableSym << ASM_MOV << tableSym;
+            printOpObject(quads[i].getArg(2), out, true);
+            out << ", "
+                << ASM_EBX;
+            out << endl
+                << tableSym << ASM_CMP << tableSym;
+            out << ASM_EBX << ", "
+                << ASM_EAX;
+
+            out << endl
+                << tableSym << ASM_SETL << tableSym << ASM_AL;
+            out << endl
+                << tableSym << ASM_MOVZBL << tableSym << ASM_AL << ", " << ASM_EAX;
+            out << endl
+                << tableSym << ASM_MOV << tableSym << ASM_EAX << ", ";
+
+            printOpObject(quads[i].getArg(3), out, true);
+            break;
+        }
+        case OpCode_LEQ:
+        {
+            out << endl
+                << tableSym << ASM_MOV << tableSym;
+            printOpObject(quads[i].getArg(1), out, true);
+            out << ", "
+                << ASM_EAX;
+            out << endl
+                << tableSym << ASM_MOV << tableSym;
+            printOpObject(quads[i].getArg(2), out, true);
+            out << ", "
+                << ASM_EBX;
+            out << endl
+                << tableSym << ASM_CMP << tableSym;
+            out << ASM_EBX << ", "
+                << ASM_EAX;
+
+            out << endl
+                << tableSym << ASM_SETLE << tableSym << ASM_AL;
+            out << endl
+                << tableSym << ASM_MOVZBL << tableSym << ASM_AL << ", " << ASM_EAX;
+            out << endl
+                << tableSym << ASM_MOV << tableSym << ASM_EAX << ", ";
+
+            printOpObject(quads[i].getArg(3), out, true);
+            break;
+        }
+        case OpCode_GEQ:
+        {
+            out << endl
+                << tableSym << ASM_MOV << tableSym;
+            printOpObject(quads[i].getArg(1), out, true);
+            out << ", "
+                << ASM_EAX;
+            out << endl
+                << tableSym << ASM_MOV << tableSym;
+            printOpObject(quads[i].getArg(2), out, true);
+            out << ", "
+                << ASM_EBX;
+            out << endl
+                << tableSym << ASM_CMP << tableSym;
+            out << ASM_EBX << ", "
+                << ASM_EAX;
+
+            out << endl
+                << tableSym << ASM_SETGE << tableSym << ASM_AL;
+            out << endl
+                << tableSym << ASM_MOVZBL << tableSym << ASM_AL << ", " << ASM_EAX;
+            out << endl
+                << tableSym << ASM_MOV << tableSym << ASM_EAX << ", ";
+
+            printOpObject(quads[i].getArg(3), out, true);
+            break;
+        }
+        case OpCode_EQU:
+        {
+            out << endl
+                << tableSym << ASM_MOV << tableSym;
+            printOpObject(quads[i].getArg(1), out, true);
+            out << ", "
+                << ASM_EAX;
+            out << endl
+                << tableSym << ASM_MOV << tableSym;
+            printOpObject(quads[i].getArg(2), out, true);
+            out << ", "
+                << ASM_EBX;
+            out << endl
+                << tableSym << ASM_CMP << tableSym;
+            out << ASM_EBX << ", "
+                << ASM_EAX;
+
+            out << endl
+                << tableSym << ASM_SETE << tableSym << ASM_AL;
+            out << endl
+                << tableSym << ASM_MOVZBL << tableSym << ASM_AL << ", " << ASM_EAX;
+            out << endl
+                << tableSym << ASM_MOV << tableSym << ASM_EAX << ", ";
+
+            printOpObject(quads[i].getArg(3), out, true);
+            break;
+        }
+        case OpCode_DIV:
+        {
+            out << endl
+                << tableSym << ASM_MOV << tableSym;
+            printOpObject(quads[i].getArg(1), out, true);
+            out << ", "
+                << ASM_EAX;
+
+            out << endl
+                << tableSym << ASM_MOV << tableSym;
+            printOpObject(quads[i].getArg(2), out, true);
+            out << ", "
+                << ASM_ECX;
+            out << endl
+                << tableSym << ASM_CLTD;
+            out << endl
+                << tableSym << ASM_DIV << tableSym << ASM_ECX;
+            out << endl
+                << tableSym << ASM_MOV << tableSym << ASM_EAX << ", ";
+            printOpObject(quads[i].getArg(3), out, true);
+            break;
+        }
+        case OpCode_MOD:
+        {
+            out << endl
+                << tableSym << ASM_MOV << tableSym;
+            printOpObject(quads[i].getArg(1), out, true);
+            out << ", "
+                << ASM_EAX;
+
+            out << endl
+                << tableSym << ASM_MOV << tableSym;
+            printOpObject(quads[i].getArg(2), out, true);
+            out << ", "
+                << ASM_ECX;
+            out << endl
+                << tableSym << ASM_CLTD;
+            out << endl
+                << tableSym << ASM_DIV << tableSym << ASM_ECX;
+            out << endl
+                << tableSym << ASM_MOV << tableSym << ASM_EDX << ", " << ASM_EAX;
+            out << endl
+                << tableSym << ASM_MOV << tableSym << ASM_EAX << ", ";
+            printOpObject(quads[i].getArg(3), out, true);
+            break;
+        }
+        case OpCode_LOGICAL_OR:
+        {
+            out << endl
+                << tableSym << ASM_MOV << tableSym;
+            printOpObject(quads[i].getArg(1), out, true);
+            out << ", "
+                << ASM_EAX;
+            out << endl
+                << tableSym << ASM_MOV << tableSym;
+            printOpObject(quads[i].getArg(2), out, true);
+            out << ", "
+                << ASM_ECX;
+            out
+                << endl
+                << tableSym
+                << ASM_OR << tableSym << ASM_EAX << ", " << ASM_ECX;
+
+            out << endl
+                << tableSym
+                << ASM_MOV << tableSym
+                << ASM_EAX
+                << ", ";
+            printOpObject(quads[i].getArg(3), out, true);
+            break;
+        }
+        case OpCode_LOGICAL_NOT:
+        {
+            out << endl
+                << tableSym << ASM_MOV << tableSym;
+            printOpObject(quads[i].getArg(1), out, true);
+            out << ", "
+                << ASM_EAX;
+            out
+                << endl
+                << tableSym
+                << ASM_NOT << tableSym << ASM_EAX;
+
+            out << endl
+                << tableSym
+                << ASM_MOV << tableSym
+                << ASM_EAX
+                << ", ";
+            printOpObject(quads[i].getArg(3), out, true);
+            break;
+        }
+        case OpCode_LOGICAL_AND:{
+                        out << endl
+                << tableSym << ASM_MOV << tableSym;
+            printOpObject(quads[i].getArg(1), out, true);
+            out << ", "
+                << ASM_EAX;
+            out << endl
+                << tableSym << ASM_MOV << tableSym;
+            printOpObject(quads[i].getArg(2), out, true);
+            out << ", "
+                << ASM_ECX;
+            out
+                << endl
+                << tableSym
+                << ASM_AND << tableSym<<ASM_EAX<<", "<<ASM_ECX;
+            
+            out << endl
+                << tableSym
+                << ASM_MOV << tableSym
+                << ASM_EAX
+                << ", ";
+            printOpObject(quads[i].getArg(3), out, true);
+            break;
+        }
         default:
             break;
         }
@@ -1458,7 +1756,6 @@ void TreeNode::gen_code(ostream &out)
     out << endl
         << tableSym << ASM_RET;
     out << endl;
-    out << "\t.section	.note.GNU-stack,"
-           ",@progbits"
+    out << "\t.section	.note.GNU-stack,\"\",@progbits"
         << endl;
 }

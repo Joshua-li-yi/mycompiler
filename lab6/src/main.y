@@ -176,11 +176,11 @@ if_else_stmt
 ;
 
 for_stmt
-: FOR LP expr SEMICOLON expr SEMICOLON expr RP statements {
-    TreeNode* node = forNode($1->lineno, $3, $5, $7, $9);
-    $$ = node;}
-| FOR LP declaration SEMICOLON expr SEMICOLON expr RP statements {
-    TreeNode* node = forNode($1->lineno, $3, $5, $7, $9);
+: FOR LP assignment_stmt SEMICOLON expr SEMICOLON assignment_stmt RP statements {
+    TreeNode* node2 = new TreeNode($1->lineno, NODE_EXPR);
+    node2->optype = EXPR_COMBINE;
+    node2->addChild($5);
+    TreeNode* node = forNode($1->lineno, $3, node2, $7, $9);
     $$ = node;}
 | FOR LP SEMICOLON expr SEMICOLON expr RP statements {
     TreeNode* node = forNode($1->lineno, nullptr, $4, $6, $8);

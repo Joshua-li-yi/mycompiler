@@ -9,34 +9,26 @@ extern int yyparse();
 using namespace std;
 int main(int argc, char *argv[])
 {
-    // if (argc == 2)
-    // {
-        // FILE *fin = fopen(argv[1], "r");
-
-    //     if (fin != nullptr)
-    //     {
-    //         yyin = fin;
-    //     }
-    //     else
-    //     {
-    //         cerr << "failed to open file: " << argv[1] << endl;
-    //     }
-    // }
     yyin = stdin;
     yyparse();
-    if(root != NULL) {
+    if (root != NULL)
+    {
 
         root->genNodeId();
         root->genSymbolTable();
-        root->printAST();
-        cout<<endl;
-        GlobalSymTable->printTable();
+        bool debug = false;
+        // bool debug = true;
+        if (debug)
+            root->printAST();
+        cout << endl;
+        if (debug)
+            GlobalSymTable->printTable();
         root->get_label();
         // 生成中间代码
         root->generate_inter_code();
-        // // 生成汇编
-        // ofstream out("out.s", ofstream::out | ios::binary);
-        root->printQuads();
+        if (debug)
+            root->printQuads();
+        // 生成汇编
         root->gen_code(cout);
     }
     return 0;

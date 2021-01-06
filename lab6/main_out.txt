@@ -7,45 +7,46 @@ lno@2  @5  NODE TYPE  int  children:[]
 lno@2  @6  NODE VAR  var name: b  children:[]
 lno@3  @7  main    children:[@8 @9 ]
 lno@3  @8  NODE TYPE  int  children:[]
-lno@3  @9  NODE STMT  STMT DOMAIN  children:[@10 @16 @22 @31 @36 ]
-lno@5  @10  NODE STMT  scanf  children:[@11 @13 ]
-lno@5  @11  NODE EXPR  OP: EXPR combine  children:[@12 ]
-lno@5  @12  NODE CONST  string: "%d"  children:[]
-lno@5  @13  NODE EXPR  OP: EXPR combine  children:[@14 ]
-lno@5  @14  NODE EXPR  OP: &  children:[@15 ]
-lno@5  @15  NODE VAR  var name: a  children:[]
-lno@6  @16  NODE STMT  scanf  children:[@17 @19 ]
-lno@6  @17  NODE EXPR  OP: EXPR combine  children:[@18 ]
-lno@6  @18  NODE CONST  string: "%d"  children:[]
-lno@6  @19  NODE EXPR  OP: EXPR combine  children:[@20 ]
-lno@6  @20  NODE EXPR  OP: &  children:[@21 ]
-lno@6  @21  NODE VAR  var name: b  children:[]
-lno@6  @22  NODE STMT  STMT IF  children:[@23 @27 ]
-lno@6  @23  NODE EXPR  OP: EXPR combine  children:[@24 ]
-lno@7  @24  NODE EXPR  OP: ==  children:[@25 @26 ]
-lno@7  @25  NODE VAR  var name: a  children:[]
-lno@7  @26  NODE VAR  var name: b  children:[]
-lno@6  @27  NODE STMT  STMT DOMAIN  children:[@28 ]
-lno@9  @28  NODE STMT  printf  children:[@29 ]
-lno@9  @29  NODE EXPR  OP: EXPR combine  children:[@30 ]
-lno@9  @30  NODE CONST  string: "Success\n"  children:[]
-lno@9  @31  NODE STMT  STMT ELSE  children:[@32 ]
-lno@9  @32  NODE STMT  STMT DOMAIN  children:[@33 ]
-lno@13  @33  NODE STMT  printf  children:[@34 ]
-lno@13  @34  NODE EXPR  OP: EXPR combine  children:[@35 ]
-lno@13  @35  NODE CONST  string: "Failed\n"  children:[]
-lno@15  @36  NODE STMT  STMT RETURN  children:[@37 ]
-lno@15  @37  NODE EXPR  OP: EXPR combine  children:[@38 ]
-lno@15  @38  NODE CONST  int: 0  children:[]
+lno@3  @9  NODE STMT  STMT DOMAIN  children:[@10 @16 @22 @32 @37 ]
+lno@4  @10  NODE STMT  scanf  children:[@11 @13 ]
+lno@4  @11  NODE EXPR  OP: EXPR combine  children:[@12 ]
+lno@4  @12  NODE CONST  string: "%d"  children:[]
+lno@4  @13  NODE EXPR  OP: EXPR combine  children:[@14 ]
+lno@4  @14  NODE EXPR  OP: &  children:[@15 ]
+lno@4  @15  NODE VAR  var name: a  children:[]
+lno@5  @16  NODE STMT  scanf  children:[@17 @19 ]
+lno@5  @17  NODE EXPR  OP: EXPR combine  children:[@18 ]
+lno@5  @18  NODE CONST  string: "%d"  children:[]
+lno@5  @19  NODE EXPR  OP: EXPR combine  children:[@20 ]
+lno@5  @20  NODE EXPR  OP: &  children:[@21 ]
+lno@5  @21  NODE VAR  var name: b  children:[]
+lno@5  @22  NODE STMT  STMT IF  children:[@23 @28 ]
+lno@5  @23  NODE EXPR  OP: EXPR combine  children:[@24 ]
+lno@6  @24  NODE EXPR  OP: !  children:[@25 ]
+lno@6  @25  NODE EXPR  OP: !=  children:[@26 @27 ]
+lno@6  @26  NODE VAR  var name: a  children:[]
+lno@6  @27  NODE VAR  var name: b  children:[]
+lno@5  @28  NODE STMT  STMT DOMAIN  children:[@29 ]
+lno@7  @29  NODE STMT  printf  children:[@30 ]
+lno@7  @30  NODE EXPR  OP: EXPR combine  children:[@31 ]
+lno@7  @31  NODE CONST  string: "Success\n"  children:[]
+lno@7  @32  NODE STMT  STMT ELSE  children:[@33 ]
+lno@7  @33  NODE STMT  STMT DOMAIN  children:[@34 ]
+lno@9  @34  NODE STMT  printf  children:[@35 ]
+lno@9  @35  NODE EXPR  OP: EXPR combine  children:[@36 ]
+lno@9  @36  NODE CONST  string: "Failed\n"  children:[]
+lno@11  @37  NODE STMT  STMT RETURN  children:[@38 ]
+lno@11  @38  NODE EXPR  OP: EXPR combine  children:[@39 ]
+lno@11  @39  NODE CONST  int: 0  children:[]
 
 ==========symbol table=======
 name: a token: 3 type: 0
 name: b token: 6 type: 0
-name: main token: 7 type: 1
-name: .LC0 token: 12 type: 10
-name: .LC1 token: 18 type: 10
-name: .LC2 token: 30 type: 10
-name: .LC3 token: 35 type: 10
+name: main token: 7 type: 2
+name: .LC0 token: 12 type: 11
+name: .LC1 token: 18 type: 11
+name: .LC2 token: 31 type: 11
+name: .LC3 token: 36 type: 11
 ===========================
 	   Operator   	arg1	arg2	result
 0	VAR_DECL		-	-	a	
@@ -59,20 +60,20 @@ name: .LC3 token: 35 type: 10
 8	PUSH		-	-	t1	
 9	PUSH		-	-	.LC1	
 10	SCANF		-	-	-	
-11	EQU		a	b	t2	
-12	IF		-	-	t2	
-13	JLE		-	-	.L0	
-14	PUSH		-	-	.LC2	
-15	PRINTF		-	-	-	
-16	JUMP		-	-	.L2	
-17	LABEL		-	-	.L0	
-18	PUSH		-	-	.LC3	
-19	PRINTF		-	-	-	
-20	LABEL		-	-	.L2	
-21	RETURN		-	-	-	
+11	NEQ		a	b	t2	
+12	LOGICAL_NOT		t2	-	t3	
+13	IF		-	-	t3	
+14	JLE		-	-	.L0	
+15	PUSH		-	-	.LC2	
+16	PRINTF		-	-	-	
+17	JUMP		-	-	.L2	
+18	LABEL		-	-	.L0	
+19	PUSH		-	-	.LC3	
+20	PRINTF		-	-	-	
+21	LABEL		-	-	.L2	
+22	RETURN		-	-	-	
 
 # your asm code header here
-	.file	./src/tree.cpp
 	.text
 	.bss
 	.global	a
@@ -85,6 +86,23 @@ a:
 	.type	b, @object
 b:
 	.zero	4
+	.data
+	.align	4
+	.size	t0, 4
+t0:
+	.long	0
+	.align	4
+	.size	t1, 4
+t1:
+	.long	0
+	.align	4
+	.size	t2, 4
+t2:
+	.long	0
+	.align	4
+	.size	t3, 4
+t3:
+	.long	0
 	.section	.rodata
 .LC0:
 	.string	"%d"
@@ -94,22 +112,6 @@ b:
 	.string	"Success\n"
 .LC3:
 	.string	"Failed\n"
-	.data
-	.global	t0
-	.align	4
-	.type	t0, @object
-t0:
-	.zero	4
-	.global	t1
-	.align	4
-	.type	t1, @object
-t1:
-	.zero	4
-	.global	t2
-	.align	4
-	.type	t2, @object
-t2:
-	.zero	4
 
 
 # your asm code here
@@ -119,20 +121,30 @@ t2:
 main:
 	pushl	%ebp
 	movl	%esp, %ebp
-
-	movl	a, t0
+	movl	$a, %eax
+	movl	%eax, t0
+	movl	t0, %eax
 	subl	$8, %esp
-	pushl	$t0
+	pushl	%eax
 	pushl	$.LC0
 	call	scanf
 	addl	$16, %esp
-	movl	b, t1
+	movl	$b, %eax
+	movl	%eax, t1
+	movl	t1, %eax
 	subl	$8, %esp
-	pushl	$t1
+	pushl	%eax
 	pushl	$.LC1
 	call	scanf
 	addl	$16, %esp
-	testl	t2, t2
+	movl	a, %eax
+	movl	b, %ebx
+	cmpl	%ebx, %eax
+	setne	%al
+	movzbl	%al, %eax
+	movl	%eax, t2
+	movl	t3, %eax
+	testl	%eax, %eax
 	jle	.L0
 	subl	$12, %esp
 	pushl	$.LC2
@@ -148,4 +160,4 @@ main:
 	movl	$0, %eax
 	popl	%ebp
 	ret
-	.section	.note.GNU-stack,,@progbits
+	.section	.note.GNU-stack,"",@progbits

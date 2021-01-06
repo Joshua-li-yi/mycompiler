@@ -4,6 +4,9 @@ TARGET := ./bin/main.out
 
 all: run
 
+alltest: all
+	cp $(TARGET) ../../lab6_test/main.out
+
 src/main.lex.yy.c: src/main.l
 	 flex --noyywrap -o src/main.lex.yy.cpp  src/main.l
 
@@ -44,5 +47,10 @@ showassem:
 	g++ -E ./tests/test2.cpp -o ./tests/test2.i
 	g++ -S ./tests/test2.i -o ./tests/test2.s
 
-a:
-	gcc -c hello.s -o hello.o
+testasm:
+	./bin/main.out <tests/main.c >output.S
+	gcc -c output.S -o output.o
+	gcc output.o -o output
+	./output
+	
+
