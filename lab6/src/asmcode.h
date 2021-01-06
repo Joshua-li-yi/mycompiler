@@ -4,6 +4,7 @@
 // Asm instructor
 #define ASM_MOV "movl"
 #define ASM_MOVZBL "movzbl"
+#define ASM_MOVB "movb"
 #define ASM_ADD "addl"
 #define ASM_XOR "xor"
 #define ASM_OR "or"

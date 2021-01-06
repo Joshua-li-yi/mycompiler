@@ -110,6 +110,7 @@ union Arg
     double double_target;
     char char_target;
     char* char_star_target;
+
     // string string_target;
 };
 
@@ -117,6 +118,7 @@ struct OpObject
 {
     Arg arg;
     Arg_state arg_state;
+    bool char_flag=0; // 为字符准备的标志位
     Arg_state getState(){
         return arg_state;
     }

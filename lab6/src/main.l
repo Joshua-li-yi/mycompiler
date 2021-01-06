@@ -13,7 +13,8 @@ WHILTESPACE [[:blank:]]
 
 INTEGER [0-9]+
 NUMBER [0-9]+(\.[0-9]+)?
-CHAR \'.?\'
+CHAR \'(.?)\'
+CHAR_P \'\\.?\'
 STRING \".+\"
 LB \{
 RB \}
@@ -228,7 +229,30 @@ IDENTIFIER [[:alpha:]_][[:alpha:][:digit:]_]*
 {CHAR} {
     TreeNode* node = new TreeNode(lineno, NODE_CONST);
     node->type = TYPE_CHAR;
-    node->int_val = yytext[1];
+    if(yytext[1]=='\\'){
+        if(yytext[2]=='t')
+            node->int_val = 9;
+        else if(yytext[2]=='n')
+            node->int_val = 10;
+        else
+            node->int_val = yytext[1];
+    }else{
+        node->int_val = yytext[1];
+    }
+    
+    yylval = node;
+    return CHAR;
+}
+{CHAR_P} {
+    TreeNode* node = new TreeNode(lineno, NODE_CONST);
+    node->type = TYPE_CHAR;
+    if(yytext[2]=='t')
+            node->int_val = 9;
+    else if(yytext[2]=='n')
+            node->int_val = 10;
+    else{
+            node->int_val = yytext[1];
+            }
     yylval = node;
     return CHAR;
 }

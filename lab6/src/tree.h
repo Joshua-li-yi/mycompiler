@@ -159,7 +159,7 @@ public:
     void stmt_get_label();
     void expr_get_label();
     void gen_code(ostream &out);
-
+    Type* typeCheck();
 };
 
 // 表达式节点

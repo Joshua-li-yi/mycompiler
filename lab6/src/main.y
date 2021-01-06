@@ -94,6 +94,28 @@ assignment_stmt
     node->addChild($1);
     node->addChild(node2);
     $$ = node;}
+| IDENTIFIER LOP_ASSIGN IDENTIFIER LOP_ASSIGN expr SEMICOLON{
+    TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
+    node->stype = STMT_ASSIGN;
+
+    TreeNode* node2 = new TreeNode($1->lineno, NODE_EXPR);
+    node2->optype = EXPR_COMBINE;
+    node2->addChild($5);
+    node->addChild($1);
+    node->addChild(node2);
+
+    TreeNode* node3 = new TreeNode($1->lineno, NODE_STMT);
+    node3->stype = STMT_ASSIGN;
+
+    TreeNode* node4 = new TreeNode($1->lineno, NODE_EXPR);
+    node4->optype = EXPR_COMBINE;
+    node4->addChild($5);
+    node3->addChild($3);
+    node3->addChild(node4);
+
+    node->addChild(node3);
+    $$ = node;
+}
 | IDENTIFIER PLUS_ASSIGN expr SEMICOLON{
     TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
     node->stype = STMT_PLUS_ASSIGN;
@@ -176,15 +198,42 @@ if_else_stmt
 ;
 
 for_stmt
-: FOR LP assignment_stmt SEMICOLON expr SEMICOLON assignment_stmt RP statements {
-    TreeNode* node2 = new TreeNode($1->lineno, NODE_EXPR);
-    node2->optype = EXPR_COMBINE;
-    node2->addChild($5);
-    TreeNode* node = forNode($1->lineno, $3, node2, $7, $9);
-    $$ = node;}
+: FOR LP IDENTIFIER LOP_ASSIGN expr SEMICOLON expr SEMICOLON IDENTIFIER LOP_ASSIGN expr RP statements {
+    TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
+    node->stype = STMT_ASSIGN;
+    TreeNode* node2 = new TreeNode($1->lineno, NODE_STMT);
+    node2->stype = STMT_ASSIGN;
+
+    TreeNode* node3 = new TreeNode($1->lineno, NODE_EXPR);
+    node3->optype = EXPR_COMBINE;
+    TreeNode* node4 = new TreeNode($1->lineno, NODE_EXPR);
+    node4->optype = EXPR_COMBINE;
+
+    node->addChild($3);
+    node3->addChild($5);
+    node->addChild(node3);
+
+    node2->addChild($9);
+    node4->addChild($11);
+    node2->addChild(node4);
+
+    TreeNode* node5 = forNode($1->lineno, node, $7, node2, $13);
+    $$ = node5;}
 | FOR LP SEMICOLON expr SEMICOLON expr RP statements {
     TreeNode* node = forNode($1->lineno, nullptr, $4, $6, $8);
     $$ = node;}
+| FOR LP SEMICOLON expr SEMICOLON IDENTIFIER LOP_ASSIGN expr RP statements {
+    TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
+    node->stype = STMT_ASSIGN;
+
+    TreeNode* node2 = new TreeNode($1->lineno, NODE_EXPR);
+    node2->optype = EXPR_COMBINE;
+    node->addChild($6);
+    node2->addChild($8);
+    node->addChild(node2);
+
+    TreeNode* node3 = forNode($1->lineno, nullptr, $4, node, $10);
+    $$ = node3;}
 | FOR LP expr SEMICOLON SEMICOLON expr RP statements {
     TreeNode* node = forNode($1->lineno, $3, nullptr, $6, $8);
     $$ = node;}
