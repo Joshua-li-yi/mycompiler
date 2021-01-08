@@ -97,3 +97,23 @@ symbolType SymbolTable::get_type(int pos)
 
 	return table[pos].type;
 }
+symbolType SymbolTable::get_type(string name)
+{
+	for (int i = 0; i < size; i++)
+		if (table[i].name == name)
+			return table[i].type;
+	return Unset;
+}
+
+void SymbolTable::check_error()
+{
+	for (int i = 0; i < size; i++)
+	{
+		for (int j = 0; j < i; j++)
+			if ((table[i].name == table[j].name) && (table[i].type == table[j].type))
+			{
+				cout << table[i].name << " var redefine!!!" << endl;
+				exit(1);
+			}
+	}
+}

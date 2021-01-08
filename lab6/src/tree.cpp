@@ -411,7 +411,53 @@ TreeNode *forNode(int lno, TreeNode *exp1, TreeNode *exp2, TreeNode *exp3, TreeN
     node->addChild(node2);
     return node;
 }
-
+void TreeNode::type_check()
+{
+    TreeNode *tmp = this;
+    if (tmp->nodeType == NODE_EXPR)
+    {
+        if ((tmp->child) && (tmp->child->nodeType == NODE_VAR))
+        {
+            if ((GlobalSymTable->lookup(tmp->child->var_name) == nullptr) && (TmpSymTable->lookup(tmp->child->var_name) == nullptr))
+            {
+                cout << tmp->child->var_name << " not define!!!" << endl;
+                exit(1);
+            }
+        }
+        if ((tmp->child->sibling) && (tmp->child->sibling->nodeType == NODE_VAR))
+        {
+            if ((GlobalSymTable->lookup(tmp->child->sibling->var_name) == nullptr) && (TmpSymTable->lookup(tmp->child->sibling->var_name) == nullptr))
+            {
+                cout << tmp->child->var_name << " not define!!!" << endl;
+                exit(1);
+            }
+        }
+        if((tmp->child)&&(tmp->child->sibling)&&(tmp->child->nodeType == NODE_CONST)&&(tmp->child->sibling->nodeType == NODE_CONST)){
+            if(tmp->child->type->getTypeInfo()!=tmp->child->sibling->type->getTypeInfo()){
+                cout<<tmp->child->type->getTypeInfo()<<" type can not operate with "<<tmp->child->sibling->type->getTypeInfo()<<" type!!!"<<endl;
+                exit(1);
+            }
+        }
+    }
+    else if (tmp->nodeType == NODE_MAIN)
+    {
+        if ((tmp->child->nodeType == NODE_TYPE) && (tmp->child->type->getTypeInfo() == "void"))
+        {
+            tmp = tmp->child->sibling->child;
+            while (tmp)
+            {
+                if ((tmp->nodeType == NODE_STMT) && (tmp->stype == STMT_RETURN))
+                {
+                    cout << "void func don't need return anything!!!" << endl;
+                    exit(1);
+                }
+                tmp = tmp->sibling;
+            }
+        }
+    }
+    for (TreeNode *t = this->child; t; t = t->sibling)
+        t->type_check();
+}
 void TreeNode::expr_inter_code_generate()
 {
     if ((this->child->sibling != nullptr) && (this->child->sibling->nodeType == NODE_EXPR) && (this->child->sibling->optype != EXPR_COMBINE))
@@ -1332,6 +1378,7 @@ void TreeNode::gen_temp_var(ostream &out)
 
 void TreeNode::gen_code(ostream &out)
 {
+    GlobalSymTable->check_error();
     gen_header(out);
     if (!GlobalSymTable->isEmpty())
     {

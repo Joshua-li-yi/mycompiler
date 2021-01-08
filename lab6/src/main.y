@@ -15,7 +15,7 @@
 
 %token SEMICOLON LB RB COMMA LP RP
 
-%token IDENTIFIER INTEGER CHAR BOOL STRING NUMBER 
+%token IDENTIFIER INTEGER CHAR BOOL STRING 
 
 %token PLUS MINUS TIMES DIVIDE MOD PPLUS MMINUS AND OR NOT EQU 
 
@@ -460,7 +460,6 @@ expr
 |	LP expr RP	    { $$ = $2; }
 |   IDENTIFIER  {$$ = $1;}
 |   INTEGER     {$$ = $1;}
-|   NUMBER      {$$ = $1;}
 |   CHAR {  $$ = $1;}
 |   STRING {$$ = $1;}
 |   AND IDENTIFIER {

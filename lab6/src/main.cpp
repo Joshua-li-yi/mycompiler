@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
 
         root->genNodeId();
         root->genSymbolTable();
+        root->type_check();
         bool debug = false;
         // bool debug = true;
         if (debug)

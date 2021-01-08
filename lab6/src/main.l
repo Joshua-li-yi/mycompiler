@@ -11,11 +11,15 @@ LINECOMMENT \/\/[^\n]*
 EOL	(\r\n|\r|\n)
 WHILTESPACE [[:blank:]]
 
-INTEGER [0-9]+
-NUMBER [0-9]+(\.[0-9]+)?
+
+INTEGER ([1-9][0-9]*)|0
+
 CHAR \'(.?)\'
 CHAR_P \'\\.?\'
 STRING \".+\"
+OCT 0[0-7]+
+HEX 0x([0-9]|[a-f])+
+
 LB \{
 RB \}
 LP \(
@@ -211,11 +215,26 @@ IDENTIFIER [[:alpha:]_][[:alpha:][:digit:]_]*
 "*=" {
     return TIM_ASSIGN;
 }
+
 {INTEGER} {
     TreeNode* node = new TreeNode(lineno, NODE_CONST);
     node->type = TYPE_INT;
     // atoi将string类型的数字转化为int类型
     node->int_val = atoi(yytext);
+    yylval = node;
+    return INTEGER;
+}
+{OCT} {
+    TreeNode* node = new TreeNode(lineno, NODE_CONST);
+    node->type = TYPE_INT;
+    node->int_val = strtol(yytext, nullptr, 8);
+    yylval = node;
+    return INTEGER;
+}
+{HEX} {
+    TreeNode* node = new TreeNode(lineno, NODE_CONST);
+    node->type = TYPE_INT;
+    node->int_val = strtol(yytext, nullptr, 16);
     yylval = node;
     return INTEGER;
 }
@@ -256,13 +275,7 @@ IDENTIFIER [[:alpha:]_][[:alpha:][:digit:]_]*
     yylval = node;
     return CHAR;
 }
-{NUMBER} {
-    TreeNode* node = new TreeNode(lineno, NODE_CONST);
-    node->type = TYPE_DOUBLE;
-    node->d_val = atof(yytext);
-    yylval = node;
-    return NUMBER;
-}
+
 {IDENTIFIER} {
     TreeNode* node = new TreeNode(lineno, NODE_VAR);
     node->var_name = string(yytext);

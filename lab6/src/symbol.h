@@ -81,10 +81,11 @@ public:
 	string getname(int pos);
 	int set_type(int pos, symbolType type);
 	symbolType get_type(int pos);
-
+	symbolType get_type(string name);
 	// 打印符号表
 	void printTable();
 	inline int get_size(){return size;}
+	void check_error();
 	// 判断table是否为空
 	inline bool isEmpty(){
 		if(size>0)
