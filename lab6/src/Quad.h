@@ -1,7 +1,7 @@
 #ifndef QUAD_H
 #define QUAD_H
 #define MAX_QUAD 1024
-// #include "common.h"
+
 #include "pch.h"
 using std::cerr;
 using std::cout;
@@ -91,7 +91,7 @@ enum OpCode
     OpCode_JLE,
     OpCode_IF,
 };
-
+// 标志union Arg 对应的状态
 enum Arg_state
 {
     arg_var,
@@ -110,10 +110,8 @@ union Arg
     double double_target;
     char char_target;
     char* char_star_target;
-
-    // string string_target;
 };
-
+// 操作对象
 struct OpObject
 {
     Arg arg;
@@ -134,13 +132,14 @@ private:
     OpObject *arg2;
     OpObject *result;
     /********************************
- * |      | arg1 | arg2 | result|
+ * |Op      | arg1 | arg2 | result|
  * *******************************
 */
     // 打印Op
     string printOp();
 
 public:
+    // 初始化
     Quad(OpCode, OpObject*, OpObject*, OpObject*);
 
     inline OpCode getOpCode() { return this->op; }
@@ -154,6 +153,7 @@ public:
         else if (index == 3)
             return this->result;
     }
+    // 打印生成的四元组
     void printQuad();
 };
 #endif

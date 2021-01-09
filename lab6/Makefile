@@ -30,14 +30,9 @@ run: lex yacc main
 clean:
 	rm -f src/*.output src/main.lex.yy.cpp src/main.tab.cpp src/main.tab.h src/main.output src/pch.h.gch $(TARGET) *.o ./bin/* 
 
-test: 
-	./bin/main.out <tests/test.c >result.txt
 
 m: 
 	./bin/main.out <tests/main.c >main_out.txt
-
-test2: 
-	./bin/main.out tests/test.c >result2.txt
 
 t:
 	g++ -o ./tests/test.out ./tests/test.cpp
@@ -46,11 +41,5 @@ t:
 showassem:
 	g++ -E ./tests/test2.cpp -o ./tests/test2.i
 	g++ -S ./tests/test2.i -o ./tests/test2.s
-
-testasm:
-	./bin/main.out <tests/main.c >output.S
-	gcc -c output.S -o output.o
-	gcc output.o -o output
-	./output
 	
 

@@ -1256,38 +1256,6 @@ void TreeNode::stmt_get_label()
     }
 }
 
-void TreeNode::expr_get_label()
-{
-    // if (this->type->type != VALUE_BOOL)
-    //     return;
-
-    TreeNode *e1 = this->child;
-    TreeNode *e2 = this->child->sibling;
-    switch (this->optype)
-    {
-    case OP_OR:
-        e1->label.true_label = e2->label.true_label = this->label.true_label;
-        e1->label.false_label = new_label();
-        e2->label.false_label = this->label.false_label;
-        break;
-    case OP_AND:
-        e1->label.true_label = new_label();
-        e2->label.true_label = this->label.true_label;
-        e1->label.false_label = e2->label.false_label = this->label.false_label;
-        break;
-    case OP_NOT:
-        e1->label.true_label = this->label.false_label;
-        e1->label.false_label = this->label.true_label;
-        break;
-    default:
-        break;
-        /* ... */
-    }
-    if (e1)
-        e1->recursive_get_label();
-    if (e2)
-        e2->recursive_get_label();
-}
 
 void TreeNode::recursive_get_label()
 {

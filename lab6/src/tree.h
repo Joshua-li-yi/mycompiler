@@ -175,7 +175,9 @@ extern vector<Quad> quads;
 extern stack<OpObject *> tmpVarStack;
 // label的 seq
 extern int label_seq;
+// tmp string seq
 extern int tmp_string_seq;
+// tmp var counter
 extern int tmpVarCounter;
 
 #endif

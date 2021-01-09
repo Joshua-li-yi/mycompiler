@@ -16,9 +16,4 @@ using std::unordered_map;
 #include "./tree.h"
 #include "./main.tab.h"
 
-// #include "symbol.h"
-// #include "tree.h"
-// #include "Quad.h"
-// #include "type.h"
-// #include "InterMediate.h"
 #endif

@@ -1,9 +1,6 @@
 #include "Quad.h"
 #include <typeinfo>
 
-// flag的不同值如下:
-/* 
-
 
 // 四元式：
 /*
@@ -11,42 +8,6 @@
 (op,arg1,arg2,result)
 */
 
-/*
-symbol代表变量，int代表字面量
-比如 int a = 1；
-这里面，a是变量，1是字面量
-char a[100] = "111223";
-就是将字符串字面量赋值给变量
-*/
-
-/*********************** opCode 的操作有很多，对应函数的第一个参数
- * Operation Code for a Quad:
- * @enum JUMP:  JUMP operation.
- * @enum JUMP_SMALL:    if arg1 <  arg2, JUMP
- * @enum JUMP_EQ_SMALL: if arg1 <= arg2, JUMP
- * @enum JUMP_GRATE:    if arg1 >  arg2, JUMP
- * @enum JUMP_EQ_GREAT: if arg1 >= arg2, JUMP
- * @enum JUMP_EQUAL:    if arg1 == arg2, JUMP
- * @enum JUMP_NOT_EQUAL:if arg1 != arg2, JUMP
- * @enum PLUS:  arg1 + arg2 to result
- * @enum MINUS: arg1 - arg2 to result
- * @enum TIMES: arg1 * arg2 to result
- * @enum DIV:   arg1 / arg2 to result
- * @enum MOD:   arg1 % arg2 to result
- * @enum POWER: arg1 ^ arg2 to result
- * @enum NEGATIVE:   - arg1 to result
- * @enum ASSIGN:       arg1 to result
- * @enum ASSIGN_ARRAY: result[arg2] = arg1
- * @enum ASSIGN_STRUCT: result.arg2 = arg1
- * @enum GET_ADDRESS: &arg1 to reuslt
- * @enum PARAM: Param of the function will be called
- * @enum CALL: CALL function
- * @enum RETURN: Exit from a function
- * @enum GET_VALUE: Get the value of a pointer
- * @enum GET_ARRAY: Get the value of an array
- * @enum GET_STRUCT:GET the value of a struct
- ************************
-*/
 
 void printOpObject(OpObject *ob, ostream &out=cout,bool addDollar=false)
 {
@@ -83,7 +44,6 @@ void printOpObject(OpObject *ob, ostream &out=cout,bool addDollar=false)
 }
 
 Quad::Quad(OpCode op, OpObject *arg1, OpObject *arg2, OpObject *result)
-// 变量跟变量运算，值为int
 {
     this->op = op;
     this->arg1 = arg1;
@@ -190,6 +150,7 @@ string Quad::printOp()
         break;
     }
 }
+
 // 打印生成的四元式
 void Quad::printQuad()
 {
